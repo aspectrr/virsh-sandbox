@@ -1,0 +1,259 @@
+# Tmux Agent API Configuration
+# This is an example configuration file. Copy it to config.yaml and modify as needed.
+
+# HTTP Server Configuration
+server:
+  # Host to bind to (use 0.0.0.0 for all interfaces)
+  host: "127.0.0.1"
+  # Port to listen on
+  port: 8080
+  # Request read timeout
+  read_timeout: 30s
+  # Response write timeout
+  write_timeout: 30s
+  # Graceful shutdown timeout
+  shutdown_timeout: 10s
+  # Enable TLS/HTTPS
+  enable_tls: false
+  # Path to TLS certificate file (required if enable_tls is true)
+  tls_cert_file: ""
+  # Path to TLS private key file (required if enable_tls is true)
+  tls_key_file: ""
+
+# Tmux Tool Configuration
+tmux:
+  # Custom tmux socket path (leave empty for default)
+  socket_path: ""
+  # Default session name (leave empty for no default)
+  default_session: ""
+  # Maximum number of lines to read from a pane
+  max_pane_read_lines: 1000
+  # Allowed keys that can be sent to panes
+  # Only these specific keys are permitted for safety
+  allowed_keys:
+    - "Enter"
+    - "C-c"      # Ctrl+C (interrupt)
+    - "C-d"      # Ctrl+D (EOF)
+    - "C-z"      # Ctrl+Z (suspend)
+    - "Escape"
+    - "Up"
+    - "Down"
+    - "Left"
+    - "Right"
+    - "Tab"
+
+# File Tool Configuration
+file:
+  # Root directory for file operations (all paths must be under this)
+  # Leave empty to allow access to any path (not recommended for production)
+  root_directory: ""
+  # Specific paths that are allowed (in addition to root_directory)
+  allowed_paths: []
+  # Paths that are explicitly denied (takes precedence over allowed_paths)
+  denied_paths:
+    - "/etc/passwd"
+    - "/etc/shadow"
+    - "/etc/sudoers"
+    - "~/.ssh"
+    - "~/.gnupg"
+  # Maximum file size for read/write operations (in bytes)
+  max_file_size: 10485760  # 10MB
+  # Maximum number of lines to read from a file
+  max_read_lines: 10000
+  # Allow file deletion operations
+  allow_delete: false
+  # Allow overwriting existing files
+  allow_overwrite: true
+  # Create backups before editing files
+  backup_on_edit: true
+  # Directory for backups (leave empty to use same directory as file)
+  backup_directory: ""
+  # File extensions that are not allowed
+  denied_extensions:
+    - ".key"
+    - ".pem"
+    - ".p12"
+    - ".pfx"
+
+# Command Tool Configuration
+command:
+  # Commands that are explicitly allowed
+  # If empty, all non-denied commands are allowed
+  allowed_commands:
+    - "ls"
+    - "cat"
+    - "head"
+    - "tail"
+    - "grep"
+    - "find"
+    - "wc"
+    - "echo"
+    - "date"
+    - "whoami"
+    - "pwd"
+    - "env"
+    - "which"
+    - "git"
+    - "go"
+    - "make"
+    - "npm"
+    - "node"
+    - "python"
+    - "python3"
+    - "docker"
+    - "kubectl"
+    - "curl"
+    - "wget"
+    - "ps"
+    - "top"
+    - "df"
+    - "du"
+    - "free"
+    - "uptime"
+    - "mkdir"
+    - "cp"
+    - "mv"
+    - "rm"
+    - "touch"
+    - "chmod"
+    - "tar"
+    - "gzip"
+    - "gunzip"
+    - "zip"
+    - "unzip"
+    - "sed"
+    - "awk"
+    - "sort"
+    - "uniq"
+    - "cut"
+    - "tr"
+    - "diff"
+    - "patch"
+    - "file"
+    - "stat"
+  # Commands that are explicitly denied (takes precedence over allowed_commands)
+  denied_commands:
+    - "sudo"
+    - "su"
+    - "passwd"
+    - "chown"
+    - "chgrp"
+    - "mount"
+    - "umount"
+    - "fdisk"
+    - "mkfs"
+    - "iptables"
+    - "firewall-cmd"
+    - "ufw"
+    - "systemctl"
+    - "service"
+    - "init"
+    - "reboot"
+    - "shutdown"
+    - "halt"
+    - "poweroff"
+    - "dd"
+    - "shred"
+    - "wipefs"
+    - "ssh"
+    - "scp"
+    - "sftp"
+    - "rsync"
+    - "nc"
+    - "netcat"
+    - "nmap"
+    - "tcpdump"
+    - "eval"
+    - "exec"
+    - "source"
+  # Allowed working directories for command execution
+  allowed_paths: []
+  # Default timeout for command execution
+  default_timeout: 30s
+  # Maximum timeout for command execution
+  max_timeout: 5m
+  # Maximum output size (stdout + stderr) in bytes
+  max_output_size: 1048576  # 1MB
+  # Allow setting environment variables
+  allow_env_vars: false
+  # Allowed environment variable names (if allow_env_vars is true)
+  allowed_env_vars: []
+  # Inherit environment variables from the server process
+  inherit_env: true
+  # Default working directory for commands
+  working_directory: ""
+
+# Human Approval Configuration
+human:
+  # Default timeout for approval requests
+  default_timeout: 5m
+  # Maximum number of pending approval requests
+  max_pending: 100
+  # Command to run for notifications (optional)
+  # Example: "notify-send" for desktop notifications on Linux
+  notify_command: ""
+  # Arguments for the notification command
+  # Placeholders: {request_id}, {prompt}, {action_type}, {urgency}
+  notify_args: []
+  # Webhook URL for approval notifications (optional)
+  webhook_url: ""
+  # Action types that require human approval
+  require_approval:
+    - "destructive"
+    - "irreversible"
+    - "sensitive"
+  # Action types that are auto-approved
+  auto_approve_types: []
+
+# Plan Tool Configuration
+plan:
+  # Maximum number of concurrent plans
+  max_plans: 100
+  # Maximum steps per plan
+  max_steps_per_plan: 50
+  # How long to keep completed plans
+  retention_period: 24h
+  # Persist plans to disk
+  persist_plans: true
+  # Directory for persisted plans
+  plan_directory: ""
+
+# Audit Logging Configuration
+audit:
+  # Enable audit logging
+  enabled: true
+  # Path to audit log file
+  log_file: "audit.log"
+  # Rotate log when it reaches this size (in bytes)
+  rotate_size: 104857600  # 100MB
+  # Number of rotated logs to keep
+  rotate_count: 5
+  # How long to keep audit entries
+  retention_period: 720h  # 30 days
+  # Log tool arguments in audit entries
+  log_arguments: true
+  # Log tool results in audit entries
+  log_results: true
+  # Field names to redact in logs
+  sensitive_fields:
+    - "password"
+    - "secret"
+    - "token"
+    - "api_key"
+    - "private_key"
+
+# Security Configuration
+security:
+  # Enable API key authentication
+  enable_auth: false
+  # Valid API keys (required if enable_auth is true)
+  # Can also be set via TMUX_AGENT_API_KEYS environment variable (comma-separated)
+  api_keys: []
+  # Allowed client IP addresses (* for any)
+  allowed_ips:
+    - "127.0.0.1"
+    - "::1"
+  # Rate limit (requests per minute, 0 to disable)
+  rate_limit_per_min: 60
+  # Maximum request body size (in bytes)
+  max_request_size: 10485760  # 10MB

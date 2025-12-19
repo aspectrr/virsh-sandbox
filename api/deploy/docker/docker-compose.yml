@@ -1,0 +1,146 @@
+# Docker Compose for:
+# - API (Go REST service orchestrating KVM/libvirt)
+# - MCP (Go MCP server exposing tools for agents)
+# - Optional Nginx reverse proxy fronting API and MCP
+#
+# Usage:
+#   cd deploy/docker
+#   docker compose up --build
+#
+# Notes:
+# - The API container talks to libvirt via the host socket (bind-mounted).
+# - Base golden images and job overlays are bind-mounted from host directories.
+# - If you plan to use qemu-nbd mounting inside the container for diffs, you may
+#   need to add SYS_ADMIN capability and map /dev/nbdX devices (see commented lines).
+
+services:
+  api:
+    container_name: virsh-sandbox-api
+    build:
+      context: ../..
+      dockerfile: deploy/docker/api.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      # Logging
+      - LOG_FORMAT=${LOG_FORMAT:-text}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+
+      # API
+      - API_HTTP_ADDR=${API_HTTP_ADDR:-:8080}
+
+      # Libvirt/KVM
+      - LIBVIRT_URI=${LIBVIRT_URI:-qemu:///system}
+      - LIBVIRT_NETWORK=${LIBVIRT_NETWORK:-default}
+      - BASE_IMAGE_DIR=/var/lib/libvirt/images/base
+      - SANDBOX_WORKDIR=/var/lib/libvirt/images/jobs
+
+      - DATABASE_URL=${DATABASE_URL:-postgresql://virsh_sandbox:virsh_sandbox@postgres:5432/virsh_sandbox}
+
+      # Defaults and timeouts
+      - DEFAULT_VCPUS=${DEFAULT_VCPUS:-2}
+      - DEFAULT_MEMORY_MB=${DEFAULT_MEMORY_MB:-2048}
+      - COMMAND_TIMEOUT_SEC=${COMMAND_TIMEOUT_SEC:-600}
+      - IP_DISCOVERY_TIMEOUT_SEC=${IP_DISCOVERY_TIMEOUT_SEC:-120}
+
+      # Optional GitOps publishing configuration (uncomment and set as needed)
+      # - GITOPS_REPO_URL=git@github.com:org/repo.git
+      # - GITOPS_BRANCH=main
+      # - GIT_AUTHOR_NAME=Sandbox Bot
+      # - GIT_AUTHOR_EMAIL=sandbox-bot@example.com
+      # - GITOPS_SSH_KEY_PATH=/run/secrets/gitops_key
+
+    ports:
+      - "8080:8080"
+    volumes:
+      # Bind host libvirt socket to talk to libvirtd
+      - ${LIBVIRT_SOCK:-/var/run/libvirt/libvirt-sock}:/var/run/libvirt/libvirt-sock
+
+      # Bind base images (read-only) and job overlays (read-write)
+      - ${BASE_IMAGES_DIR:-/var/lib/libvirt/images/base}:/var/lib/libvirt/images/base:ro
+      - ${JOBS_DIR:-/var/lib/libvirt/images/jobs}:/var/lib/libvirt/images/jobs:rw
+
+      # Optionally mount SSH deploy key for GitOps (uncomment and set env GITOPS_SSH_KEY_PATH accordingly)
+      # - ./secrets/gitops_key:/run/secrets/gitops_key:ro
+
+      # If using qemu-nbd inside the container, you may need these (ensure host has /dev/nbdX present):
+      # - /dev/nbd0:/dev/nbd0
+      # - /dev/nbd1:/dev/nbd1
+
+    # If qemu-nbd is required to mount snapshots, uncomment the following:
+    # cap_add:
+    #   - SYS_ADMIN
+    # privileged: false
+
+    healthcheck:
+      test: ["CMD", "curl", "-fsSL", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:latest
+    container_name: virsh-sandbox-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: virsh_sandbox
+      POSTGRES_PASSWORD: virsh_sandbox
+      POSTGRES_DB: virsh_sandbox
+    ports:
+      - "5432:5432"
+
+  # mcp:
+  #   container_name: virsh-sandbox-mcp
+  #   build:
+  #     context: ../..
+  #     dockerfile: deploy/docker/Dockerfile.mcp
+  #   restart: unless-stopped
+  #   environment:
+  #     - LOG_FORMAT=${LOG_FORMAT:-text}
+  #     - LOG_LEVEL=${LOG_LEVEL:-info}
+  #     - MCP_HTTP_ADDR=${MCP_HTTP_ADDR:-:8090}
+  #   ports:
+  #     - "8090:8090"
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-fsSL", "http://127.0.0.1:8090/healthz"]
+  #     interval: 30s
+  #     timeout: 5s
+  #     retries: 5
+
+  # Optional reverse proxy fronting API (/api) and MCP (/mcp)
+  # Create an nginx.conf next to this compose file or update the volume path.
+  # nginx:
+  #   container_name: virsh-sandbox-nginx
+  #   image: nginx:stable
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - api
+  #     - mcp
+  #   ports:
+  #     - "80:80"
+  #     # - "443:443" # If you add TLS
+  #   volumes:
+  #     # Provide an nginx.conf that routes to:
+  #     #   location /api/ -> http://api:8080/
+  #     #   location /mcp/ -> http://mcp:8090/
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+volumes:
+  sandbox_state:
+    name: virsh-sandbox-state
+# Suggested .env variables (create a .env in this directory to customize):
+# LIBVIRT_SOCK=/var/run/libvirt/libvirt-sock
+# BASE_IMAGES_DIR=/var/lib/libvirt/images/base
+# JOBS_DIR=/var/lib/libvirt/images/jobs
+# LIBVIRT_URI=qemu:///system
+# LIBVIRT_NETWORK=default
+# API_HTTP_ADDR=:8080
+# MCP_HTTP_ADDR=:8090
+# LOG_FORMAT=text
+# LOG_LEVEL=info
+# DEFAULT_VCPUS=2
+# DEFAULT_MEMORY_MB=2048
+# COMMAND_TIMEOUT_SEC=600
+# IP_DISCOVERY_TIMEOUT_SEC=120
+# DATABASE_URL=file:/var/lib/virsh-sandbox/virsh-sandbox.db?_busy_timeout=10000&_fk=1

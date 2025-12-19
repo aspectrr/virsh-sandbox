@@ -1,0 +1,191 @@
+# Lima configuration for virsh-sandbox development
+# This VM provides a libvirt/KVM environment accessible from the host
+
+# VM Images - Using Ubuntu 24.04 LTS for stability
+images:
+  - location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.img"
+    arch: "x86_64"
+  - location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img"
+    arch: "aarch64"
+
+# Resource allocation
+cpus: 4
+memory: "8GiB"
+disk: "50GiB"
+
+# Enable nested virtualization (critical for KVM inside Lima)
+vmType: "qemu"
+firmware:
+  legacyBIOS: false
+
+# Mount directories for sharing images between host and VM
+mounts:
+  - location: "~"
+    mountPoint: "/home/collinpfeifer.linux"
+    writable: true
+
+# Containerd is not needed for our use case
+containerd:
+  system: false
+  user: false
+
+# SSH configuration - we'll use this for qemu+ssh:// connections
+ssh:
+  forwardAgent: true
+
+# Port forwarding for libvirt access from host
+portForwards:
+  # Forward libvirt TCP port (for qemu+tcp:// connections)
+  - guestPort: 16509
+    hostPort: 16509
+    proto: tcp
+  # Forward SSH for qemu+ssh:// connections (Lima default is 60022)
+  # Lima handles this automatically, but explicit for clarity
+
+# Provision script to install libvirt and configure for remote access
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -eux
+
+      # Update package lists
+      apt-get update
+
+      # Install libvirt, QEMU, and related tools
+      DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        qemu-kvm \
+        qemu-utils \
+        libvirt-daemon-system \
+        libvirt-clients \
+        virtinst \
+        bridge-utils \
+        ovmf \
+        cpu-checker \
+        cloud-image-utils \
+        genisoimage \
+        libguestfs-tools \
+        qemu-block-extra \
+        podman \
+        buildah \
+        skopeo \
+        curl \
+        wget \
+        jq \
+        htop \
+        vim
+
+      # Enable and start libvirtd
+      systemctl enable libvirtd
+      systemctl start libvirtd
+
+      # Configure libvirt for remote TCP access (qemu+tcp://)
+      # WARNING: TCP without TLS is not secure - use only for local development
+      cat > /etc/libvirt/libvirtd.conf << 'LIBVIRT_CONF'
+      # Listen on TCP for remote connections
+      listen_tls = 0
+      listen_tcp = 1
+      tcp_port = "16509"
+
+      # Allow unauthenticated connections (DEVELOPMENT ONLY!)
+      # For production, use SASL or TLS authentication
+      auth_tcp = "none"
+
+      # Unix socket permissions for local access
+      unix_sock_group = "libvirt"
+      unix_sock_rw_perms = "0770"
+
+      # Allow connections from any address (within the VM)
+      listen_addr = "0.0.0.0"
+      LIBVIRT_CONF
+
+      # Configure libvirt to listen on TCP
+      mkdir -p /etc/systemd/system/libvirtd.service.d
+      cat > /etc/systemd/system/libvirtd.service.d/override.conf << 'SYSTEMD_OVERRIDE'
+      [Service]
+      ExecStart=
+      ExecStart=/usr/sbin/libvirtd -l
+      SYSTEMD_OVERRIDE
+
+      # Also configure socket-based activation to allow TCP
+      cat > /etc/systemd/system/libvirtd-tcp.socket << 'TCP_SOCKET'
+      [Unit]
+      Description=libvirt TCP socket
+
+      [Socket]
+      ListenStream=16509
+      Accept=no
+
+      [Install]
+      WantedBy=sockets.target
+      TCP_SOCKET
+
+      systemctl daemon-reload
+      systemctl enable libvirtd-tcp.socket
+      systemctl restart libvirtd
+
+      # Enable default network
+      virsh net-autostart default || true
+      virsh net-start default || true
+
+      # Verify KVM is available
+      if kvm-ok; then
+        echo "KVM acceleration is available"
+      else
+        echo "WARNING: KVM acceleration may not be available (nested virt)"
+        echo "VMs will run in emulation mode (slower)"
+      fi
+
+      # Create directories for libvirt images
+      mkdir -p /var/lib/libvirt/images/base
+      mkdir -p /var/lib/libvirt/images/jobs
+      chmod 755 /var/lib/libvirt/images/base
+      chmod 755 /var/lib/libvirt/images/jobs
+
+  - mode: user
+    script: |
+      #!/bin/bash
+      set -eux
+
+      # Add user to libvirt and kvm groups
+      sudo usermod -aG libvirt,kvm $(whoami)
+
+      # Create a test script to verify libvirt is working
+      cat > ~/test-libvirt.sh << 'EOF'
+      #!/bin/bash
+      echo "Testing local libvirt connection..."
+      virsh -c qemu:///system version
+      echo ""
+      echo "Listing networks..."
+      virsh -c qemu:///system net-list
+      echo ""
+      echo "Listing VMs..."
+      virsh -c qemu:///system list --all
+      EOF
+      chmod +x ~/test-libvirt.sh
+
+# Message displayed after VM creation
+message: |
+
+  ╔═══════════════════════════════════════════════════════════════════════════╗
+  ║                    virsh-sandbox Libvirt Environment                       ║
+  ╠═══════════════════════════════════════════════════════════════════════════╣
+  ║                                                                           ║
+  ║  Your Lima VM with libvirt/KVM is ready!                                  ║
+  ║                                                                           ║
+  ║  Connect to libvirt from your host using one of these URIs:               ║
+  ║                                                                           ║
+  ║  Option 1 - TCP (simpler, less secure - dev only):                        ║
+  ║    LIBVIRT_URI="qemu+tcp://localhost:16509/system"                        ║
+  ║                                                                           ║
+  ║  Option 2 - SSH (more secure, recommended):                               ║
+  ║    LIBVIRT_URI="qemu+ssh://collinpfeifer@localhost:__SSH_PORT__/system?keyfile=__SSH_KEY__"
+  ║                                                                           ║
+  ║  Test the connection:                                                     ║
+  ║    virsh -c "$LIBVIRT_URI" list --all                                     ║
+  ║                                                                           ║
+  ║  SSH into Lima VM:                                                        ║
+  ║    limactl shell virsh-sandbox-dev                                              ║
+  ║                                                                           ║
+  ╚═══════════════════════════════════════════════════════════════════════════╝
+
