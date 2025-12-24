@@ -1,0 +1,24 @@
+pre-commit:
+  parallel: false
+  commands:
+    go-fmt:
+      glob: "*.go"
+      run: gofumpt -l -w api tmux-client
+    go-vet:
+      glob: "*.go"
+      run: go vet api tmux-client
+    go-lint-virsh-sandbox:
+      glob: "*.go"
+      run: golangci-lint run api/cmd/api/main.go
+    go-lint-tmux:
+      glob: "*.go"
+      run: golangci-lint run tmux-client/cmd/server/main.go
+    generate-virsh-sandbox-openapi:
+      glob: "*.go"
+      run: swag init --dir ./api,./internal/api,./internal/audit,./internal/config,./internal/store,./internal/tools,./internal/types --generalInfo cmd/server/main.go --parseDependency --parseInternal
+    generate-tmux-client-openapi:
+      glob: "*.go"
+      run: swag init --dir ./tmux-client,./internal/ansible,./internal/diff,./internal/error,./internal/rest,./internal/vm,./internal/workflow --generalInfo cmd/api/main.go --parseDependency --parseInternal
+    generate-orval-clients:
+      glob: "*.ts"
+      run: cd frontend && bun run generate-api
