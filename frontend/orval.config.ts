@@ -5,8 +5,8 @@ export default defineConfig({
     output: {
       client: "react-query",
       mode: "tags-split",
-      target: "src/virsh-sandbox-client",
-      schemas: "src/virsh-sandbox-client/model",
+      target: "src/virsh-sandbox",
+      schemas: "src/virsh-sandbox/model",
       mock: true,
     },
     input: {

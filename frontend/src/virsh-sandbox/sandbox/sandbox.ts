@@ -23,21 +23,21 @@ import type {
 } from 'axios';
 
 import type {
-  InternalRestCreateSandboxRequest,
-  InternalRestCreateSandboxResponse,
-  InternalRestDiffRequest,
-  InternalRestDiffResponse,
-  InternalRestErrorResponse,
-  InternalRestGenerateResponse,
-  InternalRestInjectSSHKeyRequest,
-  InternalRestPublishRequest,
-  InternalRestPublishResponse,
-  InternalRestRunCommandRequest,
-  InternalRestRunCommandResponse,
-  InternalRestSnapshotRequest,
-  InternalRestSnapshotResponse,
-  InternalRestStartSandboxRequest,
-  InternalRestStartSandboxResponse
+  VirshSandboxInternalRestCreateSandboxRequest,
+  VirshSandboxInternalRestCreateSandboxResponse,
+  VirshSandboxInternalRestDiffRequest,
+  VirshSandboxInternalRestDiffResponse,
+  VirshSandboxInternalRestErrorResponse,
+  VirshSandboxInternalRestGenerateResponse,
+  VirshSandboxInternalRestInjectSSHKeyRequest,
+  VirshSandboxInternalRestPublishRequest,
+  VirshSandboxInternalRestPublishResponse,
+  VirshSandboxInternalRestRunCommandRequest,
+  VirshSandboxInternalRestRunCommandResponse,
+  VirshSandboxInternalRestSnapshotRequest,
+  VirshSandboxInternalRestSnapshotResponse,
+  VirshSandboxInternalRestStartSandboxRequest,
+  VirshSandboxInternalRestStartSandboxResponse
 } from '.././model';
 
 
@@ -60,7 +60,7 @@ export const deleteApiV1SandboxId = (
 
 
 
-export const getDeleteApiV1SandboxIdMutationOptions = <TError = AxiosError<InternalRestErrorResponse>,
+export const getDeleteApiV1SandboxIdMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1SandboxId>>, TError,{id: string}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1SandboxId>>, TError,{id: string}, TContext> => {
 
@@ -87,12 +87,12 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
     export type DeleteApiV1SandboxIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiV1SandboxId>>>
     
-    export type DeleteApiV1SandboxIdMutationError = AxiosError<InternalRestErrorResponse>
+    export type DeleteApiV1SandboxIdMutationError = AxiosError<VirshSandboxInternalRestErrorResponse>
 
     /**
  * @summary Destroy sandbox
  */
-export const useDeleteApiV1SandboxId = <TError = AxiosError<InternalRestErrorResponse>,
+export const useDeleteApiV1SandboxId = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1SandboxId>>, TError,{id: string}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteApiV1SandboxId>>,
@@ -111,21 +111,21 @@ export const useDeleteApiV1SandboxId = <TError = AxiosError<InternalRestErrorRes
  */
 export const postApiV1SandboxIdDiff = (
     id: string,
-    internalRestDiffRequest: InternalRestDiffRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<InternalRestDiffResponse>> => {
+    virshSandboxInternalRestDiffRequest: VirshSandboxInternalRestDiffRequest, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<VirshSandboxInternalRestDiffResponse>> => {
     
     
     return axios.default.post(
       `/api/v1/sandbox/${id}/diff`,
-      internalRestDiffRequest,options
+      virshSandboxInternalRestDiffRequest,options
     );
   }
 
 
 
-export const getPostApiV1SandboxIdDiffMutationOptions = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>, TError,{id: string;data: InternalRestDiffRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>, TError,{id: string;data: InternalRestDiffRequest}, TContext> => {
+export const getPostApiV1SandboxIdDiffMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>, TError,{id: string;data: VirshSandboxInternalRestDiffRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>, TError,{id: string;data: VirshSandboxInternalRestDiffRequest}, TContext> => {
 
 const mutationKey = ['postApiV1SandboxIdDiff'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -137,7 +137,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>, {id: string;data: InternalRestDiffRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>, {id: string;data: VirshSandboxInternalRestDiffRequest}> = (props) => {
           const {id,data} = props ?? {};
 
           return  postApiV1SandboxIdDiff(id,data,axiosOptions)
@@ -149,18 +149,18 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PostApiV1SandboxIdDiffMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>>
-    export type PostApiV1SandboxIdDiffMutationBody = InternalRestDiffRequest
-    export type PostApiV1SandboxIdDiffMutationError = AxiosError<InternalRestErrorResponse>
+    export type PostApiV1SandboxIdDiffMutationBody = VirshSandboxInternalRestDiffRequest
+    export type PostApiV1SandboxIdDiffMutationError = AxiosError<VirshSandboxInternalRestErrorResponse>
 
     /**
  * @summary Diff snapshots
  */
-export const usePostApiV1SandboxIdDiff = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>, TError,{id: string;data: InternalRestDiffRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostApiV1SandboxIdDiff = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>, TError,{id: string;data: VirshSandboxInternalRestDiffRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1SandboxIdDiff>>,
         TError,
-        {id: string;data: InternalRestDiffRequest},
+        {id: string;data: VirshSandboxInternalRestDiffRequest},
         TContext
       > => {
 
@@ -185,7 +185,7 @@ export const postApiV1SandboxIdGenerateTool = (
 
 
 
-export const getPostApiV1SandboxIdGenerateToolMutationOptions = <TError = AxiosError<InternalRestErrorResponse | InternalRestGenerateResponse>,
+export const getPostApiV1SandboxIdGenerateToolMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse | VirshSandboxInternalRestGenerateResponse>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdGenerateTool>>, TError,{id: string;tool: string}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdGenerateTool>>, TError,{id: string;tool: string}, TContext> => {
 
@@ -212,12 +212,12 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
     export type PostApiV1SandboxIdGenerateToolMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1SandboxIdGenerateTool>>>
     
-    export type PostApiV1SandboxIdGenerateToolMutationError = AxiosError<InternalRestErrorResponse | InternalRestGenerateResponse>
+    export type PostApiV1SandboxIdGenerateToolMutationError = AxiosError<VirshSandboxInternalRestErrorResponse | VirshSandboxInternalRestGenerateResponse>
 
     /**
  * @summary Generate configuration
  */
-export const usePostApiV1SandboxIdGenerateTool = <TError = AxiosError<InternalRestErrorResponse | InternalRestGenerateResponse>,
+export const usePostApiV1SandboxIdGenerateTool = <TError = AxiosError<VirshSandboxInternalRestErrorResponse | VirshSandboxInternalRestGenerateResponse>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdGenerateTool>>, TError,{id: string;tool: string}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1SandboxIdGenerateTool>>,
@@ -236,21 +236,21 @@ export const usePostApiV1SandboxIdGenerateTool = <TError = AxiosError<InternalRe
  */
 export const postApiV1SandboxIdPublish = (
     id: string,
-    internalRestPublishRequest: InternalRestPublishRequest, options?: AxiosRequestConfig
+    virshSandboxInternalRestPublishRequest: VirshSandboxInternalRestPublishRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<unknown>> => {
     
     
     return axios.default.post(
       `/api/v1/sandbox/${id}/publish`,
-      internalRestPublishRequest,options
+      virshSandboxInternalRestPublishRequest,options
     );
   }
 
 
 
-export const getPostApiV1SandboxIdPublishMutationOptions = <TError = AxiosError<InternalRestErrorResponse | InternalRestPublishResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>, TError,{id: string;data: InternalRestPublishRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>, TError,{id: string;data: InternalRestPublishRequest}, TContext> => {
+export const getPostApiV1SandboxIdPublishMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse | VirshSandboxInternalRestPublishResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>, TError,{id: string;data: VirshSandboxInternalRestPublishRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>, TError,{id: string;data: VirshSandboxInternalRestPublishRequest}, TContext> => {
 
 const mutationKey = ['postApiV1SandboxIdPublish'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -262,7 +262,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>, {id: string;data: InternalRestPublishRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>, {id: string;data: VirshSandboxInternalRestPublishRequest}> = (props) => {
           const {id,data} = props ?? {};
 
           return  postApiV1SandboxIdPublish(id,data,axiosOptions)
@@ -274,18 +274,18 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PostApiV1SandboxIdPublishMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>>
-    export type PostApiV1SandboxIdPublishMutationBody = InternalRestPublishRequest
-    export type PostApiV1SandboxIdPublishMutationError = AxiosError<InternalRestErrorResponse | InternalRestPublishResponse>
+    export type PostApiV1SandboxIdPublishMutationBody = VirshSandboxInternalRestPublishRequest
+    export type PostApiV1SandboxIdPublishMutationError = AxiosError<VirshSandboxInternalRestErrorResponse | VirshSandboxInternalRestPublishResponse>
 
     /**
  * @summary Publish changes
  */
-export const usePostApiV1SandboxIdPublish = <TError = AxiosError<InternalRestErrorResponse | InternalRestPublishResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>, TError,{id: string;data: InternalRestPublishRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostApiV1SandboxIdPublish = <TError = AxiosError<VirshSandboxInternalRestErrorResponse | VirshSandboxInternalRestPublishResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>, TError,{id: string;data: VirshSandboxInternalRestPublishRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1SandboxIdPublish>>,
         TError,
-        {id: string;data: InternalRestPublishRequest},
+        {id: string;data: VirshSandboxInternalRestPublishRequest},
         TContext
       > => {
 
@@ -299,21 +299,21 @@ export const usePostApiV1SandboxIdPublish = <TError = AxiosError<InternalRestErr
  */
 export const postApiV1SandboxIdRun = (
     id: string,
-    internalRestRunCommandRequest: InternalRestRunCommandRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<InternalRestRunCommandResponse>> => {
+    virshSandboxInternalRestRunCommandRequest: VirshSandboxInternalRestRunCommandRequest, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<VirshSandboxInternalRestRunCommandResponse>> => {
     
     
     return axios.default.post(
       `/api/v1/sandbox/${id}/run`,
-      internalRestRunCommandRequest,options
+      virshSandboxInternalRestRunCommandRequest,options
     );
   }
 
 
 
-export const getPostApiV1SandboxIdRunMutationOptions = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>, TError,{id: string;data: InternalRestRunCommandRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>, TError,{id: string;data: InternalRestRunCommandRequest}, TContext> => {
+export const getPostApiV1SandboxIdRunMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>, TError,{id: string;data: VirshSandboxInternalRestRunCommandRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>, TError,{id: string;data: VirshSandboxInternalRestRunCommandRequest}, TContext> => {
 
 const mutationKey = ['postApiV1SandboxIdRun'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -325,7 +325,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>, {id: string;data: InternalRestRunCommandRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>, {id: string;data: VirshSandboxInternalRestRunCommandRequest}> = (props) => {
           const {id,data} = props ?? {};
 
           return  postApiV1SandboxIdRun(id,data,axiosOptions)
@@ -337,18 +337,18 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PostApiV1SandboxIdRunMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>>
-    export type PostApiV1SandboxIdRunMutationBody = InternalRestRunCommandRequest
-    export type PostApiV1SandboxIdRunMutationError = AxiosError<InternalRestErrorResponse>
+    export type PostApiV1SandboxIdRunMutationBody = VirshSandboxInternalRestRunCommandRequest
+    export type PostApiV1SandboxIdRunMutationError = AxiosError<VirshSandboxInternalRestErrorResponse>
 
     /**
  * @summary Run command in sandbox
  */
-export const usePostApiV1SandboxIdRun = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>, TError,{id: string;data: InternalRestRunCommandRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostApiV1SandboxIdRun = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdRun>>, TError,{id: string;data: VirshSandboxInternalRestRunCommandRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1SandboxIdRun>>,
         TError,
-        {id: string;data: InternalRestRunCommandRequest},
+        {id: string;data: VirshSandboxInternalRestRunCommandRequest},
         TContext
       > => {
 
@@ -362,21 +362,21 @@ export const usePostApiV1SandboxIdRun = <TError = AxiosError<InternalRestErrorRe
  */
 export const postApiV1SandboxIdSnapshot = (
     id: string,
-    internalRestSnapshotRequest: InternalRestSnapshotRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<InternalRestSnapshotResponse>> => {
+    virshSandboxInternalRestSnapshotRequest: VirshSandboxInternalRestSnapshotRequest, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<VirshSandboxInternalRestSnapshotResponse>> => {
     
     
     return axios.default.post(
       `/api/v1/sandbox/${id}/snapshot`,
-      internalRestSnapshotRequest,options
+      virshSandboxInternalRestSnapshotRequest,options
     );
   }
 
 
 
-export const getPostApiV1SandboxIdSnapshotMutationOptions = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>, TError,{id: string;data: InternalRestSnapshotRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>, TError,{id: string;data: InternalRestSnapshotRequest}, TContext> => {
+export const getPostApiV1SandboxIdSnapshotMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>, TError,{id: string;data: VirshSandboxInternalRestSnapshotRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>, TError,{id: string;data: VirshSandboxInternalRestSnapshotRequest}, TContext> => {
 
 const mutationKey = ['postApiV1SandboxIdSnapshot'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -388,7 +388,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>, {id: string;data: InternalRestSnapshotRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>, {id: string;data: VirshSandboxInternalRestSnapshotRequest}> = (props) => {
           const {id,data} = props ?? {};
 
           return  postApiV1SandboxIdSnapshot(id,data,axiosOptions)
@@ -400,18 +400,18 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PostApiV1SandboxIdSnapshotMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>>
-    export type PostApiV1SandboxIdSnapshotMutationBody = InternalRestSnapshotRequest
-    export type PostApiV1SandboxIdSnapshotMutationError = AxiosError<InternalRestErrorResponse>
+    export type PostApiV1SandboxIdSnapshotMutationBody = VirshSandboxInternalRestSnapshotRequest
+    export type PostApiV1SandboxIdSnapshotMutationError = AxiosError<VirshSandboxInternalRestErrorResponse>
 
     /**
  * @summary Create snapshot
  */
-export const usePostApiV1SandboxIdSnapshot = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>, TError,{id: string;data: InternalRestSnapshotRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostApiV1SandboxIdSnapshot = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>, TError,{id: string;data: VirshSandboxInternalRestSnapshotRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1SandboxIdSnapshot>>,
         TError,
-        {id: string;data: InternalRestSnapshotRequest},
+        {id: string;data: VirshSandboxInternalRestSnapshotRequest},
         TContext
       > => {
 
@@ -425,21 +425,21 @@ export const usePostApiV1SandboxIdSnapshot = <TError = AxiosError<InternalRestEr
  */
 export const postApiV1SandboxIdSshkey = (
     id: string,
-    internalRestInjectSSHKeyRequest: InternalRestInjectSSHKeyRequest, options?: AxiosRequestConfig
+    virshSandboxInternalRestInjectSSHKeyRequest: VirshSandboxInternalRestInjectSSHKeyRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<void>> => {
     
     
     return axios.default.post(
       `/api/v1/sandbox/${id}/sshkey`,
-      internalRestInjectSSHKeyRequest,options
+      virshSandboxInternalRestInjectSSHKeyRequest,options
     );
   }
 
 
 
-export const getPostApiV1SandboxIdSshkeyMutationOptions = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>, TError,{id: string;data: InternalRestInjectSSHKeyRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>, TError,{id: string;data: InternalRestInjectSSHKeyRequest}, TContext> => {
+export const getPostApiV1SandboxIdSshkeyMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>, TError,{id: string;data: VirshSandboxInternalRestInjectSSHKeyRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>, TError,{id: string;data: VirshSandboxInternalRestInjectSSHKeyRequest}, TContext> => {
 
 const mutationKey = ['postApiV1SandboxIdSshkey'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -451,7 +451,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>, {id: string;data: InternalRestInjectSSHKeyRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>, {id: string;data: VirshSandboxInternalRestInjectSSHKeyRequest}> = (props) => {
           const {id,data} = props ?? {};
 
           return  postApiV1SandboxIdSshkey(id,data,axiosOptions)
@@ -463,18 +463,18 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PostApiV1SandboxIdSshkeyMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>>
-    export type PostApiV1SandboxIdSshkeyMutationBody = InternalRestInjectSSHKeyRequest
-    export type PostApiV1SandboxIdSshkeyMutationError = AxiosError<InternalRestErrorResponse>
+    export type PostApiV1SandboxIdSshkeyMutationBody = VirshSandboxInternalRestInjectSSHKeyRequest
+    export type PostApiV1SandboxIdSshkeyMutationError = AxiosError<VirshSandboxInternalRestErrorResponse>
 
     /**
  * @summary Inject SSH key into sandbox
  */
-export const usePostApiV1SandboxIdSshkey = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>, TError,{id: string;data: InternalRestInjectSSHKeyRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostApiV1SandboxIdSshkey = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>, TError,{id: string;data: VirshSandboxInternalRestInjectSSHKeyRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1SandboxIdSshkey>>,
         TError,
-        {id: string;data: InternalRestInjectSSHKeyRequest},
+        {id: string;data: VirshSandboxInternalRestInjectSSHKeyRequest},
         TContext
       > => {
 
@@ -488,21 +488,21 @@ export const usePostApiV1SandboxIdSshkey = <TError = AxiosError<InternalRestErro
  */
 export const postApiV1SandboxIdStart = (
     id: string,
-    internalRestStartSandboxRequest: InternalRestStartSandboxRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<InternalRestStartSandboxResponse>> => {
+    virshSandboxInternalRestStartSandboxRequest: VirshSandboxInternalRestStartSandboxRequest, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<VirshSandboxInternalRestStartSandboxResponse>> => {
     
     
     return axios.default.post(
       `/api/v1/sandbox/${id}/start`,
-      internalRestStartSandboxRequest,options
+      virshSandboxInternalRestStartSandboxRequest,options
     );
   }
 
 
 
-export const getPostApiV1SandboxIdStartMutationOptions = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>, TError,{id: string;data: InternalRestStartSandboxRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>, TError,{id: string;data: InternalRestStartSandboxRequest}, TContext> => {
+export const getPostApiV1SandboxIdStartMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>, TError,{id: string;data: VirshSandboxInternalRestStartSandboxRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>, TError,{id: string;data: VirshSandboxInternalRestStartSandboxRequest}, TContext> => {
 
 const mutationKey = ['postApiV1SandboxIdStart'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -514,7 +514,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>, {id: string;data: InternalRestStartSandboxRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>, {id: string;data: VirshSandboxInternalRestStartSandboxRequest}> = (props) => {
           const {id,data} = props ?? {};
 
           return  postApiV1SandboxIdStart(id,data,axiosOptions)
@@ -526,18 +526,18 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PostApiV1SandboxIdStartMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>>
-    export type PostApiV1SandboxIdStartMutationBody = InternalRestStartSandboxRequest
-    export type PostApiV1SandboxIdStartMutationError = AxiosError<InternalRestErrorResponse>
+    export type PostApiV1SandboxIdStartMutationBody = VirshSandboxInternalRestStartSandboxRequest
+    export type PostApiV1SandboxIdStartMutationError = AxiosError<VirshSandboxInternalRestErrorResponse>
 
     /**
  * @summary Start sandbox
  */
-export const usePostApiV1SandboxIdStart = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>, TError,{id: string;data: InternalRestStartSandboxRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostApiV1SandboxIdStart = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxIdStart>>, TError,{id: string;data: VirshSandboxInternalRestStartSandboxRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1SandboxIdStart>>,
         TError,
-        {id: string;data: InternalRestStartSandboxRequest},
+        {id: string;data: VirshSandboxInternalRestStartSandboxRequest},
         TContext
       > => {
 
@@ -550,21 +550,21 @@ export const usePostApiV1SandboxIdStart = <TError = AxiosError<InternalRestError
  * @summary Create a new sandbox
  */
 export const postApiV1SandboxCreate = (
-    internalRestCreateSandboxRequest: InternalRestCreateSandboxRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<InternalRestCreateSandboxResponse>> => {
+    virshSandboxInternalRestCreateSandboxRequest: VirshSandboxInternalRestCreateSandboxRequest, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<VirshSandboxInternalRestCreateSandboxResponse>> => {
     
     
     return axios.default.post(
       `/api/v1/sandbox/create`,
-      internalRestCreateSandboxRequest,options
+      virshSandboxInternalRestCreateSandboxRequest,options
     );
   }
 
 
 
-export const getPostApiV1SandboxCreateMutationOptions = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxCreate>>, TError,{data: InternalRestCreateSandboxRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxCreate>>, TError,{data: InternalRestCreateSandboxRequest}, TContext> => {
+export const getPostApiV1SandboxCreateMutationOptions = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxCreate>>, TError,{data: VirshSandboxInternalRestCreateSandboxRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxCreate>>, TError,{data: VirshSandboxInternalRestCreateSandboxRequest}, TContext> => {
 
 const mutationKey = ['postApiV1SandboxCreate'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -576,7 +576,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxCreate>>, {data: InternalRestCreateSandboxRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1SandboxCreate>>, {data: VirshSandboxInternalRestCreateSandboxRequest}> = (props) => {
           const {data} = props ?? {};
 
           return  postApiV1SandboxCreate(data,axiosOptions)
@@ -588,18 +588,18 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PostApiV1SandboxCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1SandboxCreate>>>
-    export type PostApiV1SandboxCreateMutationBody = InternalRestCreateSandboxRequest
-    export type PostApiV1SandboxCreateMutationError = AxiosError<InternalRestErrorResponse>
+    export type PostApiV1SandboxCreateMutationBody = VirshSandboxInternalRestCreateSandboxRequest
+    export type PostApiV1SandboxCreateMutationError = AxiosError<VirshSandboxInternalRestErrorResponse>
 
     /**
  * @summary Create a new sandbox
  */
-export const usePostApiV1SandboxCreate = <TError = AxiosError<InternalRestErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxCreate>>, TError,{data: InternalRestCreateSandboxRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostApiV1SandboxCreate = <TError = AxiosError<VirshSandboxInternalRestErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1SandboxCreate>>, TError,{data: VirshSandboxInternalRestCreateSandboxRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1SandboxCreate>>,
         TError,
-        {data: InternalRestCreateSandboxRequest},
+        {data: VirshSandboxInternalRestCreateSandboxRequest},
         TContext
       > => {
 
