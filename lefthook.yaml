@@ -1,18 +1,22 @@
 pre-commit:
   parallel: false
   commands:
-    generate-tmux-client-openapi:
+    1-generate-tmux-client-openapi:
       glob: "*.go"
       run: cd tmux-client && swag init --dir .,./internal/api,./internal/audit,./internal/config,./internal/store,./internal/tools,./internal/types --generalInfo ./cmd/server/main.go --parseDependency --parseInternal
-    generate-virsh-sandbox-openapi:
+      stage_fixed: true
+    2-generate-virsh-sandbox-openapi:
       glob: "*.go"
       run: cd api && swag init --dir .,./internal/ansible,./internal/diff,./internal/error,./internal/rest,./internal/vm,./internal/workflow --generalInfo ./cmd/api/main.go --parseDependency --parseInternal
-    go-fmt:
+      stage_fixed: true
+    3-go-fmt:
       glob: "*.go"
       run: gofumpt -l -w api tmux-client
-    generate-orval-clients:
+      stage_fixed: true
+    4-generate-orval-clients:
       glob: "*.go"
       run: cd frontend && bun run generate-api
+      stage_fixed: true
     # go-vet:
     #   glob: "*.go"
     #   run: go vet api tmux-client

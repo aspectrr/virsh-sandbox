@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.createSandboxRequest"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.createSandboxRequest"
                         }
                     }
                 ],
@@ -43,19 +43,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.createSandboxResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.createSandboxResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     }
                 }
@@ -90,13 +90,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     }
                 }
@@ -129,7 +129,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.diffRequest"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.diffRequest"
                         }
                     }
                 ],
@@ -137,19 +137,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.diffResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.diffResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     }
                 }
@@ -188,13 +188,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.generateResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.generateResponse"
                         }
                     }
                 }
@@ -227,7 +227,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.publishRequest"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.publishRequest"
                         }
                     }
                 ],
@@ -235,13 +235,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "501": {
                         "description": "Not Implemented",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.publishResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.publishResponse"
                         }
                     }
                 }
@@ -274,7 +274,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.runCommandRequest"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.runCommandRequest"
                         }
                     }
                 ],
@@ -282,19 +282,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.runCommandResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.runCommandResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     }
                 }
@@ -327,7 +327,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.snapshotRequest"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.snapshotRequest"
                         }
                     }
                 ],
@@ -335,19 +335,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.snapshotResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.snapshotResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     }
                 }
@@ -380,7 +380,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.injectSSHKeyRequest"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.injectSSHKeyRequest"
                         }
                     }
                 ],
@@ -391,13 +391,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     }
                 }
@@ -429,7 +429,7 @@ const docTemplate = `{
                         "name": "request",
                         "in": "body",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.startSandboxRequest"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.startSandboxRequest"
                         }
                     }
                 ],
@@ -437,19 +437,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.startSandboxResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.startSandboxResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     }
                 }
@@ -472,13 +472,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.listVMsResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.listVMsResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_rest.ErrorResponse"
+                            "$ref": "#/definitions/virsh-sandbox_internal_rest.ErrorResponse"
                         }
                     }
                 }
