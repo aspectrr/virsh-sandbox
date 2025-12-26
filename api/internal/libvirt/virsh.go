@@ -1,3 +1,6 @@
+//go:build libvirt
+// +build libvirt
+
 package libvirt
 
 import (
@@ -19,9 +22,14 @@ type Manager interface {
 	// cpu and memoryMB are the VM shape. network is the libvirt network name (e.g., "default").
 	CloneVM(ctx context.Context, baseImage, newVMName string, cpu, memoryMB int, network string) (DomainRef, error)
 
+	// CloneFromVM creates a linked-clone VM from an existing VM's disk.
+	// It looks up the source VM by name in libvirt, retrieves its disk path,
+	// and creates an overlay pointing to that disk as the backing file.
+	CloneFromVM(ctx context.Context, sourceVMName, newVMName string, cpu, memoryMB int, network string) (DomainRef, error)
+
 	// InjectSSHKey injects an SSH public key for a user into the VM disk before boot.
 	// The mechanism is determined by configuration (e.g., virt-customize or cloud-init seed).
-	InjectSSHKey(ctx context.Context, vmName, username, publicKey string) error
+	InjectSSHKey(ctx context.Context, sandboxName, username, publicKey string) error
 
 	// StartVM boots a defined domain.
 	StartVM(ctx context.Context, vmName string) error
@@ -195,21 +203,110 @@ func (m *VirshManager) CloneVM(ctx context.Context, baseImage, newVMName string,
 	return DomainRef{Name: newVMName, UUID: strings.TrimSpace(out)}, nil
 }
 
-func (m *VirshManager) InjectSSHKey(ctx context.Context, vmName, username, publicKey string) error {
-	if vmName == "" {
-		return fmt.Errorf("vmName is required")
+// CloneFromVM creates a linked-clone VM from an existing VM's disk.
+// It looks up the source VM by name, retrieves its disk path, and creates an overlay.
+func (m *VirshManager) CloneFromVM(ctx context.Context, sourceVMName, newVMName string, cpu, memoryMB int, network string) (DomainRef, error) {
+	if newVMName == "" {
+		return DomainRef{}, fmt.Errorf("new VM name is required")
+	}
+	if sourceVMName == "" {
+		return DomainRef{}, fmt.Errorf("source VM name is required")
+	}
+	if cpu <= 0 {
+		cpu = m.cfg.DefaultVCPUs
+	}
+	if memoryMB <= 0 {
+		memoryMB = m.cfg.DefaultMemoryMB
+	}
+	if network == "" {
+		network = m.cfg.DefaultNetwork
+	}
+
+	// Look up the source VM's disk path using virsh domblklist
+	virsh := m.binPath("virsh", m.cfg.VirshPath)
+	out, err := m.run(ctx, virsh, "--connect", m.cfg.LibvirtURI, "domblklist", sourceVMName, "--details")
+	if err != nil {
+		return DomainRef{}, fmt.Errorf("lookup source VM %q: %w", sourceVMName, err)
+	}
+
+	// Parse domblklist output to find the disk path
+	// Format: Type   Device   Target   Source
+	//         file   disk     vda      /path/to/disk.qcow2
+	basePath := ""
+	lines := strings.Split(out, "\n")
+	for _, line := range lines {
+		fields := strings.Fields(line)
+		if len(fields) >= 4 && fields[0] == "file" && fields[1] == "disk" {
+			basePath = fields[3]
+			break
+		}
+	}
+	if basePath == "" {
+		return DomainRef{}, fmt.Errorf("could not find disk path for source VM %q", sourceVMName)
+	}
+
+	// Verify the disk exists
+	if _, err := os.Stat(basePath); err != nil {
+		return DomainRef{}, fmt.Errorf("source VM disk not accessible: %s: %w", basePath, err)
+	}
+
+	jobDir := filepath.Join(m.cfg.WorkDir, newVMName)
+	if err := os.MkdirAll(jobDir, 0o755); err != nil {
+		return DomainRef{}, fmt.Errorf("create job dir: %w", err)
+	}
+
+	overlayPath := filepath.Join(jobDir, "disk-overlay.qcow2")
+	qemuImg := m.binPath("qemu-img", m.cfg.QemuImgPath)
+	if _, err := m.run(ctx, qemuImg, "create", "-f", "qcow2", "-F", "qcow2", "-b", basePath, overlayPath); err != nil {
+		return DomainRef{}, fmt.Errorf("create overlay: %w", err)
+	}
+
+	// Create minimal domain XML referencing overlay disk and network.
+	xmlPath := filepath.Join(jobDir, "domain.xml")
+	xml, err := renderDomainXML(domainXMLParams{
+		Name:      newVMName,
+		MemoryMB:  memoryMB,
+		VCPUs:     cpu,
+		DiskPath:  overlayPath,
+		Network:   network,
+		BootOrder: []string{"hd", "cdrom", "network"},
+	})
+	if err != nil {
+		return DomainRef{}, fmt.Errorf("render domain xml: %w", err)
+	}
+	if err := os.WriteFile(xmlPath, []byte(xml), 0o644); err != nil {
+		return DomainRef{}, fmt.Errorf("write domain xml: %w", err)
+	}
+
+	// virsh define
+	if _, err := m.run(ctx, virsh, "--connect", m.cfg.LibvirtURI, "define", xmlPath); err != nil {
+		return DomainRef{}, fmt.Errorf("virsh define: %w", err)
+	}
+
+	// Fetch UUID
+	out, err = m.run(ctx, virsh, "--connect", m.cfg.LibvirtURI, "domuuid", newVMName)
+	if err != nil {
+		// Best-effort: If domuuid fails, we still return Name.
+		return DomainRef{Name: newVMName}, nil
+	}
+	return DomainRef{Name: newVMName, UUID: strings.TrimSpace(out)}, nil
+}
+
+func (m *VirshManager) InjectSSHKey(ctx context.Context, sandboxName, username, publicKey string) error {
+	if sandboxName == "" {
+		return fmt.Errorf("sandboxName is required")
 	}
 	if username == "" {
-		username = defaultGuestUser(vmName)
+		username = defaultGuestUser(sandboxName)
 	}
 	if strings.TrimSpace(publicKey) == "" {
 		return fmt.Errorf("publicKey is required")
 	}
 
-	jobDir := filepath.Join(m.cfg.WorkDir, vmName)
+	jobDir := filepath.Join(m.cfg.WorkDir, sandboxName)
 	overlay := filepath.Join(jobDir, "disk-overlay.qcow2")
 	if _, err := os.Stat(overlay); err != nil {
-		return fmt.Errorf("overlay not found for VM %s: %w", vmName, err)
+		return fmt.Errorf("overlay not found for VM %s: %w", sandboxName, err)
 	}
 
 	switch strings.ToLower(m.cfg.SSHKeyInjectMethod) {
@@ -228,7 +325,7 @@ func (m *VirshManager) InjectSSHKey(ctx context.Context, vmName, username, publi
 	case "cloud-init":
 		// Build a NoCloud seed with the provided key and attach as CD-ROM.
 		seedISO := filepath.Join(jobDir, "seed.iso")
-		if err := m.buildCloudInitSeed(ctx, vmName, username, publicKey, seedISO); err != nil {
+		if err := m.buildCloudInitSeed(ctx, sandboxName, username, publicKey, seedISO); err != nil {
 			return fmt.Errorf("build cloud-init seed: %w", err)
 		}
 		// Attach seed ISO to domain XML (adds a CDROM) and redefine the domain.

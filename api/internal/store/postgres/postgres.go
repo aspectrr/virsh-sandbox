@@ -116,7 +116,7 @@ func (s *postgresStore) CreateSandbox(ctx context.Context, sb *store.Sandbox) er
 	if s.conf.ReadOnly {
 		return fmt.Errorf("postgres: CreateSandbox: %w", store.ErrInvalid)
 	}
-	if sb == nil || sb.ID == "" || sb.JobID == "" || sb.AgentID == "" || sb.VMName == "" ||
+	if sb == nil || sb.ID == "" || sb.JobID == "" || sb.AgentID == "" || sb.SandboxName == "" ||
 		sb.BaseImage == "" || sb.Network == "" || sb.State == "" {
 		return fmt.Errorf("postgres: CreateSandbox: %w", store.ErrInvalid)
 	}
@@ -201,15 +201,15 @@ func (s *postgresStore) UpdateSandbox(ctx context.Context, sb *store.Sandbox) er
 		Model(&SandboxModel{}).
 		Where("id = ? AND deleted_at IS NULL", sb.ID).
 		Updates(map[string]any{
-			"job_id":      model.JobID,
-			"agent_id":    model.AgentID,
-			"vm_name":     model.VMName,
-			"base_image":  model.BaseImage,
-			"network":     model.Network,
-			"ip":          model.IPAddress,
-			"state":       model.State,
-			"ttl_seconds": model.TTLSeconds,
-			"updated_at":  model.UpdatedAt,
+			"job_id":       model.JobID,
+			"agent_id":     model.AgentID,
+			"sandbox_name": model.SandboxName,
+			"base_image":   model.BaseImage,
+			"network":      model.Network,
+			"ip":           model.IPAddress,
+			"state":        model.State,
+			"ttl_seconds":  model.TTLSeconds,
+			"updated_at":   model.UpdatedAt,
 		})
 
 	if err := mapDBError(res.Error); err != nil {
@@ -515,18 +515,18 @@ func (s *postgresStore) autoMigrate(ctx context.Context) error {
 // --- Models & Converters ---
 
 type SandboxModel struct {
-	ID         string     `gorm:"primaryKey;column:id"`
-	JobID      string     `gorm:"column:job_id;not null;index"`
-	AgentID    string     `gorm:"column:agent_id;not null;index"`
-	VMName     string     `gorm:"column:vm_name;not null;uniqueIndex"`
-	BaseImage  string     `gorm:"column:base_image;not null;index"`
-	Network    string     `gorm:"column:network;not null"`
-	IPAddress  *string    `gorm:"column:ip"`
-	State      string     `gorm:"column:state;not null;index"`
-	TTLSeconds *int       `gorm:"column:ttl_seconds"`
-	CreatedAt  time.Time  `gorm:"column:created_at;not null"`
-	UpdatedAt  time.Time  `gorm:"column:updated_at;not null"`
-	DeletedAt  *time.Time `gorm:"column:deleted_at;index"`
+	ID          string     `gorm:"primaryKey;column:id"`
+	JobID       string     `gorm:"column:job_id;not null;index"`
+	AgentID     string     `gorm:"column:agent_id;not null;index"`
+	SandboxName string     `gorm:"column:sandbox_name;not null;uniqueIndex"`
+	BaseImage   string     `gorm:"column:base_image;not null;index"`
+	Network     string     `gorm:"column:network;not null"`
+	IPAddress   *string    `gorm:"column:ip"`
+	State       string     `gorm:"column:state;not null;index"`
+	TTLSeconds  *int       `gorm:"column:ttl_seconds"`
+	CreatedAt   time.Time  `gorm:"column:created_at;not null"`
+	UpdatedAt   time.Time  `gorm:"column:updated_at;not null"`
+	DeletedAt   *time.Time `gorm:"column:deleted_at;index"`
 }
 
 func (SandboxModel) TableName() string { return "sandboxes" }
@@ -598,35 +598,35 @@ func (PublicationModel) TableName() string { return "publications" }
 
 func sandboxToModel(sb *store.Sandbox) *SandboxModel {
 	return &SandboxModel{
-		ID:         sb.ID,
-		JobID:      sb.JobID,
-		AgentID:    sb.AgentID,
-		VMName:     sb.VMName,
-		BaseImage:  sb.BaseImage,
-		Network:    sb.Network,
-		IPAddress:  copyString(sb.IPAddress),
-		State:      string(sb.State),
-		TTLSeconds: copyInt(sb.TTLSeconds),
-		CreatedAt:  sb.CreatedAt,
-		UpdatedAt:  sb.UpdatedAt,
-		DeletedAt:  copyTime(sb.DeletedAt),
+		ID:          sb.ID,
+		JobID:       sb.JobID,
+		AgentID:     sb.AgentID,
+		SandboxName: sb.SandboxName,
+		BaseImage:   sb.BaseImage,
+		Network:     sb.Network,
+		IPAddress:   copyString(sb.IPAddress),
+		State:       string(sb.State),
+		TTLSeconds:  copyInt(sb.TTLSeconds),
+		CreatedAt:   sb.CreatedAt,
+		UpdatedAt:   sb.UpdatedAt,
+		DeletedAt:   copyTime(sb.DeletedAt),
 	}
 }
 
 func sandboxFromModel(m *SandboxModel) *store.Sandbox {
 	return &store.Sandbox{
-		ID:         m.ID,
-		JobID:      m.JobID,
-		AgentID:    m.AgentID,
-		VMName:     m.VMName,
-		BaseImage:  m.BaseImage,
-		Network:    m.Network,
-		IPAddress:  copyString(m.IPAddress),
-		State:      store.SandboxState(m.State),
-		TTLSeconds: copyInt(m.TTLSeconds),
-		CreatedAt:  m.CreatedAt,
-		UpdatedAt:  m.UpdatedAt,
-		DeletedAt:  copyTime(m.DeletedAt),
+		ID:          m.ID,
+		JobID:       m.JobID,
+		AgentID:     m.AgentID,
+		SandboxName: m.SandboxName,
+		BaseImage:   m.BaseImage,
+		Network:     m.Network,
+		IPAddress:   copyString(m.IPAddress),
+		State:       store.SandboxState(m.State),
+		TTLSeconds:  copyInt(m.TTLSeconds),
+		CreatedAt:   m.CreatedAt,
+		UpdatedAt:   m.UpdatedAt,
+		DeletedAt:   copyTime(m.DeletedAt),
 	}
 }
 

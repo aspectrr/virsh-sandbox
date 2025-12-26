@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "start": "vite",
+    "start": "vite --host 0.0.0.0",
     "preview": "vite preview",
     "generate-api": "orval --config ./orval.config.ts"
   },

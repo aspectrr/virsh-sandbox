@@ -9,12 +9,12 @@
 export interface InternalRestCreateSandboxRequest {
   /** required */
   agent_id?: string;
-  /** required; e.g. "ubuntu-22.04.qcow2" */
-  base_image?: string;
   /** optional; default from service config if <=0 */
   cpu?: number;
   /** optional; default from service config if <=0 */
   memory_mb?: number;
+  /** required; name of existing VM in libvirt to clone from */
+  source_vm_name?: string;
   /** optional; generated if empty */
   vm_name?: string;
 }

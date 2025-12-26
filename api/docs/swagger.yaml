@@ -14,15 +14,15 @@ definitions:
       agent_id:
         description: required
         type: string
-      base_image:
-        description: required; e.g. "ubuntu-22.04.qcow2"
-        type: string
       cpu:
         description: optional; default from service config if <=0
         type: integer
       memory_mb:
         description: optional; default from service config if <=0
         type: integer
+      source_vm_name:
+        description: required; name of existing VM in libvirt to clone from
+        type: string
       vm_name:
         description: optional; generated if empty
         type: string
@@ -188,15 +188,15 @@ definitions:
       agent_id:
         description: required
         type: string
-      base_image:
-        description: required; e.g. "ubuntu-22.04.qcow2"
-        type: string
       cpu:
         description: optional; default from service config if <=0
         type: integer
       memory_mb:
         description: optional; default from service config if <=0
         type: integer
+      source_vm_name:
+        description: required; name of existing VM in libvirt to clone from
+        type: string
       vm_name:
         description: optional; generated if empty
         type: string
@@ -454,15 +454,15 @@ definitions:
       network:
         description: libvirt network name
         type: string
+      sandbox_name:
+        description: libvirt domain name
+        type: string
       state:
         $ref: '#/definitions/virsh-sandbox_internal_store.SandboxState'
       ttl_seconds:
         description: optional TTL for auto GC
         type: integer
       updated_at:
-        type: string
-      vm_name:
-        description: libvirt domain name
         type: string
     type: object
   virsh-sandbox_internal_store.SandboxState:
@@ -547,11 +547,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
       summary: Destroy sandbox
       tags:
       - sandbox
@@ -571,22 +571,22 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/virsh-sandbox_internal_rest.diffRequest'
+          $ref: '#/definitions/internal_rest.diffRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.diffResponse'
+            $ref: '#/definitions/internal_rest.diffResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
       summary: Diff snapshots
       tags:
       - sandbox
@@ -612,11 +612,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "501":
           description: Not Implemented
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.generateResponse'
+            $ref: '#/definitions/internal_rest.generateResponse'
       summary: Generate configuration
       tags:
       - sandbox
@@ -636,18 +636,18 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/virsh-sandbox_internal_rest.publishRequest'
+          $ref: '#/definitions/internal_rest.publishRequest'
       produces:
       - application/json
       responses:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "501":
           description: Not Implemented
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.publishResponse'
+            $ref: '#/definitions/internal_rest.publishResponse'
       summary: Publish changes
       tags:
       - sandbox
@@ -667,22 +667,22 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/virsh-sandbox_internal_rest.runCommandRequest'
+          $ref: '#/definitions/internal_rest.runCommandRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.runCommandResponse'
+            $ref: '#/definitions/internal_rest.runCommandResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
       summary: Run command in sandbox
       tags:
       - sandbox
@@ -702,22 +702,22 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/virsh-sandbox_internal_rest.snapshotRequest'
+          $ref: '#/definitions/internal_rest.snapshotRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.snapshotResponse'
+            $ref: '#/definitions/internal_rest.snapshotResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
       summary: Create snapshot
       tags:
       - sandbox
@@ -737,7 +737,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/virsh-sandbox_internal_rest.injectSSHKeyRequest'
+          $ref: '#/definitions/internal_rest.injectSSHKeyRequest'
       produces:
       - application/json
       responses:
@@ -746,11 +746,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
       summary: Inject SSH key into sandbox
       tags:
       - sandbox
@@ -769,22 +769,22 @@ paths:
         in: body
         name: request
         schema:
-          $ref: '#/definitions/virsh-sandbox_internal_rest.startSandboxRequest'
+          $ref: '#/definitions/internal_rest.startSandboxRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.startSandboxResponse'
+            $ref: '#/definitions/internal_rest.startSandboxResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
       summary: Start sandbox
       tags:
       - sandbox
@@ -792,29 +792,30 @@ paths:
     post:
       consumes:
       - application/json
-      description: Creates a new virtual machine sandbox from a base image
+      description: Creates a new virtual machine sandbox by cloning from an existing
+        VM
       parameters:
       - description: Sandbox creation parameters
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/virsh-sandbox_internal_rest.createSandboxRequest'
+          $ref: '#/definitions/internal_rest.createSandboxRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.createSandboxResponse'
+            $ref: '#/definitions/internal_rest.createSandboxResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
       summary: Create a new sandbox
       tags:
       - sandbox
@@ -829,11 +830,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.listVMsResponse'
+            $ref: '#/definitions/internal_rest.listVMsResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/virsh-sandbox_internal_rest.ErrorResponse'
+            $ref: '#/definitions/internal_rest.ErrorResponse'
       summary: List all VMs
       tags:
       - vms

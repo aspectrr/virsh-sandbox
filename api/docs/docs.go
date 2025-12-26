@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/api/v1/sandbox/create": {
             "post": {
-                "description": "Creates a new virtual machine sandbox from a base image",
+                "description": "Creates a new virtual machine sandbox by cloning from an existing VM",
                 "consumes": [
                     "application/json"
                 ],
@@ -507,10 +507,6 @@ const docTemplate = `{
                     "description": "required",
                     "type": "string"
                 },
-                "base_image": {
-                    "description": "required; e.g. \"ubuntu-22.04.qcow2\"",
-                    "type": "string"
-                },
                 "cpu": {
                     "description": "optional; default from service config if \u003c=0",
                     "type": "integer"
@@ -518,6 +514,10 @@ const docTemplate = `{
                 "memory_mb": {
                     "description": "optional; default from service config if \u003c=0",
                     "type": "integer"
+                },
+                "source_vm_name": {
+                    "description": "required; name of existing VM in libvirt to clone from",
+                    "type": "string"
                 },
                 "vm_name": {
                     "description": "optional; generated if empty",
@@ -759,10 +759,6 @@ const docTemplate = `{
                     "description": "required",
                     "type": "string"
                 },
-                "base_image": {
-                    "description": "required; e.g. \"ubuntu-22.04.qcow2\"",
-                    "type": "string"
-                },
                 "cpu": {
                     "description": "optional; default from service config if \u003c=0",
                     "type": "integer"
@@ -770,6 +766,10 @@ const docTemplate = `{
                 "memory_mb": {
                     "description": "optional; default from service config if \u003c=0",
                     "type": "integer"
+                },
+                "source_vm_name": {
+                    "description": "required; name of existing VM in libvirt to clone from",
+                    "type": "string"
                 },
                 "vm_name": {
                     "description": "optional; generated if empty",
@@ -1157,6 +1157,10 @@ const docTemplate = `{
                     "description": "libvirt network name",
                     "type": "string"
                 },
+                "sandbox_name": {
+                    "description": "libvirt domain name",
+                    "type": "string"
+                },
                 "state": {
                     "$ref": "#/definitions/virsh-sandbox_internal_store.SandboxState"
                 },
@@ -1165,10 +1169,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "updated_at": {
-                    "type": "string"
-                },
-                "vm_name": {
-                    "description": "libvirt domain name",
                     "type": "string"
                 }
             }

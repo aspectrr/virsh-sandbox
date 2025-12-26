@@ -83,14 +83,14 @@ func NewService(mgr libvirt.Manager, st store.Store, cfg Config, opts ...Option)
 	return s
 }
 
-// CreateSandbox clones a VM from a base image and persists a Sandbox record.
+// CreateSandbox clones a VM from an existing VM and persists a Sandbox record.
 //
-// baseImage is the base qcow2 filename (e.g., ubuntu-22.04.qcow2) located in the host's base images dir.
-// vmName is optional; if empty, a name will be generated.
+// sourceSandboxName is the name of the existing VM in libvirt to clone from.
+// SandboxName is optional; if empty, a name will be generated.
 // cpu and memoryMB are optional; if <=0 the service defaults are used.
-func (s *Service) CreateSandbox(ctx context.Context, baseImage, agentID, vmName string, cpu, memoryMB int) (*store.Sandbox, error) {
-	if strings.TrimSpace(baseImage) == "" {
-		return nil, fmt.Errorf("baseImage is required")
+func (s *Service) CreateSandbox(ctx context.Context, sourceSandboxName, agentID, sandboxName string, cpu, memoryMB int) (*store.Sandbox, error) {
+	if strings.TrimSpace(sourceSandboxName) == "" {
+		return nil, fmt.Errorf("sourceSandboxName is required")
 	}
 	if strings.TrimSpace(agentID) == "" {
 		return nil, fmt.Errorf("agentID is required")
@@ -101,28 +101,28 @@ func (s *Service) CreateSandbox(ctx context.Context, baseImage, agentID, vmName 
 	if memoryMB <= 0 {
 		memoryMB = s.cfg.DefaultMemoryMB
 	}
-	if vmName == "" {
-		vmName = fmt.Sprintf("sbx-%s", shortID())
+	if sandboxName == "" {
+		sandboxName = fmt.Sprintf("sbx-%s", shortID())
 	}
 
 	jobID := fmt.Sprintf("JOB-%s", shortID())
 
-	// Create the VM via libvirt manager
-	_, err := s.mgr.CloneVM(ctx, baseImage, vmName, cpu, memoryMB, s.cfg.Network)
+	// Create the VM via libvirt manager by cloning from existing VM
+	_, err := s.mgr.CloneFromVM(ctx, sourceSandboxName, sandboxName, cpu, memoryMB, s.cfg.Network)
 	if err != nil {
 		return nil, fmt.Errorf("clone vm: %w", err)
 	}
 
 	sb := &store.Sandbox{
-		ID:        fmt.Sprintf("SBX-%s", shortID()),
-		JobID:     jobID,
-		AgentID:   agentID,
-		VMName:    vmName,
-		BaseImage: baseImage,
-		Network:   s.cfg.Network,
-		State:     store.SandboxStateCreated,
-		CreatedAt: s.timeNowFn().UTC(),
-		UpdatedAt: s.timeNowFn().UTC(),
+		ID:          fmt.Sprintf("SBX-%s", shortID()),
+		JobID:       jobID,
+		AgentID:     agentID,
+		SandboxName: sandboxName,
+		BaseImage:   sourceSandboxName, // Store the source VM name for reference
+		Network:     s.cfg.Network,
+		State:       store.SandboxStateCreated,
+		CreatedAt:   s.timeNowFn().UTC(),
+		UpdatedAt:   s.timeNowFn().UTC(),
 	}
 	if err := s.store.CreateSandbox(ctx, sb); err != nil {
 		return nil, fmt.Errorf("persist sandbox: %w", err)
@@ -149,7 +149,7 @@ func (s *Service) InjectSSHKey(ctx context.Context, sandboxID, username, publicK
 	if err != nil {
 		return err
 	}
-	if err := s.mgr.InjectSSHKey(ctx, sb.VMName, username, publicKey); err != nil {
+	if err := s.mgr.InjectSSHKey(ctx, sb.SandboxName, username, publicKey); err != nil {
 		return fmt.Errorf("inject ssh key: %w", err)
 	}
 	sb.UpdatedAt = s.timeNowFn().UTC()
@@ -167,7 +167,7 @@ func (s *Service) StartSandbox(ctx context.Context, sandboxID string, waitForIP 
 		return "", err
 	}
 
-	if err := s.mgr.StartVM(ctx, sb.VMName); err != nil {
+	if err := s.mgr.StartVM(ctx, sb.SandboxName); err != nil {
 		_ = s.store.UpdateSandboxState(ctx, sb.ID, store.SandboxStateError, nil)
 		return "", fmt.Errorf("start vm: %w", err)
 	}
@@ -179,7 +179,7 @@ func (s *Service) StartSandbox(ctx context.Context, sandboxID string, waitForIP 
 
 	var ip string
 	if waitForIP {
-		ip, err = s.mgr.GetIPAddress(ctx, sb.VMName, s.cfg.IPDiscoveryTimeout)
+		ip, err = s.mgr.GetIPAddress(ctx, sb.SandboxName, s.cfg.IPDiscoveryTimeout)
 		if err != nil {
 			// Still mark as running even if we couldn't discover the IP
 			_ = s.store.UpdateSandboxState(ctx, sb.ID, store.SandboxStateRunning, nil)
@@ -206,7 +206,7 @@ func (s *Service) StopSandbox(ctx context.Context, sandboxID string, force bool)
 	if err != nil {
 		return err
 	}
-	if err := s.mgr.StopVM(ctx, sb.VMName, force); err != nil {
+	if err := s.mgr.StopVM(ctx, sb.SandboxName, force); err != nil {
 		return fmt.Errorf("stop vm: %w", err)
 	}
 	return s.store.UpdateSandboxState(ctx, sb.ID, store.SandboxStateStopped, sb.IPAddress)
@@ -222,7 +222,7 @@ func (s *Service) DestroySandbox(ctx context.Context, sandboxID string) error {
 	if err != nil {
 		return err
 	}
-	if err := s.mgr.DestroyVM(ctx, sb.VMName); err != nil {
+	if err := s.mgr.DestroyVM(ctx, sb.SandboxName); err != nil {
 		return fmt.Errorf("destroy vm: %w", err)
 	}
 	return s.store.DeleteSandbox(ctx, sandboxID)
@@ -237,7 +237,7 @@ func (s *Service) CreateSnapshot(ctx context.Context, sandboxID, name string, ex
 	if err != nil {
 		return nil, err
 	}
-	ref, err := s.mgr.CreateSnapshot(ctx, sb.VMName, name, external)
+	ref, err := s.mgr.CreateSnapshot(ctx, sb.SandboxName, name, external)
 	if err != nil {
 		return nil, fmt.Errorf("create snapshot: %w", err)
 	}
@@ -269,7 +269,7 @@ func (s *Service) DiffSnapshots(ctx context.Context, sandboxID, from, to string)
 	}
 
 	// Best-effort: get a plan (notes/instructions) from manager; ignore failure.
-	_, _ = s.mgr.DiffSnapshot(ctx, sb.VMName, from, to)
+	_, _ = s.mgr.DiffSnapshot(ctx, sb.SandboxName, from, to)
 
 	// For now, compose CommandsRun from command history as partial diff signal.
 	cmds, err := s.store.ListCommands(ctx, sandboxID, &store.ListOptions{OrderBy: "started_at", Asc: true})
@@ -335,7 +335,7 @@ func (s *Service) RunCommand(ctx context.Context, sandboxID, username, privateKe
 	if sb.IPAddress != nil && *sb.IPAddress != "" {
 		ip = *sb.IPAddress
 	} else {
-		ip, err = s.mgr.GetIPAddress(ctx, sb.VMName, s.cfg.IPDiscoveryTimeout)
+		ip, err = s.mgr.GetIPAddress(ctx, sb.SandboxName, s.cfg.IPDiscoveryTimeout)
 		if err != nil {
 			return nil, fmt.Errorf("discover ip: %w", err)
 		}

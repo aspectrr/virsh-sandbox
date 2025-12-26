@@ -84,15 +84,15 @@ const (
 
 // Sandbox represents a disposable VM environment cloned from a golden image.
 type Sandbox struct {
-	ID         string       `json:"id" db:"id"`                   // e.g., "SBX-0001"
-	JobID      string       `json:"job_id" db:"job_id"`           // correlation id for the end-to-end change set
-	AgentID    string       `json:"agent_id" db:"agent_id"`       // requesting agent identity
-	VMName     string       `json:"vm_name" db:"vm_name"`         // libvirt domain name
-	BaseImage  string       `json:"base_image" db:"base_image"`   // base qcow2 filename
-	Network    string       `json:"network" db:"network"`         // libvirt network name
-	IPAddress  *string      `json:"ip_address,omitempty" db:"ip"` // discovered IP (if any)
-	State      SandboxState `json:"state" db:"state"`
-	TTLSeconds *int         `json:"ttl_seconds,omitempty" db:"ttl_seconds"` // optional TTL for auto GC
+	ID          string       `json:"id" db:"id"`                     // e.g., "SBX-0001"
+	JobID       string       `json:"job_id" db:"job_id"`             // correlation id for the end-to-end change set
+	AgentID     string       `json:"agent_id" db:"agent_id"`         // requesting agent identity
+	SandboxName string       `json:"sandbox_name" db:"sandbox_name"` // libvirt domain name
+	BaseImage   string       `json:"base_image" db:"base_image"`     // base qcow2 filename
+	Network     string       `json:"network" db:"network"`           // libvirt network name
+	IPAddress   *string      `json:"ip_address,omitempty" db:"ip"`   // discovered IP (if any)
+	State       SandboxState `json:"state" db:"state"`
+	TTLSeconds  *int         `json:"ttl_seconds,omitempty" db:"ttl_seconds"` // optional TTL for auto GC
 
 	// Metadata
 	CreatedAt time.Time  `json:"created_at" db:"created_at"`

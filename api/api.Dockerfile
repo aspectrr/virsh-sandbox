@@ -36,7 +36,7 @@ COPY . .
 # Build API (with CGO for libvirt bindings)
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
-    go build -ldflags="-s -w" -o /out/api ./cmd/api
+    go build --tags libvirt -ldflags="-s -w" -o /out/api ./cmd/api
 
 # ------------------------------------------------------------------------------
 # Runtime stage: include libvirt/qemu tools and run the API
@@ -88,10 +88,6 @@ ENV API_HTTP_ADDR=:8080 \
 
 # Expose API port
 EXPOSE 8080
-
-# Healthcheck (expects API to listen on API_HTTP_ADDR)
-HEALTHCHECK --interval=30s --timeout=5s --retries=5 \
-    CMD curl -fsSL "http://127.0.0.1:8080/healthz" || exit 1
 
 # Notes for runtime (documented here for convenience):
 # - Mount libvirt socket (read/write) if talking to local libvirtd:

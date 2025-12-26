@@ -7,7 +7,6 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Table,
   TableBody,
@@ -17,48 +16,23 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { Button } from "~/components/ui/button";
-import {useGetApiV1}
+import { useGetApiV1Vms } from "~/virsh-sandbox/vms/vms";
+import { usePostApiV1SandboxCreate } from "~/virsh-sandbox/sandbox/sandbox";
+import { type VirshSandboxInternalRestVmInfo } from "~/virsh-sandbox/model";
 import { toast } from "sonner";
 
 export function VMTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [cloningId, setCloningId] = React.useState<string | null>(null);
-  const queryClient = useQueryClient();
 
   // Fetch VMs using React Query
-  const {
-    data: vms = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["vms"],
-    queryFn: fetchVMs,
-  });
+  const { data: vms = [], isLoading, isError } = useGetApiV1Vms();
 
   // Clone VM mutation
-  const cloneMutation = useMutation({
-    mutationFn: cloneVM,
-    onSuccess: () => {
-      // Refetch VMs after successful clone
-      queryClient.invalidateQueries({ queryKey: ["vms"] });
-      toast({
-        title: "Success",
-        description: "VM cloned successfully",
-      });
-      setCloningId(null);
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to clone VM",
-        variant: "destructive",
-      });
-      setCloningId(null);
-    },
-  });
+  const cloneMutation = usePostApiV1SandboxCreate();
 
   // Define columns
-  const columns: ColumnDef<VM>[] = [
+  const columns: ColumnDef<VirshSandboxInternalRestVmInfo>[] = [
     {
       accessorKey: "name",
       header: "Name",
@@ -79,13 +53,15 @@ export function VMTable() {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
-        const isCloning = cloningId === row.original.id;
+        const isCloning = cloningId === row.original.uuid;
         return (
           <Button
             size="sm"
             onClick={() => {
-              setCloningId(row.original.id);
-              cloneMutation.mutate(row.original.id);
+              setCloningId(row?.original?.uuid ?? null);
+              cloneMutation.mutate({
+                data: { uuid: row?.original?.uuid ?? null },
+              });
             }}
             disabled={isCloning}
           >
@@ -98,7 +74,7 @@ export function VMTable() {
 
   // Create table instance
   const table = useReactTable({
-    data: vms,
+    data: vms as VirshSandboxInternalRestVmInfo[],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

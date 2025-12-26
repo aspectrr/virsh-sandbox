@@ -120,11 +120,11 @@ func (s *Server) routes() {
 // --- Request/Response DTOs ---
 
 type createSandboxRequest struct {
-	BaseImage string `json:"base_image"`          // required; e.g. "ubuntu-22.04.qcow2"
-	AgentID   string `json:"agent_id"`            // required
-	VMName    string `json:"vm_name,omitempty"`   // optional; generated if empty
-	CPU       int    `json:"cpu,omitempty"`       // optional; default from service config if <=0
-	MemoryMB  int    `json:"memory_mb,omitempty"` // optional; default from service config if <=0
+	SourceVMName string `json:"source_vm_name"`      // required; name of existing VM in libvirt to clone from
+	AgentID      string `json:"agent_id"`            // required
+	VMName       string `json:"vm_name,omitempty"`   // optional; generated if empty
+	CPU          int    `json:"cpu,omitempty"`       // optional; default from service config if <=0
+	MemoryMB     int    `json:"memory_mb,omitempty"` // optional; default from service config if <=0
 }
 
 type createSandboxResponse struct {
@@ -211,7 +211,7 @@ type listVMsResponse struct {
 // --- Handlers ---
 
 // @Summary Create a new sandbox
-// @Description Creates a new virtual machine sandbox from a base image
+// @Description Creates a new virtual machine sandbox by cloning from an existing VM
 // @Tags sandbox
 // @Accept json
 // @Produce json
@@ -226,12 +226,12 @@ func (s *Server) handleCreateSandbox(w http.ResponseWriter, r *http.Request) {
 		serverError.RespondError(w, http.StatusBadRequest, err)
 		return
 	}
-	if req.BaseImage == "" || req.AgentID == "" {
-		serverError.RespondError(w, http.StatusBadRequest, errors.New("base_image and agent_id are required"))
+	if req.SourceVMName == "" || req.AgentID == "" {
+		serverError.RespondError(w, http.StatusBadRequest, errors.New("source_vm_name and agent_id are required"))
 		return
 	}
 
-	sb, err := s.vmSvc.CreateSandbox(r.Context(), req.BaseImage, req.AgentID, req.VMName, req.CPU, req.MemoryMB)
+	sb, err := s.vmSvc.CreateSandbox(r.Context(), req.SourceVMName, req.AgentID, req.VMName, req.CPU, req.MemoryMB)
 	if err != nil {
 		serverError.RespondError(w, http.StatusInternalServerError, fmt.Errorf("create sandbox: %w", err))
 		return

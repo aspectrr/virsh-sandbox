@@ -23,10 +23,10 @@ export interface VirshSandboxInternalStoreSandbox {
   job_id?: string;
   /** libvirt network name */
   network?: string;
+  /** libvirt domain name */
+  sandbox_name?: string;
   state?: VirshSandboxInternalStoreSandboxState;
   /** optional TTL for auto GC */
   ttl_seconds?: number;
   updated_at?: string;
-  /** libvirt domain name */
-  vm_name?: string;
 }

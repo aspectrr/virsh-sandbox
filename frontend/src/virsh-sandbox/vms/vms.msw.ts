@@ -19,14 +19,14 @@ import type {
 } from 'msw';
 
 import type {
-  VirshSandboxInternalRestListVMsResponse
+  InternalRestListVMsResponse
 } from '.././model';
 
 
-export const getGetApiV1VmsResponseMock = (overrideResponse: Partial< VirshSandboxInternalRestListVMsResponse > = {}): VirshSandboxInternalRestListVMsResponse => ({vms: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({disk_path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), persistent: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), state: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), uuid: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), ...overrideResponse})
+export const getGetApiV1VmsResponseMock = (overrideResponse: Partial< InternalRestListVMsResponse > = {}): InternalRestListVMsResponse => ({vms: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({disk_path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), persistent: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), state: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), uuid: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), ...overrideResponse})
 
 
-export const getGetApiV1VmsMockHandler = (overrideResponse?: VirshSandboxInternalRestListVMsResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<VirshSandboxInternalRestListVMsResponse> | VirshSandboxInternalRestListVMsResponse), options?: RequestHandlerOptions) => {
+export const getGetApiV1VmsMockHandler = (overrideResponse?: InternalRestListVMsResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<InternalRestListVMsResponse> | InternalRestListVMsResponse), options?: RequestHandlerOptions) => {
   return http.get('*/api/v1/vms', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined

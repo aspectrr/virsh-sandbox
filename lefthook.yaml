@@ -1,6 +1,12 @@
 pre-commit:
   parallel: false
   commands:
+    0-go-vet-tmux-client:
+      glob: "*.go"
+      run: cd tmux-client && go vet ./...
+    1-go-vet-tmux-client:
+      glob: "*.go"
+      run: cd api && go vet ./...
     1-generate-tmux-client-openapi:
       glob: "*.go"
       run: cd tmux-client && swag init --dir .,./internal/api,./internal/audit,./internal/config,./internal/store,./internal/tools,./internal/types --generalInfo ./cmd/server/main.go --parseDependency --parseInternal
@@ -17,9 +23,6 @@ pre-commit:
       glob: "*.go"
       run: cd frontend && bun run generate-api
       stage_fixed: true
-    # go-vet:
-    #   glob: "*.go"
-    #   run: go vet api tmux-client
     # go-lint-virsh-sandbox:
     #   glob: "*.go"
     #   run: cd api && golangci-lint run
