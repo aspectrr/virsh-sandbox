@@ -5,10 +5,10 @@ pre-commit:
       run: cd frontend && bun run generate-api
     generate-tmux-client-openapi:
       glob: "*.go"
-      run: swag init --dir ./tmux-client,./tmux-client/internal/api,./tmux-client/internal/audit,./tmux-client/internal/config,./tmux-client/internal/store,./tmux-client/internal/tools,./tmux-client/internal/types --generalInfo cmd/server/main.go --parseDependency --parseInternal
+      run: cd tmux-client && swag init --dir .,./internal/api,./internal/audit,./internal/config,./internal/store,./internal/tools,./internal/types --generalInfo ./cmd/server/main.go --parseDependency --parseInternal
     generate-virsh-sandbox-openapi:
       glob: "*.go"
-      run: swag init --dir ./api,./api/internal/ansible,./api/internal/diff,./api/internal/error,./api/internal/rest,./api/internal/vm,./api/internal/workflow --generalInfo cmd/api/main.go --parseDependency --parseInternal
+      run: cd api && swag init --dir .,./internal/ansible,./internal/diff,./internal/error,./internal/rest,./internal/vm,./internal/workflow --generalInfo ./cmd/api/main.go --parseDependency --parseInternal
     go-fmt:
       glob: "*.go"
       run: gofumpt -l -w api tmux-client
