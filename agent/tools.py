@@ -12,11 +12,11 @@ TOOLS = [
                 "type": "object",
                 "properties": {
                     "pane_id": {"type": "string"},
-                    "last_n_lines": {"type": "integer"}
+                    "last_n_lines": {"type": "integer"},
                 },
-                "required": ["pane_id"]
-            }
-        }
+                "required": ["pane_id"],
+            },
+        },
     },
     {
         "type": "function",
@@ -28,11 +28,11 @@ TOOLS = [
                 "properties": {
                     "path": {"type": "string"},
                     "old_text": {"type": "string"},
-                    "new_text": {"type": "string"}
+                    "new_text": {"type": "string"},
                 },
-                "required": ["path", "old_text", "new_text"]
-            }
-        }
+                "required": ["path", "old_text", "new_text"],
+            },
+        },
     },
     {
         "type": "function",
@@ -43,15 +43,12 @@ TOOLS = [
                 "type": "object",
                 "properties": {
                     "command": {"type": "string"},
-                    "args": {
-                        "type": "array",
-                        "items": {"type": "string"}
-                    },
-                    "dry_run": {"type": "boolean"}
+                    "args": {"type": "array", "items": {"type": "string"}},
+                    "dry_run": {"type": "boolean"},
                 },
-                "required": ["command"]
-            }
-        }
+                "required": ["command"],
+            },
+        },
     },
     {
         "type": "function",
@@ -60,12 +57,10 @@ TOOLS = [
             "description": "Request human approval for a sensitive action",
             "parameters": {
                 "type": "object",
-                "properties": {
-                    "prompt": {"type": "string"}
-                },
-                "required": ["prompt"]
-            }
-        }
+                "properties": {"prompt": {"type": "string"}},
+                "required": ["prompt"],
+            },
+        },
     },
     {
         "type": "function",
@@ -76,14 +71,11 @@ TOOLS = [
                 "type": "object",
                 "properties": {
                     "action": {"type": "string"},
-                    "steps": {
-                        "type": "array",
-                        "items": {"type": "string"}
-                    },
-                    "current_step": {"type": "integer"}
+                    "steps": {"type": "array", "items": {"type": "string"}},
+                    "current_step": {"type": "integer"},
                 },
-                "required": ["action"]
-            }
-        }
-    }
+                "required": ["action"],
+            },
+        },
+    },
 ]

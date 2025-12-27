@@ -2,7 +2,7 @@ import json
 import time
 import requests
 from typing import Dict, Any, List
-from tools import *
+from tools import TOOLS
 
 from openai import OpenAI
 
@@ -18,6 +18,7 @@ client = OpenAI()
 # ---------------------------
 # Tool dispatcher
 # ---------------------------
+
 
 def call_tool(name: str, args: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -43,9 +44,11 @@ def call_tool(name: str, args: Dict[str, Any]) -> Dict[str, Any]:
 
     raise ValueError(f"Unknown tool: {name}")
 
+
 # ---------------------------
 # Agent loop
 # ---------------------------
+
 
 def run_agent(user_goal: str):
     messages: List[Dict[str, Any]] = [
@@ -58,20 +61,14 @@ def run_agent(user_goal: str):
                 "- No shell pipelines or chained commands.\n"
                 "- Use ask_human for risky or destructive actions.\n"
                 "- Track progress using the plan tool.\n"
-            )
+            ),
         },
-        {
-            "role": "user",
-            "content": user_goal
-        }
+        {"role": "user", "content": user_goal},
     ]
 
     while True:
         response = client.chat.completions.create(
-            model=MODEL,
-            messages=messages,
-            tools=TOOLS,
-            tool_choice="auto"
+            model=MODEL, messages=messages, tools=TOOLS, tool_choice="auto"
         )
 
         msg = response.choices[0].message
@@ -87,12 +84,14 @@ def run_agent(user_goal: str):
 
                 result = call_tool(tool_name, args)
 
-                messages.append({
-                    "role": "tool",
-                    "tool_call_id": tool_call.id,
-                    "name": tool_name,
-                    "content": json.dumps(result)
-                })
+                messages.append(
+                    {
+                        "role": "tool",
+                        "tool_call_id": tool_call.id,
+                        "name": tool_name,
+                        "content": json.dumps(result),
+                    }
+                )
 
                 # If ask_human was rejected, stop
                 if tool_name == "ask_human" and not result.get("approved", False):
@@ -101,10 +100,7 @@ def run_agent(user_goal: str):
 
         else:
             # Normal assistant message
-            messages.append({
-                "role": "assistant",
-                "content": msg.content
-            })
+            messages.append({"role": "assistant", "content": msg.content})
 
             # Heuristic stop condition
             if "done" in (msg.content or "").lower():
@@ -112,6 +108,7 @@ def run_agent(user_goal: str):
                 return
 
         time.sleep(0.2)
+
 
 # ---------------------------
 # Entry point
