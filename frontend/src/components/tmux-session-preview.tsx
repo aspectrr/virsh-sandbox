@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { ArrowLeft } from "lucide-react";
-import {useGetApiV1T}
 
 export default function TmuxSessionDetailsPage() {
   const {

@@ -37,11 +37,14 @@ RUN mkdir -p /app/data /app/config /app/plans /app/backups \
 # Copy binary from builder
 COPY --from=builder /tmux-agent /usr/local/bin/tmux-agent
 
-# Copy example config
-COPY config.yaml /app/config/config.yaml
+# Copy API documentation
+COPY ./docs /usr/local/bin/docs
 
-# Set working directory
-WORKDIR /app
+# Copy example config
+COPY config.yaml /usr/local/bin/config.yaml
+
+# Set working directory to where your binary and docs are
+WORKDIR /usr/local/bin
 
 # Switch to non-root user
 USER agent
@@ -56,10 +59,6 @@ ENV TMUX_AGENT_HOST=0.0.0.0 \
 # Expose port
 EXPOSE 8081
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-    CMD wget -qO- http://localhost:8081/health || exit 1
-
 # Run the server
 ENTRYPOINT ["/usr/local/bin/tmux-agent"]
-CMD ["-config", "/app/config/config.yaml"]
+CMD ["-config", "/usr/local/bin/config.yaml"]

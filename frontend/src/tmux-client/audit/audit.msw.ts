@@ -19,40 +19,40 @@ import type {
 } from 'msw';
 
 import type {
-  GetApiV1AuditStats200,
+  GetV1AuditStats200,
   TmuxClientInternalTypesAuditQueryResponse
 } from '.././model';
 
 
-export const getPostApiV1AuditQueryResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesAuditQueryResponse > = {}): TmuxClientInternalTypesAuditQueryResponse => ({entries: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({action: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), arguments: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.number.int({min: undefined, max: undefined}))), undefined]), client_ip: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), duration_ms: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), error: faker.helpers.arrayElement([{code: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), details: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), message: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), result: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.number.int({min: undefined, max: undefined}))), undefined]), timestamp: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), tool: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), user_agent: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), has_more: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), total_count: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ...overrideResponse})
+export const getPostV1AuditQueryResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesAuditQueryResponse > = {}): TmuxClientInternalTypesAuditQueryResponse => ({entries: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({action: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), arguments: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.number.int({min: undefined, max: undefined}))), undefined]), client_ip: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), duration_ms: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), error: faker.helpers.arrayElement([{code: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), details: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), message: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), result: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.number.int({min: undefined, max: undefined}))), undefined]), timestamp: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), tool: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), user_agent: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), has_more: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), total_count: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ...overrideResponse})
 
-export const getGetApiV1AuditStatsResponseMock = (): GetApiV1AuditStats200 => ({})
+export const getGetV1AuditStatsResponseMock = (): GetV1AuditStats200 => ({})
 
 
-export const getPostApiV1AuditQueryMockHandler = (overrideResponse?: TmuxClientInternalTypesAuditQueryResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesAuditQueryResponse> | TmuxClientInternalTypesAuditQueryResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/audit/query', async (info) => {await delay(1000);
+export const getPostV1AuditQueryMockHandler = (overrideResponse?: TmuxClientInternalTypesAuditQueryResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesAuditQueryResponse> | TmuxClientInternalTypesAuditQueryResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/audit/query', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1AuditQueryResponseMock()),
+    : getPostV1AuditQueryResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getGetApiV1AuditStatsMockHandler = (overrideResponse?: GetApiV1AuditStats200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetApiV1AuditStats200> | GetApiV1AuditStats200), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/audit/stats', async (info) => {await delay(1000);
+export const getGetV1AuditStatsMockHandler = (overrideResponse?: GetV1AuditStats200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetV1AuditStats200> | GetV1AuditStats200), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/audit/stats', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1AuditStatsResponseMock()),
+    : getGetV1AuditStatsResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 export const getAuditMock = () => [
-  getPostApiV1AuditQueryMockHandler(),
-  getGetApiV1AuditStatsMockHandler()
+  getPostV1AuditQueryMockHandler(),
+  getGetV1AuditStatsMockHandler()
 ]

@@ -6,6 +6,11 @@
  * OpenAPI spec version: 0.0.1-beta
  */
 
+export * from './getV1Health200';
+export * from './internalAnsibleJob';
+export * from './internalAnsibleJobRequest';
+export * from './internalAnsibleJobResponse';
+export * from './internalAnsibleJobStatus';
 export * from './internalRestCreateSandboxRequest';
 export * from './internalRestCreateSandboxResponse';
 export * from './internalRestDiffRequest';
@@ -25,6 +30,11 @@ export * from './internalRestStartSandboxRequest';
 export * from './internalRestStartSandboxResponse';
 export * from './internalRestVmInfo';
 export * from './timeDuration';
+export * from './virshSandboxInternalAnsibleJob';
+export * from './virshSandboxInternalAnsibleJobRequest';
+export * from './virshSandboxInternalAnsibleJobResponse';
+export * from './virshSandboxInternalAnsibleJobStatus';
+export * from './virshSandboxInternalErrorErrorResponse';
 export * from './virshSandboxInternalRestCreateSandboxRequest';
 export * from './virshSandboxInternalRestCreateSandboxResponse';
 export * from './virshSandboxInternalRestDiffRequest';

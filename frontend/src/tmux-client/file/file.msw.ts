@@ -19,8 +19,8 @@ import type {
 } from 'msw';
 
 import type {
-  PostApiV1FileExists200,
-  PostApiV1FileHash200,
+  PostV1FileExists200,
+  PostV1FileHash200,
   TmuxClientInternalTypesCopyFileResponse,
   TmuxClientInternalTypesDeleteFileResponse,
   TmuxClientInternalTypesEditFileResponse,
@@ -30,127 +30,127 @@ import type {
 } from '.././model';
 
 
-export const getPostApiV1FileCopyResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesCopyFileResponse > = {}): TmuxClientInternalTypesCopyFileResponse => ({bytes_copied: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), copied: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), destination: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), source: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
+export const getPostV1FileCopyResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesCopyFileResponse > = {}): TmuxClientInternalTypesCopyFileResponse => ({bytes_copied: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), copied: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), destination: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), source: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
 
-export const getPostApiV1FileDeleteResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesDeleteFileResponse > = {}): TmuxClientInternalTypesDeleteFileResponse => ({deleted: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), was_dir: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
+export const getPostV1FileDeleteResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesDeleteFileResponse > = {}): TmuxClientInternalTypesDeleteFileResponse => ({deleted: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), was_dir: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
 
-export const getPostApiV1FileEditResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesEditFileResponse > = {}): TmuxClientInternalTypesEditFileResponse => ({content_after: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), content_before: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), diff: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), edited: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), replacements: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ...overrideResponse})
+export const getPostV1FileEditResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesEditFileResponse > = {}): TmuxClientInternalTypesEditFileResponse => ({content_after: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), content_before: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), diff: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), edited: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), replacements: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ...overrideResponse})
 
-export const getPostApiV1FileExistsResponseMock = (): PostApiV1FileExists200 => ({})
+export const getPostV1FileExistsResponseMock = (): PostV1FileExists200 => ({})
 
-export const getPostApiV1FileHashResponseMock = (): PostApiV1FileHash200 => ({
+export const getPostV1FileHashResponseMock = (): PostV1FileHash200 => ({
         [faker.string.alphanumeric(5)]: faker.string.alpha({length: {min: 10, max: 20}})
       })
 
-export const getPostApiV1FileListResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesListDirResponse > = {}): TmuxClientInternalTypesListDirResponse => ({files: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({is_dir: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), mod_time: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), mode: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), size: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
+export const getPostV1FileListResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesListDirResponse > = {}): TmuxClientInternalTypesListDirResponse => ({files: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({is_dir: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), mod_time: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), mode: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), size: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
 
-export const getPostApiV1FileReadResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesReadFileResponse > = {}): TmuxClientInternalTypesReadFileResponse => ({content: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), from_line: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), mod_time: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), mode: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), size: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), to_line: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), total_lines: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), truncated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
+export const getPostV1FileReadResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesReadFileResponse > = {}): TmuxClientInternalTypesReadFileResponse => ({content: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), from_line: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), mod_time: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), mode: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), size: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), to_line: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), total_lines: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), truncated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
 
-export const getPostApiV1FileWriteResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesWriteFileResponse > = {}): TmuxClientInternalTypesWriteFileResponse => ({bytes_written: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), created: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), written: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
+export const getPostV1FileWriteResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesWriteFileResponse > = {}): TmuxClientInternalTypesWriteFileResponse => ({bytes_written: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), created: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), written: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
 
 
-export const getPostApiV1FileCopyMockHandler = (overrideResponse?: TmuxClientInternalTypesCopyFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesCopyFileResponse> | TmuxClientInternalTypesCopyFileResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/file/copy', async (info) => {await delay(1000);
+export const getPostV1FileCopyMockHandler = (overrideResponse?: TmuxClientInternalTypesCopyFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesCopyFileResponse> | TmuxClientInternalTypesCopyFileResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/file/copy', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1FileCopyResponseMock()),
+    : getPostV1FileCopyResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1FileDeleteMockHandler = (overrideResponse?: TmuxClientInternalTypesDeleteFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesDeleteFileResponse> | TmuxClientInternalTypesDeleteFileResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/file/delete', async (info) => {await delay(1000);
+export const getPostV1FileDeleteMockHandler = (overrideResponse?: TmuxClientInternalTypesDeleteFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesDeleteFileResponse> | TmuxClientInternalTypesDeleteFileResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/file/delete', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1FileDeleteResponseMock()),
+    : getPostV1FileDeleteResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1FileEditMockHandler = (overrideResponse?: TmuxClientInternalTypesEditFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesEditFileResponse> | TmuxClientInternalTypesEditFileResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/file/edit', async (info) => {await delay(1000);
+export const getPostV1FileEditMockHandler = (overrideResponse?: TmuxClientInternalTypesEditFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesEditFileResponse> | TmuxClientInternalTypesEditFileResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/file/edit', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1FileEditResponseMock()),
+    : getPostV1FileEditResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1FileExistsMockHandler = (overrideResponse?: PostApiV1FileExists200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostApiV1FileExists200> | PostApiV1FileExists200), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/file/exists', async (info) => {await delay(1000);
+export const getPostV1FileExistsMockHandler = (overrideResponse?: PostV1FileExists200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostV1FileExists200> | PostV1FileExists200), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/file/exists', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1FileExistsResponseMock()),
+    : getPostV1FileExistsResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1FileHashMockHandler = (overrideResponse?: PostApiV1FileHash200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostApiV1FileHash200> | PostApiV1FileHash200), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/file/hash', async (info) => {await delay(1000);
+export const getPostV1FileHashMockHandler = (overrideResponse?: PostV1FileHash200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostV1FileHash200> | PostV1FileHash200), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/file/hash', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1FileHashResponseMock()),
+    : getPostV1FileHashResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1FileListMockHandler = (overrideResponse?: TmuxClientInternalTypesListDirResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesListDirResponse> | TmuxClientInternalTypesListDirResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/file/list', async (info) => {await delay(1000);
+export const getPostV1FileListMockHandler = (overrideResponse?: TmuxClientInternalTypesListDirResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesListDirResponse> | TmuxClientInternalTypesListDirResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/file/list', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1FileListResponseMock()),
+    : getPostV1FileListResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1FileReadMockHandler = (overrideResponse?: TmuxClientInternalTypesReadFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesReadFileResponse> | TmuxClientInternalTypesReadFileResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/file/read', async (info) => {await delay(1000);
+export const getPostV1FileReadMockHandler = (overrideResponse?: TmuxClientInternalTypesReadFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesReadFileResponse> | TmuxClientInternalTypesReadFileResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/file/read', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1FileReadResponseMock()),
+    : getPostV1FileReadResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1FileWriteMockHandler = (overrideResponse?: TmuxClientInternalTypesWriteFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesWriteFileResponse> | TmuxClientInternalTypesWriteFileResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/file/write', async (info) => {await delay(1000);
+export const getPostV1FileWriteMockHandler = (overrideResponse?: TmuxClientInternalTypesWriteFileResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesWriteFileResponse> | TmuxClientInternalTypesWriteFileResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/file/write', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1FileWriteResponseMock()),
+    : getPostV1FileWriteResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 export const getFileMock = () => [
-  getPostApiV1FileCopyMockHandler(),
-  getPostApiV1FileDeleteMockHandler(),
-  getPostApiV1FileEditMockHandler(),
-  getPostApiV1FileExistsMockHandler(),
-  getPostApiV1FileHashMockHandler(),
-  getPostApiV1FileListMockHandler(),
-  getPostApiV1FileReadMockHandler(),
-  getPostApiV1FileWriteMockHandler()
+  getPostV1FileCopyMockHandler(),
+  getPostV1FileDeleteMockHandler(),
+  getPostV1FileEditMockHandler(),
+  getPostV1FileExistsMockHandler(),
+  getPostV1FileHashMockHandler(),
+  getPostV1FileListMockHandler(),
+  getPostV1FileReadMockHandler(),
+  getPostV1FileWriteMockHandler()
 ]

@@ -30,8 +30,8 @@ var Version = "0.0.1-beta"
 // @title tmux-client API
 // @version 0.0.1-beta
 // @description API for managing tmux sessions and windows
-// @host localhost:8080
-// @BasePath /v1
+// @host localhost:8081
+// @BasePath /
 func main() {
 	// Parse command line flags
 	configPath := flag.String("config", "", "Path to configuration file")
@@ -129,11 +129,11 @@ func main() {
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
 	r.Use(middleware.SecurityHeaders)
-	r.Use(middleware.CORS)
+	// r.Use(middleware.CORS)
 	r.Use(middleware.MaxBodySize)
-	r.Use(middleware.IPWhitelist)
+	// r.Use(middleware.IPWhitelist)
 	r.Use(middleware.RateLimit)
-	r.Use(middleware.Auth)
+	// r.Use(middleware.Auth)
 
 	// Register API routes
 	handler.RegisterRoutes(r)

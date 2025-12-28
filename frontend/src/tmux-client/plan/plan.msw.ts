@@ -23,9 +23,9 @@ import {
   TmuxClientInternalTypesStepStatus
 } from '.././model';
 import type {
-  DeleteApiV1PlanPlanID200,
-  PostApiV1PlanPlanIDAbort200,
-  PostApiV1PlanPlanIDAdvance200,
+  DeleteV1PlanPlanID200,
+  PostV1PlanPlanIDAbort200,
+  PostV1PlanPlanIDAdvance200,
   TmuxClientInternalTypesCreatePlanResponse,
   TmuxClientInternalTypesGetPlanResponse,
   TmuxClientInternalTypesListPlansResponse,
@@ -33,110 +33,110 @@ import type {
 } from '.././model';
 
 
-export const getGetApiV1PlanResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesListPlansResponse > = {}): TmuxClientInternalTypesListPlansResponse => ({plans: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), current_step: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesPlanStatus)), undefined]), steps: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), error: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), result: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), started_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesStepStatus)), undefined])})), undefined]), updated_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), ...overrideResponse})
+export const getGetV1PlanResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesListPlansResponse > = {}): TmuxClientInternalTypesListPlansResponse => ({plans: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), current_step: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesPlanStatus)), undefined]), steps: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), error: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), result: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), started_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesStepStatus)), undefined])})), undefined]), updated_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), ...overrideResponse})
 
-export const getDeleteApiV1PlanPlanIDResponseMock = (): DeleteApiV1PlanPlanID200 => ({})
+export const getDeleteV1PlanPlanIDResponseMock = (): DeleteV1PlanPlanID200 => ({})
 
-export const getGetApiV1PlanPlanIDResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesGetPlanResponse > = {}): TmuxClientInternalTypesGetPlanResponse => ({plan: faker.helpers.arrayElement([{completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), current_step: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesPlanStatus)), undefined]), steps: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), error: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), result: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), started_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesStepStatus)), undefined])})), undefined]), updated_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), ...overrideResponse})
+export const getGetV1PlanPlanIDResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesGetPlanResponse > = {}): TmuxClientInternalTypesGetPlanResponse => ({plan: faker.helpers.arrayElement([{completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), current_step: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesPlanStatus)), undefined]), steps: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), error: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), result: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), started_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesStepStatus)), undefined])})), undefined]), updated_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), ...overrideResponse})
 
-export const getPostApiV1PlanPlanIDAbortResponseMock = (): PostApiV1PlanPlanIDAbort200 => ({})
+export const getPostV1PlanPlanIDAbortResponseMock = (): PostV1PlanPlanIDAbort200 => ({})
 
-export const getPostApiV1PlanPlanIDAdvanceResponseMock = (): PostApiV1PlanPlanIDAdvance200 => ({})
+export const getPostV1PlanPlanIDAdvanceResponseMock = (): PostV1PlanPlanIDAdvance200 => ({})
 
-export const getPostApiV1PlanCreateResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesCreatePlanResponse > = {}): TmuxClientInternalTypesCreatePlanResponse => ({plan: faker.helpers.arrayElement([{completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), current_step: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesPlanStatus)), undefined]), steps: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), error: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), result: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), started_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesStepStatus)), undefined])})), undefined]), updated_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), plan_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
+export const getPostV1PlanCreateResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesCreatePlanResponse > = {}): TmuxClientInternalTypesCreatePlanResponse => ({plan: faker.helpers.arrayElement([{completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), current_step: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesPlanStatus)), undefined]), steps: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), error: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), result: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), started_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesStepStatus)), undefined])})), undefined]), updated_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), plan_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
 
-export const getPostApiV1PlanUpdateResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesUpdatePlanResponse > = {}): TmuxClientInternalTypesUpdatePlanResponse => ({plan: faker.helpers.arrayElement([{completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), current_step: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesPlanStatus)), undefined]), steps: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), error: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), result: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), started_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesStepStatus)), undefined])})), undefined]), updated_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), plan_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), updated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
+export const getPostV1PlanUpdateResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesUpdatePlanResponse > = {}): TmuxClientInternalTypesUpdatePlanResponse => ({plan: faker.helpers.arrayElement([{completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), current_step: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesPlanStatus)), undefined]), steps: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({completed_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), error: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), result: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), started_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesStepStatus)), undefined])})), undefined]), updated_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), plan_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), updated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
 
 
-export const getGetApiV1PlanMockHandler = (overrideResponse?: TmuxClientInternalTypesListPlansResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesListPlansResponse> | TmuxClientInternalTypesListPlansResponse), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/plan/', async (info) => {await delay(1000);
+export const getGetV1PlanMockHandler = (overrideResponse?: TmuxClientInternalTypesListPlansResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesListPlansResponse> | TmuxClientInternalTypesListPlansResponse), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/plan/', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1PlanResponseMock()),
+    : getGetV1PlanResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getDeleteApiV1PlanPlanIDMockHandler = (overrideResponse?: DeleteApiV1PlanPlanID200 | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteApiV1PlanPlanID200> | DeleteApiV1PlanPlanID200), options?: RequestHandlerOptions) => {
-  return http.delete('*/api/v1/plan/:planID', async (info) => {await delay(1000);
+export const getDeleteV1PlanPlanIDMockHandler = (overrideResponse?: DeleteV1PlanPlanID200 | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteV1PlanPlanID200> | DeleteV1PlanPlanID200), options?: RequestHandlerOptions) => {
+  return http.delete('*/v1/plan/:planID', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getDeleteApiV1PlanPlanIDResponseMock()),
+    : getDeleteV1PlanPlanIDResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getGetApiV1PlanPlanIDMockHandler = (overrideResponse?: TmuxClientInternalTypesGetPlanResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesGetPlanResponse> | TmuxClientInternalTypesGetPlanResponse), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/plan/:planID', async (info) => {await delay(1000);
+export const getGetV1PlanPlanIDMockHandler = (overrideResponse?: TmuxClientInternalTypesGetPlanResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesGetPlanResponse> | TmuxClientInternalTypesGetPlanResponse), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/plan/:planID', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1PlanPlanIDResponseMock()),
+    : getGetV1PlanPlanIDResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1PlanPlanIDAbortMockHandler = (overrideResponse?: PostApiV1PlanPlanIDAbort200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostApiV1PlanPlanIDAbort200> | PostApiV1PlanPlanIDAbort200), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/plan/:planID/abort', async (info) => {await delay(1000);
+export const getPostV1PlanPlanIDAbortMockHandler = (overrideResponse?: PostV1PlanPlanIDAbort200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostV1PlanPlanIDAbort200> | PostV1PlanPlanIDAbort200), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/plan/:planID/abort', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1PlanPlanIDAbortResponseMock()),
+    : getPostV1PlanPlanIDAbortResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1PlanPlanIDAdvanceMockHandler = (overrideResponse?: PostApiV1PlanPlanIDAdvance200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostApiV1PlanPlanIDAdvance200> | PostApiV1PlanPlanIDAdvance200), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/plan/:planID/advance', async (info) => {await delay(1000);
+export const getPostV1PlanPlanIDAdvanceMockHandler = (overrideResponse?: PostV1PlanPlanIDAdvance200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostV1PlanPlanIDAdvance200> | PostV1PlanPlanIDAdvance200), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/plan/:planID/advance', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1PlanPlanIDAdvanceResponseMock()),
+    : getPostV1PlanPlanIDAdvanceResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1PlanCreateMockHandler = (overrideResponse?: TmuxClientInternalTypesCreatePlanResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesCreatePlanResponse> | TmuxClientInternalTypesCreatePlanResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/plan/create', async (info) => {await delay(1000);
+export const getPostV1PlanCreateMockHandler = (overrideResponse?: TmuxClientInternalTypesCreatePlanResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesCreatePlanResponse> | TmuxClientInternalTypesCreatePlanResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/plan/create', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1PlanCreateResponseMock()),
+    : getPostV1PlanCreateResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1PlanUpdateMockHandler = (overrideResponse?: TmuxClientInternalTypesUpdatePlanResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesUpdatePlanResponse> | TmuxClientInternalTypesUpdatePlanResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/plan/update', async (info) => {await delay(1000);
+export const getPostV1PlanUpdateMockHandler = (overrideResponse?: TmuxClientInternalTypesUpdatePlanResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesUpdatePlanResponse> | TmuxClientInternalTypesUpdatePlanResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/plan/update', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1PlanUpdateResponseMock()),
+    : getPostV1PlanUpdateResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 export const getPlanMock = () => [
-  getGetApiV1PlanMockHandler(),
-  getDeleteApiV1PlanPlanIDMockHandler(),
-  getGetApiV1PlanPlanIDMockHandler(),
-  getPostApiV1PlanPlanIDAbortMockHandler(),
-  getPostApiV1PlanPlanIDAdvanceMockHandler(),
-  getPostApiV1PlanCreateMockHandler(),
-  getPostApiV1PlanUpdateMockHandler()
+  getGetV1PlanMockHandler(),
+  getDeleteV1PlanPlanIDMockHandler(),
+  getGetV1PlanPlanIDMockHandler(),
+  getPostV1PlanPlanIDAbortMockHandler(),
+  getPostV1PlanPlanIDAdvanceMockHandler(),
+  getPostV1PlanCreateMockHandler(),
+  getPostV1PlanUpdateMockHandler()
 ]

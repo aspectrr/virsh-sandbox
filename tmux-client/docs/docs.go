@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/audit/query": {
+        "/v1/audit/query": {
             "post": {
                 "description": "Queries the audit log for entries",
                 "consumes": [
@@ -25,7 +25,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "audit"
+                    "Audit"
                 ],
                 "summary": "Query audit log",
                 "parameters": [
@@ -60,7 +60,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/audit/stats": {
+        "/v1/audit/stats": {
             "get": {
                 "description": "Retrieves audit log statistics",
                 "consumes": [
@@ -70,7 +70,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "audit"
+                    "Audit"
                 ],
                 "summary": "Get audit stats",
                 "responses": {
@@ -84,7 +84,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/command/allowed": {
+        "/v1/command/allowed": {
             "get": {
                 "description": "Retrieves the list of allowed and denied commands",
                 "consumes": [
@@ -94,7 +94,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "command"
+                    "Command"
                 ],
                 "summary": "Get allowed commands",
                 "responses": {
@@ -108,7 +108,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/command/run": {
+        "/v1/command/run": {
             "post": {
                 "description": "Executes a shell command",
                 "consumes": [
@@ -118,7 +118,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "command"
+                    "Command"
                 ],
                 "summary": "Run command",
                 "parameters": [
@@ -160,7 +160,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/copy": {
+        "/v1/file/copy": {
             "post": {
                 "description": "Copies a file from source to destination",
                 "consumes": [
@@ -170,7 +170,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "File"
                 ],
                 "summary": "Copy file",
                 "parameters": [
@@ -206,7 +206,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/delete": {
+        "/v1/file/delete": {
             "post": {
                 "description": "Deletes a file or directory",
                 "consumes": [
@@ -216,7 +216,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "File"
                 ],
                 "summary": "Delete file",
                 "parameters": [
@@ -258,7 +258,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/edit": {
+        "/v1/file/edit": {
             "post": {
                 "description": "Edits the content of a file",
                 "consumes": [
@@ -268,7 +268,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "File"
                 ],
                 "summary": "Edit file",
                 "parameters": [
@@ -310,7 +310,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/exists": {
+        "/v1/file/exists": {
             "post": {
                 "description": "Checks if a file or directory exists",
                 "consumes": [
@@ -320,7 +320,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "File"
                 ],
                 "summary": "Check if file exists",
                 "parameters": [
@@ -357,7 +357,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/hash": {
+        "/v1/file/hash": {
             "post": {
                 "description": "Computes the SHA256 hash of a file",
                 "consumes": [
@@ -367,7 +367,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "File"
                 ],
                 "summary": "Get file hash",
                 "parameters": [
@@ -406,7 +406,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/list": {
+        "/v1/file/list": {
             "post": {
                 "description": "Lists the contents of a directory",
                 "consumes": [
@@ -416,7 +416,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "File"
                 ],
                 "summary": "List directory contents",
                 "parameters": [
@@ -458,7 +458,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/read": {
+        "/v1/file/read": {
             "post": {
                 "description": "Reads the content of a file",
                 "consumes": [
@@ -468,7 +468,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "File"
                 ],
                 "summary": "Read file",
                 "parameters": [
@@ -516,7 +516,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/write": {
+        "/v1/file/write": {
             "post": {
                 "description": "Writes content to a file",
                 "consumes": [
@@ -526,7 +526,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "File"
                 ],
                 "summary": "Write file",
                 "parameters": [
@@ -568,7 +568,30 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/human/ask": {
+        "/v1/health": {
+            "get": {
+                "description": "Retrieves the health status of the API server and its components",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Get health status",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/tmux-client_internal_types.HealthResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/human/ask": {
             "post": {
                 "description": "Requests approval from a human for an action",
                 "consumes": [
@@ -578,7 +601,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "human"
+                    "Human"
                 ],
                 "summary": "Request human approval",
                 "parameters": [
@@ -614,7 +637,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/human/ask-async": {
+        "/v1/human/ask-async": {
             "post": {
                 "description": "Requests approval from a human asynchronously",
                 "consumes": [
@@ -624,7 +647,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "human"
+                    "Human"
                 ],
                 "summary": "Request human approval asynchronously",
                 "parameters": [
@@ -663,7 +686,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/human/pending": {
+        "/v1/human/pending": {
             "get": {
                 "description": "Lists all pending human approval requests",
                 "consumes": [
@@ -673,7 +696,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "human"
+                    "Human"
                 ],
                 "summary": "List pending approvals",
                 "responses": {
@@ -686,7 +709,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/human/pending/{requestID}": {
+        "/v1/human/pending/{requestID}": {
             "get": {
                 "description": "Retrieves a specific pending approval request",
                 "consumes": [
@@ -696,7 +719,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "human"
+                    "Human"
                 ],
                 "summary": "Get pending approval",
                 "parameters": [
@@ -738,7 +761,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "human"
+                    "Human"
                 ],
                 "summary": "Cancel approval",
                 "parameters": [
@@ -773,7 +796,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/human/respond": {
+        "/v1/human/respond": {
             "post": {
                 "description": "Responds to a pending approval request",
                 "consumes": [
@@ -783,7 +806,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "human"
+                    "Human"
                 ],
                 "summary": "Respond to approval",
                 "parameters": [
@@ -819,7 +842,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/plan/": {
+        "/v1/plan/": {
             "get": {
                 "description": "Lists all execution plans",
                 "consumes": [
@@ -829,7 +852,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "plan"
+                    "Plan"
                 ],
                 "summary": "List plans",
                 "responses": {
@@ -848,7 +871,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/plan/create": {
+        "/v1/plan/create": {
             "post": {
                 "description": "Creates a new execution plan",
                 "consumes": [
@@ -858,7 +881,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "plan"
+                    "Plan"
                 ],
                 "summary": "Create plan",
                 "parameters": [
@@ -894,7 +917,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/plan/update": {
+        "/v1/plan/update": {
             "post": {
                 "description": "Updates an execution plan",
                 "consumes": [
@@ -904,7 +927,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "plan"
+                    "Plan"
                 ],
                 "summary": "Update plan",
                 "parameters": [
@@ -946,7 +969,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/plan/{planID}": {
+        "/v1/plan/{planID}": {
             "get": {
                 "description": "Retrieves a specific execution plan",
                 "consumes": [
@@ -956,7 +979,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "plan"
+                    "Plan"
                 ],
                 "summary": "Get plan",
                 "parameters": [
@@ -998,7 +1021,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "plan"
+                    "Plan"
                 ],
                 "summary": "Delete plan",
                 "parameters": [
@@ -1033,7 +1056,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/plan/{planID}/abort": {
+        "/v1/plan/{planID}/abort": {
             "post": {
                 "description": "Aborts an execution plan",
                 "consumes": [
@@ -1043,7 +1066,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "plan"
+                    "Plan"
                 ],
                 "summary": "Abort plan",
                 "parameters": [
@@ -1092,7 +1115,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/plan/{planID}/advance": {
+        "/v1/plan/{planID}/advance": {
             "post": {
                 "description": "Advances to the next step in a plan",
                 "consumes": [
@@ -1102,7 +1125,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "plan"
+                    "Plan"
                 ],
                 "summary": "Advance plan step",
                 "parameters": [
@@ -1151,7 +1174,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/panes": {
+        "/v1/tmux/panes": {
             "get": {
                 "description": "Get a list of panes in a tmux session",
                 "consumes": [
@@ -1161,7 +1184,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "List tmux panes",
                 "parameters": [
@@ -1194,7 +1217,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/panes/create": {
+        "/v1/tmux/panes/create": {
             "post": {
                 "description": "Creates a new tmux pane",
                 "consumes": [
@@ -1204,7 +1227,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "Create tmux pane",
                 "parameters": [
@@ -1240,7 +1263,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/panes/read": {
+        "/v1/tmux/panes/read": {
             "post": {
                 "description": "Reads the content of a tmux pane",
                 "consumes": [
@@ -1250,7 +1273,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "Read tmux pane",
                 "parameters": [
@@ -1286,7 +1309,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/panes/send-keys": {
+        "/v1/tmux/panes/send-keys": {
             "post": {
                 "description": "Sends keystrokes to a tmux pane",
                 "consumes": [
@@ -1296,7 +1319,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "Send keys to tmux pane",
                 "parameters": [
@@ -1338,7 +1361,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/panes/switch": {
+        "/v1/tmux/panes/switch": {
             "post": {
                 "description": "Switches to a specific tmux pane",
                 "consumes": [
@@ -1348,7 +1371,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "Switch tmux pane",
                 "parameters": [
@@ -1384,7 +1407,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/panes/{paneID}": {
+        "/v1/tmux/panes/{paneID}": {
             "delete": {
                 "description": "Kills a tmux pane",
                 "consumes": [
@@ -1394,7 +1417,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "Kill tmux pane",
                 "parameters": [
@@ -1429,7 +1452,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/sessions": {
+        "/v1/tmux/sessions": {
             "get": {
                 "description": "Get a list of all active tmux sessions",
                 "consumes": [
@@ -1439,7 +1462,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "List tmux sessions",
                 "responses": {
@@ -1461,7 +1484,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/sessions/create": {
+        "/v1/tmux/sessions/create": {
             "post": {
                 "description": "Creates a new tmux session",
                 "consumes": [
@@ -1471,7 +1494,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "Create tmux session",
                 "parameters": [
@@ -1510,7 +1533,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/sessions/{sessionId}/release": {
+        "/v1/tmux/sessions/{sessionId}/release": {
             "post": {
                 "description": "Releases (kills) a tmux session by ID",
                 "consumes": [
@@ -1520,7 +1543,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "Release tmux session",
                 "parameters": [
@@ -1548,7 +1571,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/sessions/{sessionName}": {
+        "/v1/tmux/sessions/{sessionName}": {
             "delete": {
                 "description": "Kills a tmux session",
                 "consumes": [
@@ -1558,7 +1581,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "Kill tmux session",
                 "parameters": [
@@ -1593,7 +1616,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tmux/windows": {
+        "/v1/tmux/windows": {
             "get": {
                 "description": "Get a list of windows in a tmux session",
                 "consumes": [
@@ -1603,7 +1626,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tmux"
+                    "Tmux"
                 ],
                 "summary": "List tmux windows",
                 "parameters": [
@@ -1820,6 +1843,20 @@ const docTemplate = `{
                 }
             }
         },
+        "tmux-client_internal_types.ComponentHealth": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/tmux-client_internal_types.HealthStatus"
+                }
+            }
+        },
         "tmux-client_internal_types.CopyFileRequest": {
             "type": "object",
             "properties": {
@@ -2021,6 +2058,39 @@ const docTemplate = `{
                     "$ref": "#/definitions/tmux-client_internal_types.Plan"
                 }
             }
+        },
+        "tmux-client_internal_types.HealthResponse": {
+            "type": "object",
+            "properties": {
+                "components": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/tmux-client_internal_types.ComponentHealth"
+                    }
+                },
+                "status": {
+                    "$ref": "#/definitions/tmux-client_internal_types.HealthStatus"
+                },
+                "uptime": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "tmux-client_internal_types.HealthStatus": {
+            "type": "string",
+            "enum": [
+                "healthy",
+                "degraded",
+                "unhealthy"
+            ],
+            "x-enum-varnames": [
+                "HealthStatusHealthy",
+                "HealthStatusDegraded",
+                "HealthStatusUnhealthy"
+            ]
         },
         "tmux-client_internal_types.KillSessionResponse": {
             "type": "object",
@@ -2577,8 +2647,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "0.0.1-beta",
-	Host:             "localhost:8080",
-	BasePath:         "/v1",
+	Host:             "localhost:8081",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "tmux-client API",
 	Description:      "API for managing tmux sessions and windows",

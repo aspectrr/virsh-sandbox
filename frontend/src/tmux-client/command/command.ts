@@ -32,7 +32,7 @@ import type {
 } from 'axios';
 
 import type {
-  GetApiV1CommandAllowed200,
+  GetV1CommandAllowed200,
   TmuxClientInternalTypesAPIError,
   TmuxClientInternalTypesRunCommandRequest,
   TmuxClientInternalTypesRunCommandResponse
@@ -46,82 +46,82 @@ import type {
  * Retrieves the list of allowed and denied commands
  * @summary Get allowed commands
  */
-export const getApiV1CommandAllowed = (
+export const getV1CommandAllowed = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<GetApiV1CommandAllowed200>> => {
+ ): Promise<AxiosResponse<GetV1CommandAllowed200>> => {
     
     
     return axios.default.get(
-      `/api/v1/command/allowed`,options
+      `/v1/command/allowed`,options
     );
   }
 
 
 
 
-export const getGetApiV1CommandAllowedQueryKey = () => {
+export const getGetV1CommandAllowedQueryKey = () => {
     return [
-    `/api/v1/command/allowed`
+    `/v1/command/allowed`
     ] as const;
     }
 
     
-export const getGetApiV1CommandAllowedQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetV1CommandAllowedQueryOptions = <TData = Awaited<ReturnType<typeof getV1CommandAllowed>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1CommandAllowed>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV1CommandAllowedQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetV1CommandAllowedQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1CommandAllowed>>> = ({ signal }) => getApiV1CommandAllowed({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1CommandAllowed>>> = ({ signal }) => getV1CommandAllowed({ signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1CommandAllowed>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiV1CommandAllowedQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1CommandAllowed>>>
-export type GetApiV1CommandAllowedQueryError = AxiosError<unknown>
+export type GetV1CommandAllowedQueryResult = NonNullable<Awaited<ReturnType<typeof getV1CommandAllowed>>>
+export type GetV1CommandAllowedQueryError = AxiosError<unknown>
 
 
-export function useGetApiV1CommandAllowed<TData = Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError = AxiosError<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError, TData>> & Pick<
+export function useGetV1CommandAllowed<TData = Awaited<ReturnType<typeof getV1CommandAllowed>>, TError = AxiosError<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1CommandAllowed>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1CommandAllowed>>,
+          Awaited<ReturnType<typeof getV1CommandAllowed>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1CommandAllowed>>
+          Awaited<ReturnType<typeof getV1CommandAllowed>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1CommandAllowed<TData = Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError, TData>> & Pick<
+export function useGetV1CommandAllowed<TData = Awaited<ReturnType<typeof getV1CommandAllowed>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1CommandAllowed>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1CommandAllowed>>,
+          Awaited<ReturnType<typeof getV1CommandAllowed>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1CommandAllowed>>
+          Awaited<ReturnType<typeof getV1CommandAllowed>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1CommandAllowed<TData = Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1CommandAllowed<TData = Awaited<ReturnType<typeof getV1CommandAllowed>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1CommandAllowed>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get allowed commands
  */
 
-export function useGetApiV1CommandAllowed<TData = Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CommandAllowed>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1CommandAllowed<TData = Awaited<ReturnType<typeof getV1CommandAllowed>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1CommandAllowed>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV1CommandAllowedQueryOptions(options)
+  const queryOptions = getGetV1CommandAllowedQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -137,24 +137,24 @@ export function useGetApiV1CommandAllowed<TData = Awaited<ReturnType<typeof getA
  * Executes a shell command
  * @summary Run command
  */
-export const postApiV1CommandRun = (
+export const postV1CommandRun = (
     tmuxClientInternalTypesRunCommandRequest: TmuxClientInternalTypesRunCommandRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesRunCommandResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/command/run`,
+      `/v1/command/run`,
       tmuxClientInternalTypesRunCommandRequest,options
     );
   }
 
 
 
-export const getPostApiV1CommandRunMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1CommandRun>>, TError,{data: TmuxClientInternalTypesRunCommandRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1CommandRun>>, TError,{data: TmuxClientInternalTypesRunCommandRequest}, TContext> => {
+export const getPostV1CommandRunMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1CommandRun>>, TError,{data: TmuxClientInternalTypesRunCommandRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1CommandRun>>, TError,{data: TmuxClientInternalTypesRunCommandRequest}, TContext> => {
 
-const mutationKey = ['postApiV1CommandRun'];
+const mutationKey = ['postV1CommandRun'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -164,10 +164,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1CommandRun>>, {data: TmuxClientInternalTypesRunCommandRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1CommandRun>>, {data: TmuxClientInternalTypesRunCommandRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1CommandRun(data,axiosOptions)
+          return  postV1CommandRun(data,axiosOptions)
         }
 
         
@@ -175,23 +175,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1CommandRunMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1CommandRun>>>
-    export type PostApiV1CommandRunMutationBody = TmuxClientInternalTypesRunCommandRequest
-    export type PostApiV1CommandRunMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1CommandRunMutationResult = NonNullable<Awaited<ReturnType<typeof postV1CommandRun>>>
+    export type PostV1CommandRunMutationBody = TmuxClientInternalTypesRunCommandRequest
+    export type PostV1CommandRunMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Run command
  */
-export const usePostApiV1CommandRun = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1CommandRun>>, TError,{data: TmuxClientInternalTypesRunCommandRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1CommandRun = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1CommandRun>>, TError,{data: TmuxClientInternalTypesRunCommandRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1CommandRun>>,
+        Awaited<ReturnType<typeof postV1CommandRun>>,
         TError,
         {data: TmuxClientInternalTypesRunCommandRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1CommandRunMutationOptions(options);
+      const mutationOptions = getPostV1CommandRunMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }

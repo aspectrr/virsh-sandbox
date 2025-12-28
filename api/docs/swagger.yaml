@@ -680,7 +680,7 @@ paths:
         required: true
         type: string
       responses: {}
-      summary: Run Ansible job via WebSocket
+      summary: Stream Ansible job output
       tags:
       - Ansible
   /v1/health:

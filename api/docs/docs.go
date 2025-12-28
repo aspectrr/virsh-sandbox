@@ -99,7 +99,7 @@ const docTemplate = `{
                 "tags": [
                     "Ansible"
                 ],
-                "summary": "Run Ansible job via WebSocket",
+                "summary": "Stream Ansible job output",
                 "parameters": [
                     {
                         "type": "string",

@@ -32,11 +32,11 @@ import type {
 } from 'axios';
 
 import type {
-  DeleteApiV1PlanPlanID200,
-  PostApiV1PlanPlanIDAbort200,
-  PostApiV1PlanPlanIDAbortBody,
-  PostApiV1PlanPlanIDAdvance200,
-  PostApiV1PlanPlanIDAdvanceBody,
+  DeleteV1PlanPlanID200,
+  PostV1PlanPlanIDAbort200,
+  PostV1PlanPlanIDAbortBody,
+  PostV1PlanPlanIDAdvance200,
+  PostV1PlanPlanIDAdvanceBody,
   TmuxClientInternalTypesAPIError,
   TmuxClientInternalTypesCreatePlanRequest,
   TmuxClientInternalTypesCreatePlanResponse,
@@ -54,82 +54,82 @@ import type {
  * Lists all execution plans
  * @summary List plans
  */
-export const getApiV1Plan = (
+export const getV1Plan = (
      options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesListPlansResponse>> => {
     
     
     return axios.default.get(
-      `/api/v1/plan/`,options
+      `/v1/plan/`,options
     );
   }
 
 
 
 
-export const getGetApiV1PlanQueryKey = () => {
+export const getGetV1PlanQueryKey = () => {
     return [
-    `/api/v1/plan/`
+    `/v1/plan/`
     ] as const;
     }
 
     
-export const getGetApiV1PlanQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Plan>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetV1PlanQueryOptions = <TData = Awaited<ReturnType<typeof getV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Plan>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV1PlanQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetV1PlanQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1Plan>>> = ({ signal }) => getApiV1Plan({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1Plan>>> = ({ signal }) => getV1Plan({ signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1Plan>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1Plan>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiV1PlanQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1Plan>>>
-export type GetApiV1PlanQueryError = AxiosError<TmuxClientInternalTypesAPIError>
+export type GetV1PlanQueryResult = NonNullable<Awaited<ReturnType<typeof getV1Plan>>>
+export type GetV1PlanQueryError = AxiosError<TmuxClientInternalTypesAPIError>
 
 
-export function useGetApiV1Plan<TData = Awaited<ReturnType<typeof getApiV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Plan>>, TError, TData>> & Pick<
+export function useGetV1Plan<TData = Awaited<ReturnType<typeof getV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Plan>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1Plan>>,
+          Awaited<ReturnType<typeof getV1Plan>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1Plan>>
+          Awaited<ReturnType<typeof getV1Plan>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1Plan<TData = Awaited<ReturnType<typeof getApiV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Plan>>, TError, TData>> & Pick<
+export function useGetV1Plan<TData = Awaited<ReturnType<typeof getV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Plan>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1Plan>>,
+          Awaited<ReturnType<typeof getV1Plan>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1Plan>>
+          Awaited<ReturnType<typeof getV1Plan>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1Plan<TData = Awaited<ReturnType<typeof getApiV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Plan>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1Plan<TData = Awaited<ReturnType<typeof getV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Plan>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List plans
  */
 
-export function useGetApiV1Plan<TData = Awaited<ReturnType<typeof getApiV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Plan>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1Plan<TData = Awaited<ReturnType<typeof getV1Plan>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Plan>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV1PlanQueryOptions(options)
+  const queryOptions = getGetV1PlanQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -145,23 +145,23 @@ export function useGetApiV1Plan<TData = Awaited<ReturnType<typeof getApiV1Plan>>
  * Deletes an execution plan
  * @summary Delete plan
  */
-export const deleteApiV1PlanPlanID = (
+export const deleteV1PlanPlanID = (
     planID: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DeleteApiV1PlanPlanID200>> => {
+ ): Promise<AxiosResponse<DeleteV1PlanPlanID200>> => {
     
     
     return axios.default.delete(
-      `/api/v1/plan/${planID}`,options
+      `/v1/plan/${planID}`,options
     );
   }
 
 
 
-export const getDeleteApiV1PlanPlanIDMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1PlanPlanID>>, TError,{planID: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1PlanPlanID>>, TError,{planID: string}, TContext> => {
+export const getDeleteV1PlanPlanIDMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1PlanPlanID>>, TError,{planID: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteV1PlanPlanID>>, TError,{planID: string}, TContext> => {
 
-const mutationKey = ['deleteApiV1PlanPlanID'];
+const mutationKey = ['deleteV1PlanPlanID'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -171,10 +171,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiV1PlanPlanID>>, {planID: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteV1PlanPlanID>>, {planID: string}> = (props) => {
           const {planID} = props ?? {};
 
-          return  deleteApiV1PlanPlanID(planID,axiosOptions)
+          return  deleteV1PlanPlanID(planID,axiosOptions)
         }
 
         
@@ -182,23 +182,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type DeleteApiV1PlanPlanIDMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiV1PlanPlanID>>>
+    export type DeleteV1PlanPlanIDMutationResult = NonNullable<Awaited<ReturnType<typeof deleteV1PlanPlanID>>>
     
-    export type DeleteApiV1PlanPlanIDMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type DeleteV1PlanPlanIDMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Delete plan
  */
-export const useDeleteApiV1PlanPlanID = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1PlanPlanID>>, TError,{planID: string}, TContext>, axios?: AxiosRequestConfig}
+export const useDeleteV1PlanPlanID = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1PlanPlanID>>, TError,{planID: string}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteApiV1PlanPlanID>>,
+        Awaited<ReturnType<typeof deleteV1PlanPlanID>>,
         TError,
         {planID: string},
         TContext
       > => {
 
-      const mutationOptions = getDeleteApiV1PlanPlanIDMutationOptions(options);
+      const mutationOptions = getDeleteV1PlanPlanIDMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -206,82 +206,82 @@ export const useDeleteApiV1PlanPlanID = <TError = AxiosError<TmuxClientInternalT
  * Retrieves a specific execution plan
  * @summary Get plan
  */
-export const getApiV1PlanPlanID = (
+export const getV1PlanPlanID = (
     planID: string, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesGetPlanResponse>> => {
     
     
     return axios.default.get(
-      `/api/v1/plan/${planID}`,options
+      `/v1/plan/${planID}`,options
     );
   }
 
 
 
 
-export const getGetApiV1PlanPlanIDQueryKey = (planID?: string,) => {
+export const getGetV1PlanPlanIDQueryKey = (planID?: string,) => {
     return [
-    `/api/v1/plan/${planID}`
+    `/v1/plan/${planID}`
     ] as const;
     }
 
     
-export const getGetApiV1PlanPlanIDQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(planID: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetV1PlanPlanIDQueryOptions = <TData = Awaited<ReturnType<typeof getV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(planID: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1PlanPlanID>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV1PlanPlanIDQueryKey(planID);
+  const queryKey =  queryOptions?.queryKey ?? getGetV1PlanPlanIDQueryKey(planID);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1PlanPlanID>>> = ({ signal }) => getApiV1PlanPlanID(planID, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1PlanPlanID>>> = ({ signal }) => getV1PlanPlanID(planID, { signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(planID), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(planID), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1PlanPlanID>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiV1PlanPlanIDQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1PlanPlanID>>>
-export type GetApiV1PlanPlanIDQueryError = AxiosError<TmuxClientInternalTypesAPIError>
+export type GetV1PlanPlanIDQueryResult = NonNullable<Awaited<ReturnType<typeof getV1PlanPlanID>>>
+export type GetV1PlanPlanIDQueryError = AxiosError<TmuxClientInternalTypesAPIError>
 
 
-export function useGetApiV1PlanPlanID<TData = Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- planID: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError, TData>> & Pick<
+export function useGetV1PlanPlanID<TData = Awaited<ReturnType<typeof getV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ planID: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1PlanPlanID>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1PlanPlanID>>,
+          Awaited<ReturnType<typeof getV1PlanPlanID>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1PlanPlanID>>
+          Awaited<ReturnType<typeof getV1PlanPlanID>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1PlanPlanID<TData = Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- planID: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError, TData>> & Pick<
+export function useGetV1PlanPlanID<TData = Awaited<ReturnType<typeof getV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ planID: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1PlanPlanID>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1PlanPlanID>>,
+          Awaited<ReturnType<typeof getV1PlanPlanID>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1PlanPlanID>>
+          Awaited<ReturnType<typeof getV1PlanPlanID>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1PlanPlanID<TData = Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- planID: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1PlanPlanID<TData = Awaited<ReturnType<typeof getV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ planID: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1PlanPlanID>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get plan
  */
 
-export function useGetApiV1PlanPlanID<TData = Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- planID: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1PlanPlanID>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1PlanPlanID<TData = Awaited<ReturnType<typeof getV1PlanPlanID>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ planID: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1PlanPlanID>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV1PlanPlanIDQueryOptions(planID,options)
+  const queryOptions = getGetV1PlanPlanIDQueryOptions(planID,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -297,25 +297,25 @@ export function useGetApiV1PlanPlanID<TData = Awaited<ReturnType<typeof getApiV1
  * Aborts an execution plan
  * @summary Abort plan
  */
-export const postApiV1PlanPlanIDAbort = (
+export const postV1PlanPlanIDAbort = (
     planID: string,
-    postApiV1PlanPlanIDAbortBody: PostApiV1PlanPlanIDAbortBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PostApiV1PlanPlanIDAbort200>> => {
+    postV1PlanPlanIDAbortBody: PostV1PlanPlanIDAbortBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PostV1PlanPlanIDAbort200>> => {
     
     
     return axios.default.post(
-      `/api/v1/plan/${planID}/abort`,
-      postApiV1PlanPlanIDAbortBody,options
+      `/v1/plan/${planID}/abort`,
+      postV1PlanPlanIDAbortBody,options
     );
   }
 
 
 
-export const getPostApiV1PlanPlanIDAbortMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanPlanIDAbort>>, TError,{planID: string;data: PostApiV1PlanPlanIDAbortBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanPlanIDAbort>>, TError,{planID: string;data: PostApiV1PlanPlanIDAbortBody}, TContext> => {
+export const getPostV1PlanPlanIDAbortMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1PlanPlanIDAbort>>, TError,{planID: string;data: PostV1PlanPlanIDAbortBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1PlanPlanIDAbort>>, TError,{planID: string;data: PostV1PlanPlanIDAbortBody}, TContext> => {
 
-const mutationKey = ['postApiV1PlanPlanIDAbort'];
+const mutationKey = ['postV1PlanPlanIDAbort'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -325,10 +325,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1PlanPlanIDAbort>>, {planID: string;data: PostApiV1PlanPlanIDAbortBody}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1PlanPlanIDAbort>>, {planID: string;data: PostV1PlanPlanIDAbortBody}> = (props) => {
           const {planID,data} = props ?? {};
 
-          return  postApiV1PlanPlanIDAbort(planID,data,axiosOptions)
+          return  postV1PlanPlanIDAbort(planID,data,axiosOptions)
         }
 
         
@@ -336,23 +336,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1PlanPlanIDAbortMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1PlanPlanIDAbort>>>
-    export type PostApiV1PlanPlanIDAbortMutationBody = PostApiV1PlanPlanIDAbortBody
-    export type PostApiV1PlanPlanIDAbortMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1PlanPlanIDAbortMutationResult = NonNullable<Awaited<ReturnType<typeof postV1PlanPlanIDAbort>>>
+    export type PostV1PlanPlanIDAbortMutationBody = PostV1PlanPlanIDAbortBody
+    export type PostV1PlanPlanIDAbortMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Abort plan
  */
-export const usePostApiV1PlanPlanIDAbort = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanPlanIDAbort>>, TError,{planID: string;data: PostApiV1PlanPlanIDAbortBody}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1PlanPlanIDAbort = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1PlanPlanIDAbort>>, TError,{planID: string;data: PostV1PlanPlanIDAbortBody}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1PlanPlanIDAbort>>,
+        Awaited<ReturnType<typeof postV1PlanPlanIDAbort>>,
         TError,
-        {planID: string;data: PostApiV1PlanPlanIDAbortBody},
+        {planID: string;data: PostV1PlanPlanIDAbortBody},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1PlanPlanIDAbortMutationOptions(options);
+      const mutationOptions = getPostV1PlanPlanIDAbortMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -360,25 +360,25 @@ export const usePostApiV1PlanPlanIDAbort = <TError = AxiosError<TmuxClientIntern
  * Advances to the next step in a plan
  * @summary Advance plan step
  */
-export const postApiV1PlanPlanIDAdvance = (
+export const postV1PlanPlanIDAdvance = (
     planID: string,
-    postApiV1PlanPlanIDAdvanceBody: PostApiV1PlanPlanIDAdvanceBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PostApiV1PlanPlanIDAdvance200>> => {
+    postV1PlanPlanIDAdvanceBody: PostV1PlanPlanIDAdvanceBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PostV1PlanPlanIDAdvance200>> => {
     
     
     return axios.default.post(
-      `/api/v1/plan/${planID}/advance`,
-      postApiV1PlanPlanIDAdvanceBody,options
+      `/v1/plan/${planID}/advance`,
+      postV1PlanPlanIDAdvanceBody,options
     );
   }
 
 
 
-export const getPostApiV1PlanPlanIDAdvanceMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanPlanIDAdvance>>, TError,{planID: string;data: PostApiV1PlanPlanIDAdvanceBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanPlanIDAdvance>>, TError,{planID: string;data: PostApiV1PlanPlanIDAdvanceBody}, TContext> => {
+export const getPostV1PlanPlanIDAdvanceMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1PlanPlanIDAdvance>>, TError,{planID: string;data: PostV1PlanPlanIDAdvanceBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1PlanPlanIDAdvance>>, TError,{planID: string;data: PostV1PlanPlanIDAdvanceBody}, TContext> => {
 
-const mutationKey = ['postApiV1PlanPlanIDAdvance'];
+const mutationKey = ['postV1PlanPlanIDAdvance'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -388,10 +388,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1PlanPlanIDAdvance>>, {planID: string;data: PostApiV1PlanPlanIDAdvanceBody}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1PlanPlanIDAdvance>>, {planID: string;data: PostV1PlanPlanIDAdvanceBody}> = (props) => {
           const {planID,data} = props ?? {};
 
-          return  postApiV1PlanPlanIDAdvance(planID,data,axiosOptions)
+          return  postV1PlanPlanIDAdvance(planID,data,axiosOptions)
         }
 
         
@@ -399,23 +399,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1PlanPlanIDAdvanceMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1PlanPlanIDAdvance>>>
-    export type PostApiV1PlanPlanIDAdvanceMutationBody = PostApiV1PlanPlanIDAdvanceBody
-    export type PostApiV1PlanPlanIDAdvanceMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1PlanPlanIDAdvanceMutationResult = NonNullable<Awaited<ReturnType<typeof postV1PlanPlanIDAdvance>>>
+    export type PostV1PlanPlanIDAdvanceMutationBody = PostV1PlanPlanIDAdvanceBody
+    export type PostV1PlanPlanIDAdvanceMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Advance plan step
  */
-export const usePostApiV1PlanPlanIDAdvance = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanPlanIDAdvance>>, TError,{planID: string;data: PostApiV1PlanPlanIDAdvanceBody}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1PlanPlanIDAdvance = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1PlanPlanIDAdvance>>, TError,{planID: string;data: PostV1PlanPlanIDAdvanceBody}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1PlanPlanIDAdvance>>,
+        Awaited<ReturnType<typeof postV1PlanPlanIDAdvance>>,
         TError,
-        {planID: string;data: PostApiV1PlanPlanIDAdvanceBody},
+        {planID: string;data: PostV1PlanPlanIDAdvanceBody},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1PlanPlanIDAdvanceMutationOptions(options);
+      const mutationOptions = getPostV1PlanPlanIDAdvanceMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -423,24 +423,24 @@ export const usePostApiV1PlanPlanIDAdvance = <TError = AxiosError<TmuxClientInte
  * Creates a new execution plan
  * @summary Create plan
  */
-export const postApiV1PlanCreate = (
+export const postV1PlanCreate = (
     tmuxClientInternalTypesCreatePlanRequest: TmuxClientInternalTypesCreatePlanRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesCreatePlanResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/plan/create`,
+      `/v1/plan/create`,
       tmuxClientInternalTypesCreatePlanRequest,options
     );
   }
 
 
 
-export const getPostApiV1PlanCreateMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanCreate>>, TError,{data: TmuxClientInternalTypesCreatePlanRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanCreate>>, TError,{data: TmuxClientInternalTypesCreatePlanRequest}, TContext> => {
+export const getPostV1PlanCreateMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1PlanCreate>>, TError,{data: TmuxClientInternalTypesCreatePlanRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1PlanCreate>>, TError,{data: TmuxClientInternalTypesCreatePlanRequest}, TContext> => {
 
-const mutationKey = ['postApiV1PlanCreate'];
+const mutationKey = ['postV1PlanCreate'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -450,10 +450,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1PlanCreate>>, {data: TmuxClientInternalTypesCreatePlanRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1PlanCreate>>, {data: TmuxClientInternalTypesCreatePlanRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1PlanCreate(data,axiosOptions)
+          return  postV1PlanCreate(data,axiosOptions)
         }
 
         
@@ -461,23 +461,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1PlanCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1PlanCreate>>>
-    export type PostApiV1PlanCreateMutationBody = TmuxClientInternalTypesCreatePlanRequest
-    export type PostApiV1PlanCreateMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1PlanCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postV1PlanCreate>>>
+    export type PostV1PlanCreateMutationBody = TmuxClientInternalTypesCreatePlanRequest
+    export type PostV1PlanCreateMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Create plan
  */
-export const usePostApiV1PlanCreate = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanCreate>>, TError,{data: TmuxClientInternalTypesCreatePlanRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1PlanCreate = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1PlanCreate>>, TError,{data: TmuxClientInternalTypesCreatePlanRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1PlanCreate>>,
+        Awaited<ReturnType<typeof postV1PlanCreate>>,
         TError,
         {data: TmuxClientInternalTypesCreatePlanRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1PlanCreateMutationOptions(options);
+      const mutationOptions = getPostV1PlanCreateMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -485,24 +485,24 @@ export const usePostApiV1PlanCreate = <TError = AxiosError<TmuxClientInternalTyp
  * Updates an execution plan
  * @summary Update plan
  */
-export const postApiV1PlanUpdate = (
+export const postV1PlanUpdate = (
     tmuxClientInternalTypesUpdatePlanRequest: TmuxClientInternalTypesUpdatePlanRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesUpdatePlanResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/plan/update`,
+      `/v1/plan/update`,
       tmuxClientInternalTypesUpdatePlanRequest,options
     );
   }
 
 
 
-export const getPostApiV1PlanUpdateMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanUpdate>>, TError,{data: TmuxClientInternalTypesUpdatePlanRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanUpdate>>, TError,{data: TmuxClientInternalTypesUpdatePlanRequest}, TContext> => {
+export const getPostV1PlanUpdateMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1PlanUpdate>>, TError,{data: TmuxClientInternalTypesUpdatePlanRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1PlanUpdate>>, TError,{data: TmuxClientInternalTypesUpdatePlanRequest}, TContext> => {
 
-const mutationKey = ['postApiV1PlanUpdate'];
+const mutationKey = ['postV1PlanUpdate'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -512,10 +512,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1PlanUpdate>>, {data: TmuxClientInternalTypesUpdatePlanRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1PlanUpdate>>, {data: TmuxClientInternalTypesUpdatePlanRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1PlanUpdate(data,axiosOptions)
+          return  postV1PlanUpdate(data,axiosOptions)
         }
 
         
@@ -523,23 +523,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1PlanUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1PlanUpdate>>>
-    export type PostApiV1PlanUpdateMutationBody = TmuxClientInternalTypesUpdatePlanRequest
-    export type PostApiV1PlanUpdateMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1PlanUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof postV1PlanUpdate>>>
+    export type PostV1PlanUpdateMutationBody = TmuxClientInternalTypesUpdatePlanRequest
+    export type PostV1PlanUpdateMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Update plan
  */
-export const usePostApiV1PlanUpdate = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1PlanUpdate>>, TError,{data: TmuxClientInternalTypesUpdatePlanRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1PlanUpdate = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1PlanUpdate>>, TError,{data: TmuxClientInternalTypesUpdatePlanRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1PlanUpdate>>,
+        Awaited<ReturnType<typeof postV1PlanUpdate>>,
         TError,
         {data: TmuxClientInternalTypesUpdatePlanRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1PlanUpdateMutationOptions(options);
+      const mutationOptions = getPostV1PlanUpdateMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }

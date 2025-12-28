@@ -32,12 +32,12 @@ import type {
 } from 'axios';
 
 import type {
-  DeleteApiV1TmuxPanesPaneID200,
-  DeleteApiV1TmuxSessionsSessionName200,
-  GetApiV1TmuxPanesParams,
-  GetApiV1TmuxWindowsParams,
-  PostApiV1TmuxSessionsCreate200,
-  PostApiV1TmuxSessionsCreateBody,
+  DeleteV1TmuxPanesPaneID200,
+  DeleteV1TmuxSessionsSessionName200,
+  GetV1TmuxPanesParams,
+  GetV1TmuxWindowsParams,
+  PostV1TmuxSessionsCreate200,
+  PostV1TmuxSessionsCreateBody,
   TmuxClientInternalTypesAPIError,
   TmuxClientInternalTypesCreatePaneRequest,
   TmuxClientInternalTypesCreatePaneResponse,
@@ -61,13 +61,13 @@ import type {
  * Get a list of panes in a tmux session
  * @summary List tmux panes
  */
-export const getApiV1TmuxPanes = (
-    params?: GetApiV1TmuxPanesParams, options?: AxiosRequestConfig
+export const getV1TmuxPanes = (
+    params?: GetV1TmuxPanesParams, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesListPanesResponse>> => {
     
     
     return axios.default.get(
-      `/api/v1/tmux/panes`,{
+      `/v1/tmux/panes`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -76,69 +76,69 @@ export const getApiV1TmuxPanes = (
 
 
 
-export const getGetApiV1TmuxPanesQueryKey = (params?: GetApiV1TmuxPanesParams,) => {
+export const getGetV1TmuxPanesQueryKey = (params?: GetV1TmuxPanesParams,) => {
     return [
-    `/api/v1/tmux/panes`, ...(params ? [params]: [])
+    `/v1/tmux/panes`, ...(params ? [params]: [])
     ] as const;
     }
 
     
-export const getGetApiV1TmuxPanesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(params?: GetApiV1TmuxPanesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetV1TmuxPanesQueryOptions = <TData = Awaited<ReturnType<typeof getV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(params?: GetV1TmuxPanesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxPanes>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV1TmuxPanesQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getGetV1TmuxPanesQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1TmuxPanes>>> = ({ signal }) => getApiV1TmuxPanes(params, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1TmuxPanes>>> = ({ signal }) => getV1TmuxPanes(params, { signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxPanes>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiV1TmuxPanesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1TmuxPanes>>>
-export type GetApiV1TmuxPanesQueryError = AxiosError<TmuxClientInternalTypesAPIError>
+export type GetV1TmuxPanesQueryResult = NonNullable<Awaited<ReturnType<typeof getV1TmuxPanes>>>
+export type GetV1TmuxPanesQueryError = AxiosError<TmuxClientInternalTypesAPIError>
 
 
-export function useGetApiV1TmuxPanes<TData = Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- params: undefined |  GetApiV1TmuxPanesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError, TData>> & Pick<
+export function useGetV1TmuxPanes<TData = Awaited<ReturnType<typeof getV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ params: undefined |  GetV1TmuxPanesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxPanes>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1TmuxPanes>>,
+          Awaited<ReturnType<typeof getV1TmuxPanes>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1TmuxPanes>>
+          Awaited<ReturnType<typeof getV1TmuxPanes>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1TmuxPanes<TData = Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- params?: GetApiV1TmuxPanesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError, TData>> & Pick<
+export function useGetV1TmuxPanes<TData = Awaited<ReturnType<typeof getV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ params?: GetV1TmuxPanesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxPanes>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1TmuxPanes>>,
+          Awaited<ReturnType<typeof getV1TmuxPanes>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1TmuxPanes>>
+          Awaited<ReturnType<typeof getV1TmuxPanes>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1TmuxPanes<TData = Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- params?: GetApiV1TmuxPanesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1TmuxPanes<TData = Awaited<ReturnType<typeof getV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ params?: GetV1TmuxPanesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxPanes>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List tmux panes
  */
 
-export function useGetApiV1TmuxPanes<TData = Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- params?: GetApiV1TmuxPanesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxPanes>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1TmuxPanes<TData = Awaited<ReturnType<typeof getV1TmuxPanes>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ params?: GetV1TmuxPanesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxPanes>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV1TmuxPanesQueryOptions(params,options)
+  const queryOptions = getGetV1TmuxPanesQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -154,23 +154,23 @@ export function useGetApiV1TmuxPanes<TData = Awaited<ReturnType<typeof getApiV1T
  * Kills a tmux pane
  * @summary Kill tmux pane
  */
-export const deleteApiV1TmuxPanesPaneID = (
+export const deleteV1TmuxPanesPaneID = (
     paneID: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DeleteApiV1TmuxPanesPaneID200>> => {
+ ): Promise<AxiosResponse<DeleteV1TmuxPanesPaneID200>> => {
     
     
     return axios.default.delete(
-      `/api/v1/tmux/panes/${paneID}`,options
+      `/v1/tmux/panes/${paneID}`,options
     );
   }
 
 
 
-export const getDeleteApiV1TmuxPanesPaneIDMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1TmuxPanesPaneID>>, TError,{paneID: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1TmuxPanesPaneID>>, TError,{paneID: string}, TContext> => {
+export const getDeleteV1TmuxPanesPaneIDMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1TmuxPanesPaneID>>, TError,{paneID: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteV1TmuxPanesPaneID>>, TError,{paneID: string}, TContext> => {
 
-const mutationKey = ['deleteApiV1TmuxPanesPaneID'];
+const mutationKey = ['deleteV1TmuxPanesPaneID'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -180,10 +180,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiV1TmuxPanesPaneID>>, {paneID: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteV1TmuxPanesPaneID>>, {paneID: string}> = (props) => {
           const {paneID} = props ?? {};
 
-          return  deleteApiV1TmuxPanesPaneID(paneID,axiosOptions)
+          return  deleteV1TmuxPanesPaneID(paneID,axiosOptions)
         }
 
         
@@ -191,23 +191,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type DeleteApiV1TmuxPanesPaneIDMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiV1TmuxPanesPaneID>>>
+    export type DeleteV1TmuxPanesPaneIDMutationResult = NonNullable<Awaited<ReturnType<typeof deleteV1TmuxPanesPaneID>>>
     
-    export type DeleteApiV1TmuxPanesPaneIDMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type DeleteV1TmuxPanesPaneIDMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Kill tmux pane
  */
-export const useDeleteApiV1TmuxPanesPaneID = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1TmuxPanesPaneID>>, TError,{paneID: string}, TContext>, axios?: AxiosRequestConfig}
+export const useDeleteV1TmuxPanesPaneID = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1TmuxPanesPaneID>>, TError,{paneID: string}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteApiV1TmuxPanesPaneID>>,
+        Awaited<ReturnType<typeof deleteV1TmuxPanesPaneID>>,
         TError,
         {paneID: string},
         TContext
       > => {
 
-      const mutationOptions = getDeleteApiV1TmuxPanesPaneIDMutationOptions(options);
+      const mutationOptions = getDeleteV1TmuxPanesPaneIDMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -215,24 +215,24 @@ export const useDeleteApiV1TmuxPanesPaneID = <TError = AxiosError<TmuxClientInte
  * Creates a new tmux pane
  * @summary Create tmux pane
  */
-export const postApiV1TmuxPanesCreate = (
+export const postV1TmuxPanesCreate = (
     tmuxClientInternalTypesCreatePaneRequest: TmuxClientInternalTypesCreatePaneRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesCreatePaneResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/tmux/panes/create`,
+      `/v1/tmux/panes/create`,
       tmuxClientInternalTypesCreatePaneRequest,options
     );
   }
 
 
 
-export const getPostApiV1TmuxPanesCreateMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesCreate>>, TError,{data: TmuxClientInternalTypesCreatePaneRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesCreate>>, TError,{data: TmuxClientInternalTypesCreatePaneRequest}, TContext> => {
+export const getPostV1TmuxPanesCreateMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesCreate>>, TError,{data: TmuxClientInternalTypesCreatePaneRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesCreate>>, TError,{data: TmuxClientInternalTypesCreatePaneRequest}, TContext> => {
 
-const mutationKey = ['postApiV1TmuxPanesCreate'];
+const mutationKey = ['postV1TmuxPanesCreate'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -242,10 +242,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1TmuxPanesCreate>>, {data: TmuxClientInternalTypesCreatePaneRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1TmuxPanesCreate>>, {data: TmuxClientInternalTypesCreatePaneRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1TmuxPanesCreate(data,axiosOptions)
+          return  postV1TmuxPanesCreate(data,axiosOptions)
         }
 
         
@@ -253,23 +253,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1TmuxPanesCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1TmuxPanesCreate>>>
-    export type PostApiV1TmuxPanesCreateMutationBody = TmuxClientInternalTypesCreatePaneRequest
-    export type PostApiV1TmuxPanesCreateMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1TmuxPanesCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postV1TmuxPanesCreate>>>
+    export type PostV1TmuxPanesCreateMutationBody = TmuxClientInternalTypesCreatePaneRequest
+    export type PostV1TmuxPanesCreateMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Create tmux pane
  */
-export const usePostApiV1TmuxPanesCreate = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesCreate>>, TError,{data: TmuxClientInternalTypesCreatePaneRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1TmuxPanesCreate = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesCreate>>, TError,{data: TmuxClientInternalTypesCreatePaneRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1TmuxPanesCreate>>,
+        Awaited<ReturnType<typeof postV1TmuxPanesCreate>>,
         TError,
         {data: TmuxClientInternalTypesCreatePaneRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1TmuxPanesCreateMutationOptions(options);
+      const mutationOptions = getPostV1TmuxPanesCreateMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -277,24 +277,24 @@ export const usePostApiV1TmuxPanesCreate = <TError = AxiosError<TmuxClientIntern
  * Reads the content of a tmux pane
  * @summary Read tmux pane
  */
-export const postApiV1TmuxPanesRead = (
+export const postV1TmuxPanesRead = (
     tmuxClientInternalTypesReadPaneRequest: TmuxClientInternalTypesReadPaneRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesReadPaneResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/tmux/panes/read`,
+      `/v1/tmux/panes/read`,
       tmuxClientInternalTypesReadPaneRequest,options
     );
   }
 
 
 
-export const getPostApiV1TmuxPanesReadMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesRead>>, TError,{data: TmuxClientInternalTypesReadPaneRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesRead>>, TError,{data: TmuxClientInternalTypesReadPaneRequest}, TContext> => {
+export const getPostV1TmuxPanesReadMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesRead>>, TError,{data: TmuxClientInternalTypesReadPaneRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesRead>>, TError,{data: TmuxClientInternalTypesReadPaneRequest}, TContext> => {
 
-const mutationKey = ['postApiV1TmuxPanesRead'];
+const mutationKey = ['postV1TmuxPanesRead'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -304,10 +304,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1TmuxPanesRead>>, {data: TmuxClientInternalTypesReadPaneRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1TmuxPanesRead>>, {data: TmuxClientInternalTypesReadPaneRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1TmuxPanesRead(data,axiosOptions)
+          return  postV1TmuxPanesRead(data,axiosOptions)
         }
 
         
@@ -315,23 +315,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1TmuxPanesReadMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1TmuxPanesRead>>>
-    export type PostApiV1TmuxPanesReadMutationBody = TmuxClientInternalTypesReadPaneRequest
-    export type PostApiV1TmuxPanesReadMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1TmuxPanesReadMutationResult = NonNullable<Awaited<ReturnType<typeof postV1TmuxPanesRead>>>
+    export type PostV1TmuxPanesReadMutationBody = TmuxClientInternalTypesReadPaneRequest
+    export type PostV1TmuxPanesReadMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Read tmux pane
  */
-export const usePostApiV1TmuxPanesRead = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesRead>>, TError,{data: TmuxClientInternalTypesReadPaneRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1TmuxPanesRead = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesRead>>, TError,{data: TmuxClientInternalTypesReadPaneRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1TmuxPanesRead>>,
+        Awaited<ReturnType<typeof postV1TmuxPanesRead>>,
         TError,
         {data: TmuxClientInternalTypesReadPaneRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1TmuxPanesReadMutationOptions(options);
+      const mutationOptions = getPostV1TmuxPanesReadMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -339,24 +339,24 @@ export const usePostApiV1TmuxPanesRead = <TError = AxiosError<TmuxClientInternal
  * Sends keystrokes to a tmux pane
  * @summary Send keys to tmux pane
  */
-export const postApiV1TmuxPanesSendKeys = (
+export const postV1TmuxPanesSendKeys = (
     tmuxClientInternalTypesSendKeysRequest: TmuxClientInternalTypesSendKeysRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesSendKeysResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/tmux/panes/send-keys`,
+      `/v1/tmux/panes/send-keys`,
       tmuxClientInternalTypesSendKeysRequest,options
     );
   }
 
 
 
-export const getPostApiV1TmuxPanesSendKeysMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesSendKeys>>, TError,{data: TmuxClientInternalTypesSendKeysRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesSendKeys>>, TError,{data: TmuxClientInternalTypesSendKeysRequest}, TContext> => {
+export const getPostV1TmuxPanesSendKeysMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesSendKeys>>, TError,{data: TmuxClientInternalTypesSendKeysRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesSendKeys>>, TError,{data: TmuxClientInternalTypesSendKeysRequest}, TContext> => {
 
-const mutationKey = ['postApiV1TmuxPanesSendKeys'];
+const mutationKey = ['postV1TmuxPanesSendKeys'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -366,10 +366,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1TmuxPanesSendKeys>>, {data: TmuxClientInternalTypesSendKeysRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1TmuxPanesSendKeys>>, {data: TmuxClientInternalTypesSendKeysRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1TmuxPanesSendKeys(data,axiosOptions)
+          return  postV1TmuxPanesSendKeys(data,axiosOptions)
         }
 
         
@@ -377,23 +377,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1TmuxPanesSendKeysMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1TmuxPanesSendKeys>>>
-    export type PostApiV1TmuxPanesSendKeysMutationBody = TmuxClientInternalTypesSendKeysRequest
-    export type PostApiV1TmuxPanesSendKeysMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1TmuxPanesSendKeysMutationResult = NonNullable<Awaited<ReturnType<typeof postV1TmuxPanesSendKeys>>>
+    export type PostV1TmuxPanesSendKeysMutationBody = TmuxClientInternalTypesSendKeysRequest
+    export type PostV1TmuxPanesSendKeysMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Send keys to tmux pane
  */
-export const usePostApiV1TmuxPanesSendKeys = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesSendKeys>>, TError,{data: TmuxClientInternalTypesSendKeysRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1TmuxPanesSendKeys = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesSendKeys>>, TError,{data: TmuxClientInternalTypesSendKeysRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1TmuxPanesSendKeys>>,
+        Awaited<ReturnType<typeof postV1TmuxPanesSendKeys>>,
         TError,
         {data: TmuxClientInternalTypesSendKeysRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1TmuxPanesSendKeysMutationOptions(options);
+      const mutationOptions = getPostV1TmuxPanesSendKeysMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -401,24 +401,24 @@ export const usePostApiV1TmuxPanesSendKeys = <TError = AxiosError<TmuxClientInte
  * Switches to a specific tmux pane
  * @summary Switch tmux pane
  */
-export const postApiV1TmuxPanesSwitch = (
+export const postV1TmuxPanesSwitch = (
     tmuxClientInternalTypesSwitchPaneRequest: TmuxClientInternalTypesSwitchPaneRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesSwitchPaneResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/tmux/panes/switch`,
+      `/v1/tmux/panes/switch`,
       tmuxClientInternalTypesSwitchPaneRequest,options
     );
   }
 
 
 
-export const getPostApiV1TmuxPanesSwitchMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesSwitch>>, TError,{data: TmuxClientInternalTypesSwitchPaneRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesSwitch>>, TError,{data: TmuxClientInternalTypesSwitchPaneRequest}, TContext> => {
+export const getPostV1TmuxPanesSwitchMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesSwitch>>, TError,{data: TmuxClientInternalTypesSwitchPaneRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesSwitch>>, TError,{data: TmuxClientInternalTypesSwitchPaneRequest}, TContext> => {
 
-const mutationKey = ['postApiV1TmuxPanesSwitch'];
+const mutationKey = ['postV1TmuxPanesSwitch'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -428,10 +428,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1TmuxPanesSwitch>>, {data: TmuxClientInternalTypesSwitchPaneRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1TmuxPanesSwitch>>, {data: TmuxClientInternalTypesSwitchPaneRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1TmuxPanesSwitch(data,axiosOptions)
+          return  postV1TmuxPanesSwitch(data,axiosOptions)
         }
 
         
@@ -439,23 +439,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1TmuxPanesSwitchMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1TmuxPanesSwitch>>>
-    export type PostApiV1TmuxPanesSwitchMutationBody = TmuxClientInternalTypesSwitchPaneRequest
-    export type PostApiV1TmuxPanesSwitchMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1TmuxPanesSwitchMutationResult = NonNullable<Awaited<ReturnType<typeof postV1TmuxPanesSwitch>>>
+    export type PostV1TmuxPanesSwitchMutationBody = TmuxClientInternalTypesSwitchPaneRequest
+    export type PostV1TmuxPanesSwitchMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Switch tmux pane
  */
-export const usePostApiV1TmuxPanesSwitch = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxPanesSwitch>>, TError,{data: TmuxClientInternalTypesSwitchPaneRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1TmuxPanesSwitch = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxPanesSwitch>>, TError,{data: TmuxClientInternalTypesSwitchPaneRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1TmuxPanesSwitch>>,
+        Awaited<ReturnType<typeof postV1TmuxPanesSwitch>>,
         TError,
         {data: TmuxClientInternalTypesSwitchPaneRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1TmuxPanesSwitchMutationOptions(options);
+      const mutationOptions = getPostV1TmuxPanesSwitchMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -463,82 +463,82 @@ export const usePostApiV1TmuxPanesSwitch = <TError = AxiosError<TmuxClientIntern
  * Get a list of all active tmux sessions
  * @summary List tmux sessions
  */
-export const getApiV1TmuxSessions = (
+export const getV1TmuxSessions = (
      options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesSessionInfo[]>> => {
     
     
     return axios.default.get(
-      `/api/v1/tmux/sessions`,options
+      `/v1/tmux/sessions`,options
     );
   }
 
 
 
 
-export const getGetApiV1TmuxSessionsQueryKey = () => {
+export const getGetV1TmuxSessionsQueryKey = () => {
     return [
-    `/api/v1/tmux/sessions`
+    `/v1/tmux/sessions`
     ] as const;
     }
 
     
-export const getGetApiV1TmuxSessionsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetV1TmuxSessionsQueryOptions = <TData = Awaited<ReturnType<typeof getV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxSessions>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV1TmuxSessionsQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetV1TmuxSessionsQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1TmuxSessions>>> = ({ signal }) => getApiV1TmuxSessions({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1TmuxSessions>>> = ({ signal }) => getV1TmuxSessions({ signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxSessions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiV1TmuxSessionsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1TmuxSessions>>>
-export type GetApiV1TmuxSessionsQueryError = AxiosError<TmuxClientInternalTypesAPIError>
+export type GetV1TmuxSessionsQueryResult = NonNullable<Awaited<ReturnType<typeof getV1TmuxSessions>>>
+export type GetV1TmuxSessionsQueryError = AxiosError<TmuxClientInternalTypesAPIError>
 
 
-export function useGetApiV1TmuxSessions<TData = Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError, TData>> & Pick<
+export function useGetV1TmuxSessions<TData = Awaited<ReturnType<typeof getV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxSessions>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1TmuxSessions>>,
+          Awaited<ReturnType<typeof getV1TmuxSessions>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1TmuxSessions>>
+          Awaited<ReturnType<typeof getV1TmuxSessions>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1TmuxSessions<TData = Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError, TData>> & Pick<
+export function useGetV1TmuxSessions<TData = Awaited<ReturnType<typeof getV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxSessions>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1TmuxSessions>>,
+          Awaited<ReturnType<typeof getV1TmuxSessions>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1TmuxSessions>>
+          Awaited<ReturnType<typeof getV1TmuxSessions>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1TmuxSessions<TData = Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1TmuxSessions<TData = Awaited<ReturnType<typeof getV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxSessions>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List tmux sessions
  */
 
-export function useGetApiV1TmuxSessions<TData = Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxSessions>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1TmuxSessions<TData = Awaited<ReturnType<typeof getV1TmuxSessions>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxSessions>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV1TmuxSessionsQueryOptions(options)
+  const queryOptions = getGetV1TmuxSessionsQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -554,23 +554,23 @@ export function useGetApiV1TmuxSessions<TData = Awaited<ReturnType<typeof getApi
  * Releases (kills) a tmux session by ID
  * @summary Release tmux session
  */
-export const postApiV1TmuxSessionsSessionIdRelease = (
+export const postV1TmuxSessionsSessionIdRelease = (
     sessionId: string, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesKillSessionResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/tmux/sessions/${sessionId}/release`,undefined,options
+      `/v1/tmux/sessions/${sessionId}/release`,undefined,options
     );
   }
 
 
 
-export const getPostApiV1TmuxSessionsSessionIdReleaseMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxSessionsSessionIdRelease>>, TError,{sessionId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxSessionsSessionIdRelease>>, TError,{sessionId: string}, TContext> => {
+export const getPostV1TmuxSessionsSessionIdReleaseMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxSessionsSessionIdRelease>>, TError,{sessionId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxSessionsSessionIdRelease>>, TError,{sessionId: string}, TContext> => {
 
-const mutationKey = ['postApiV1TmuxSessionsSessionIdRelease'];
+const mutationKey = ['postV1TmuxSessionsSessionIdRelease'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -580,10 +580,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1TmuxSessionsSessionIdRelease>>, {sessionId: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1TmuxSessionsSessionIdRelease>>, {sessionId: string}> = (props) => {
           const {sessionId} = props ?? {};
 
-          return  postApiV1TmuxSessionsSessionIdRelease(sessionId,axiosOptions)
+          return  postV1TmuxSessionsSessionIdRelease(sessionId,axiosOptions)
         }
 
         
@@ -591,23 +591,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1TmuxSessionsSessionIdReleaseMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1TmuxSessionsSessionIdRelease>>>
+    export type PostV1TmuxSessionsSessionIdReleaseMutationResult = NonNullable<Awaited<ReturnType<typeof postV1TmuxSessionsSessionIdRelease>>>
     
-    export type PostApiV1TmuxSessionsSessionIdReleaseMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1TmuxSessionsSessionIdReleaseMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Release tmux session
  */
-export const usePostApiV1TmuxSessionsSessionIdRelease = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxSessionsSessionIdRelease>>, TError,{sessionId: string}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1TmuxSessionsSessionIdRelease = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxSessionsSessionIdRelease>>, TError,{sessionId: string}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1TmuxSessionsSessionIdRelease>>,
+        Awaited<ReturnType<typeof postV1TmuxSessionsSessionIdRelease>>,
         TError,
         {sessionId: string},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1TmuxSessionsSessionIdReleaseMutationOptions(options);
+      const mutationOptions = getPostV1TmuxSessionsSessionIdReleaseMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -615,23 +615,23 @@ export const usePostApiV1TmuxSessionsSessionIdRelease = <TError = AxiosError<Tmu
  * Kills a tmux session
  * @summary Kill tmux session
  */
-export const deleteApiV1TmuxSessionsSessionName = (
+export const deleteV1TmuxSessionsSessionName = (
     sessionName: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DeleteApiV1TmuxSessionsSessionName200>> => {
+ ): Promise<AxiosResponse<DeleteV1TmuxSessionsSessionName200>> => {
     
     
     return axios.default.delete(
-      `/api/v1/tmux/sessions/${sessionName}`,options
+      `/v1/tmux/sessions/${sessionName}`,options
     );
   }
 
 
 
-export const getDeleteApiV1TmuxSessionsSessionNameMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1TmuxSessionsSessionName>>, TError,{sessionName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1TmuxSessionsSessionName>>, TError,{sessionName: string}, TContext> => {
+export const getDeleteV1TmuxSessionsSessionNameMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1TmuxSessionsSessionName>>, TError,{sessionName: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteV1TmuxSessionsSessionName>>, TError,{sessionName: string}, TContext> => {
 
-const mutationKey = ['deleteApiV1TmuxSessionsSessionName'];
+const mutationKey = ['deleteV1TmuxSessionsSessionName'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -641,10 +641,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiV1TmuxSessionsSessionName>>, {sessionName: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteV1TmuxSessionsSessionName>>, {sessionName: string}> = (props) => {
           const {sessionName} = props ?? {};
 
-          return  deleteApiV1TmuxSessionsSessionName(sessionName,axiosOptions)
+          return  deleteV1TmuxSessionsSessionName(sessionName,axiosOptions)
         }
 
         
@@ -652,23 +652,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type DeleteApiV1TmuxSessionsSessionNameMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiV1TmuxSessionsSessionName>>>
+    export type DeleteV1TmuxSessionsSessionNameMutationResult = NonNullable<Awaited<ReturnType<typeof deleteV1TmuxSessionsSessionName>>>
     
-    export type DeleteApiV1TmuxSessionsSessionNameMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type DeleteV1TmuxSessionsSessionNameMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Kill tmux session
  */
-export const useDeleteApiV1TmuxSessionsSessionName = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1TmuxSessionsSessionName>>, TError,{sessionName: string}, TContext>, axios?: AxiosRequestConfig}
+export const useDeleteV1TmuxSessionsSessionName = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1TmuxSessionsSessionName>>, TError,{sessionName: string}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteApiV1TmuxSessionsSessionName>>,
+        Awaited<ReturnType<typeof deleteV1TmuxSessionsSessionName>>,
         TError,
         {sessionName: string},
         TContext
       > => {
 
-      const mutationOptions = getDeleteApiV1TmuxSessionsSessionNameMutationOptions(options);
+      const mutationOptions = getDeleteV1TmuxSessionsSessionNameMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -676,24 +676,24 @@ export const useDeleteApiV1TmuxSessionsSessionName = <TError = AxiosError<TmuxCl
  * Creates a new tmux session
  * @summary Create tmux session
  */
-export const postApiV1TmuxSessionsCreate = (
-    postApiV1TmuxSessionsCreateBody: PostApiV1TmuxSessionsCreateBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PostApiV1TmuxSessionsCreate200>> => {
+export const postV1TmuxSessionsCreate = (
+    postV1TmuxSessionsCreateBody: PostV1TmuxSessionsCreateBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PostV1TmuxSessionsCreate200>> => {
     
     
     return axios.default.post(
-      `/api/v1/tmux/sessions/create`,
-      postApiV1TmuxSessionsCreateBody,options
+      `/v1/tmux/sessions/create`,
+      postV1TmuxSessionsCreateBody,options
     );
   }
 
 
 
-export const getPostApiV1TmuxSessionsCreateMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxSessionsCreate>>, TError,{data: PostApiV1TmuxSessionsCreateBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxSessionsCreate>>, TError,{data: PostApiV1TmuxSessionsCreateBody}, TContext> => {
+export const getPostV1TmuxSessionsCreateMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxSessionsCreate>>, TError,{data: PostV1TmuxSessionsCreateBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxSessionsCreate>>, TError,{data: PostV1TmuxSessionsCreateBody}, TContext> => {
 
-const mutationKey = ['postApiV1TmuxSessionsCreate'];
+const mutationKey = ['postV1TmuxSessionsCreate'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -703,10 +703,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1TmuxSessionsCreate>>, {data: PostApiV1TmuxSessionsCreateBody}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1TmuxSessionsCreate>>, {data: PostV1TmuxSessionsCreateBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1TmuxSessionsCreate(data,axiosOptions)
+          return  postV1TmuxSessionsCreate(data,axiosOptions)
         }
 
         
@@ -714,23 +714,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1TmuxSessionsCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1TmuxSessionsCreate>>>
-    export type PostApiV1TmuxSessionsCreateMutationBody = PostApiV1TmuxSessionsCreateBody
-    export type PostApiV1TmuxSessionsCreateMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1TmuxSessionsCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postV1TmuxSessionsCreate>>>
+    export type PostV1TmuxSessionsCreateMutationBody = PostV1TmuxSessionsCreateBody
+    export type PostV1TmuxSessionsCreateMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Create tmux session
  */
-export const usePostApiV1TmuxSessionsCreate = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1TmuxSessionsCreate>>, TError,{data: PostApiV1TmuxSessionsCreateBody}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1TmuxSessionsCreate = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TmuxSessionsCreate>>, TError,{data: PostV1TmuxSessionsCreateBody}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1TmuxSessionsCreate>>,
+        Awaited<ReturnType<typeof postV1TmuxSessionsCreate>>,
         TError,
-        {data: PostApiV1TmuxSessionsCreateBody},
+        {data: PostV1TmuxSessionsCreateBody},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1TmuxSessionsCreateMutationOptions(options);
+      const mutationOptions = getPostV1TmuxSessionsCreateMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -738,13 +738,13 @@ export const usePostApiV1TmuxSessionsCreate = <TError = AxiosError<TmuxClientInt
  * Get a list of windows in a tmux session
  * @summary List tmux windows
  */
-export const getApiV1TmuxWindows = (
-    params?: GetApiV1TmuxWindowsParams, options?: AxiosRequestConfig
+export const getV1TmuxWindows = (
+    params?: GetV1TmuxWindowsParams, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesWindowInfo[]>> => {
     
     
     return axios.default.get(
-      `/api/v1/tmux/windows`,{
+      `/v1/tmux/windows`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -753,69 +753,69 @@ export const getApiV1TmuxWindows = (
 
 
 
-export const getGetApiV1TmuxWindowsQueryKey = (params?: GetApiV1TmuxWindowsParams,) => {
+export const getGetV1TmuxWindowsQueryKey = (params?: GetV1TmuxWindowsParams,) => {
     return [
-    `/api/v1/tmux/windows`, ...(params ? [params]: [])
+    `/v1/tmux/windows`, ...(params ? [params]: [])
     ] as const;
     }
 
     
-export const getGetApiV1TmuxWindowsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(params?: GetApiV1TmuxWindowsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetV1TmuxWindowsQueryOptions = <TData = Awaited<ReturnType<typeof getV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(params?: GetV1TmuxWindowsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxWindows>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV1TmuxWindowsQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getGetV1TmuxWindowsQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1TmuxWindows>>> = ({ signal }) => getApiV1TmuxWindows(params, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1TmuxWindows>>> = ({ signal }) => getV1TmuxWindows(params, { signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxWindows>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiV1TmuxWindowsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1TmuxWindows>>>
-export type GetApiV1TmuxWindowsQueryError = AxiosError<TmuxClientInternalTypesAPIError>
+export type GetV1TmuxWindowsQueryResult = NonNullable<Awaited<ReturnType<typeof getV1TmuxWindows>>>
+export type GetV1TmuxWindowsQueryError = AxiosError<TmuxClientInternalTypesAPIError>
 
 
-export function useGetApiV1TmuxWindows<TData = Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- params: undefined |  GetApiV1TmuxWindowsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError, TData>> & Pick<
+export function useGetV1TmuxWindows<TData = Awaited<ReturnType<typeof getV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ params: undefined |  GetV1TmuxWindowsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxWindows>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1TmuxWindows>>,
+          Awaited<ReturnType<typeof getV1TmuxWindows>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1TmuxWindows>>
+          Awaited<ReturnType<typeof getV1TmuxWindows>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1TmuxWindows<TData = Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- params?: GetApiV1TmuxWindowsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError, TData>> & Pick<
+export function useGetV1TmuxWindows<TData = Awaited<ReturnType<typeof getV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ params?: GetV1TmuxWindowsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxWindows>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiV1TmuxWindows>>,
+          Awaited<ReturnType<typeof getV1TmuxWindows>>,
           TError,
-          Awaited<ReturnType<typeof getApiV1TmuxWindows>>
+          Awaited<ReturnType<typeof getV1TmuxWindows>>
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1TmuxWindows<TData = Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- params?: GetApiV1TmuxWindowsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1TmuxWindows<TData = Awaited<ReturnType<typeof getV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ params?: GetV1TmuxWindowsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxWindows>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List tmux windows
  */
 
-export function useGetApiV1TmuxWindows<TData = Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
- params?: GetApiV1TmuxWindowsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TmuxWindows>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetV1TmuxWindows<TData = Awaited<ReturnType<typeof getV1TmuxWindows>>, TError = AxiosError<TmuxClientInternalTypesAPIError>>(
+ params?: GetV1TmuxWindowsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1TmuxWindows>>, TError, TData>>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV1TmuxWindowsQueryOptions(params,options)
+  const queryOptions = getGetV1TmuxWindowsQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

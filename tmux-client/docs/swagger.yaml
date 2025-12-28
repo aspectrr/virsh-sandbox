@@ -1,4 +1,4 @@
-basePath: /v1
+basePath: /
 definitions:
   tmux-client_internal_types.APIError:
     properties:
@@ -124,6 +124,15 @@ definitions:
         type: boolean
       total_count:
         type: integer
+    type: object
+  tmux-client_internal_types.ComponentHealth:
+    properties:
+      message:
+        type: string
+      name:
+        type: string
+      status:
+        $ref: '#/definitions/tmux-client_internal_types.HealthStatus'
     type: object
   tmux-client_internal_types.CopyFileRequest:
     properties:
@@ -259,6 +268,29 @@ definitions:
       plan:
         $ref: '#/definitions/tmux-client_internal_types.Plan'
     type: object
+  tmux-client_internal_types.HealthResponse:
+    properties:
+      components:
+        items:
+          $ref: '#/definitions/tmux-client_internal_types.ComponentHealth'
+        type: array
+      status:
+        $ref: '#/definitions/tmux-client_internal_types.HealthStatus'
+      uptime:
+        type: string
+      version:
+        type: string
+    type: object
+  tmux-client_internal_types.HealthStatus:
+    enum:
+    - healthy
+    - degraded
+    - unhealthy
+    type: string
+    x-enum-varnames:
+    - HealthStatusHealthy
+    - HealthStatusDegraded
+    - HealthStatusUnhealthy
   tmux-client_internal_types.KillSessionResponse:
     properties:
       session_name:
@@ -627,14 +659,14 @@ definitions:
       written:
         type: boolean
     type: object
-host: localhost:8080
+host: localhost:8081
 info:
   contact: {}
   description: API for managing tmux sessions and windows
   title: tmux-client API
   version: 0.0.1-beta
 paths:
-  /api/v1/audit/query:
+  /v1/audit/query:
     post:
       consumes:
       - application/json
@@ -662,8 +694,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Query audit log
       tags:
-      - audit
-  /api/v1/audit/stats:
+      - Audit
+  /v1/audit/stats:
     get:
       consumes:
       - application/json
@@ -678,8 +710,8 @@ paths:
             type: object
       summary: Get audit stats
       tags:
-      - audit
-  /api/v1/command/allowed:
+      - Audit
+  /v1/command/allowed:
     get:
       consumes:
       - application/json
@@ -694,8 +726,8 @@ paths:
             type: object
       summary: Get allowed commands
       tags:
-      - command
-  /api/v1/command/run:
+      - Command
+  /v1/command/run:
     post:
       consumes:
       - application/json
@@ -728,8 +760,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Run command
       tags:
-      - command
-  /api/v1/file/copy:
+      - Command
+  /v1/file/copy:
     post:
       consumes:
       - application/json
@@ -758,8 +790,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Copy file
       tags:
-      - file
-  /api/v1/file/delete:
+      - File
+  /v1/file/delete:
     post:
       consumes:
       - application/json
@@ -792,8 +824,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Delete file
       tags:
-      - file
-  /api/v1/file/edit:
+      - File
+  /v1/file/edit:
     post:
       consumes:
       - application/json
@@ -826,8 +858,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Edit file
       tags:
-      - file
-  /api/v1/file/exists:
+      - File
+  /v1/file/exists:
     post:
       consumes:
       - application/json
@@ -857,8 +889,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Check if file exists
       tags:
-      - file
-  /api/v1/file/hash:
+      - File
+  /v1/file/hash:
     post:
       consumes:
       - application/json
@@ -889,8 +921,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Get file hash
       tags:
-      - file
-  /api/v1/file/list:
+      - File
+  /v1/file/list:
     post:
       consumes:
       - application/json
@@ -923,8 +955,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: List directory contents
       tags:
-      - file
-  /api/v1/file/read:
+      - File
+  /v1/file/read:
     post:
       consumes:
       - application/json
@@ -961,8 +993,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Read file
       tags:
-      - file
-  /api/v1/file/write:
+      - File
+  /v1/file/write:
     post:
       consumes:
       - application/json
@@ -995,8 +1027,23 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Write file
       tags:
-      - file
-  /api/v1/human/ask:
+      - File
+  /v1/health:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the health status of the API server and its components
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tmux-client_internal_types.HealthResponse'
+      summary: Get health status
+      tags:
+      - Health
+  /v1/human/ask:
     post:
       consumes:
       - application/json
@@ -1025,8 +1072,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Request human approval
       tags:
-      - human
-  /api/v1/human/ask-async:
+      - Human
+  /v1/human/ask-async:
     post:
       consumes:
       - application/json
@@ -1057,8 +1104,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Request human approval asynchronously
       tags:
-      - human
-  /api/v1/human/pending:
+      - Human
+  /v1/human/pending:
     get:
       consumes:
       - application/json
@@ -1072,8 +1119,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.ListApprovalsResponse'
       summary: List pending approvals
       tags:
-      - human
-  /api/v1/human/pending/{requestID}:
+      - Human
+  /v1/human/pending/{requestID}:
     delete:
       consumes:
       - application/json
@@ -1102,7 +1149,7 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Cancel approval
       tags:
-      - human
+      - Human
     get:
       consumes:
       - application/json
@@ -1130,8 +1177,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Get pending approval
       tags:
-      - human
-  /api/v1/human/respond:
+      - Human
+  /v1/human/respond:
     post:
       consumes:
       - application/json
@@ -1160,8 +1207,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Respond to approval
       tags:
-      - human
-  /api/v1/plan/:
+      - Human
+  /v1/plan/:
     get:
       consumes:
       - application/json
@@ -1179,8 +1226,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: List plans
       tags:
-      - plan
-  /api/v1/plan/{planID}:
+      - Plan
+  /v1/plan/{planID}:
     delete:
       consumes:
       - application/json
@@ -1209,7 +1256,7 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Delete plan
       tags:
-      - plan
+      - Plan
     get:
       consumes:
       - application/json
@@ -1237,8 +1284,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Get plan
       tags:
-      - plan
-  /api/v1/plan/{planID}/abort:
+      - Plan
+  /v1/plan/{planID}/abort:
     post:
       consumes:
       - application/json
@@ -1276,8 +1323,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Abort plan
       tags:
-      - plan
-  /api/v1/plan/{planID}/advance:
+      - Plan
+  /v1/plan/{planID}/advance:
     post:
       consumes:
       - application/json
@@ -1315,8 +1362,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Advance plan step
       tags:
-      - plan
-  /api/v1/plan/create:
+      - Plan
+  /v1/plan/create:
     post:
       consumes:
       - application/json
@@ -1345,8 +1392,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Create plan
       tags:
-      - plan
-  /api/v1/plan/update:
+      - Plan
+  /v1/plan/update:
     post:
       consumes:
       - application/json
@@ -1379,8 +1426,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Update plan
       tags:
-      - plan
-  /api/v1/tmux/panes:
+      - Plan
+  /v1/tmux/panes:
     get:
       consumes:
       - application/json
@@ -1407,8 +1454,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: List tmux panes
       tags:
-      - tmux
-  /api/v1/tmux/panes/{paneID}:
+      - Tmux
+  /v1/tmux/panes/{paneID}:
     delete:
       consumes:
       - application/json
@@ -1437,8 +1484,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Kill tmux pane
       tags:
-      - tmux
-  /api/v1/tmux/panes/create:
+      - Tmux
+  /v1/tmux/panes/create:
     post:
       consumes:
       - application/json
@@ -1467,8 +1514,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Create tmux pane
       tags:
-      - tmux
-  /api/v1/tmux/panes/read:
+      - Tmux
+  /v1/tmux/panes/read:
     post:
       consumes:
       - application/json
@@ -1497,8 +1544,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Read tmux pane
       tags:
-      - tmux
-  /api/v1/tmux/panes/send-keys:
+      - Tmux
+  /v1/tmux/panes/send-keys:
     post:
       consumes:
       - application/json
@@ -1531,8 +1578,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Send keys to tmux pane
       tags:
-      - tmux
-  /api/v1/tmux/panes/switch:
+      - Tmux
+  /v1/tmux/panes/switch:
     post:
       consumes:
       - application/json
@@ -1561,8 +1608,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Switch tmux pane
       tags:
-      - tmux
-  /api/v1/tmux/sessions:
+      - Tmux
+  /v1/tmux/sessions:
     get:
       consumes:
       - application/json
@@ -1582,8 +1629,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: List tmux sessions
       tags:
-      - tmux
-  /api/v1/tmux/sessions/{sessionId}/release:
+      - Tmux
+  /v1/tmux/sessions/{sessionId}/release:
     post:
       consumes:
       - application/json
@@ -1607,8 +1654,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Release tmux session
       tags:
-      - tmux
-  /api/v1/tmux/sessions/{sessionName}:
+      - Tmux
+  /v1/tmux/sessions/{sessionName}:
     delete:
       consumes:
       - application/json
@@ -1637,8 +1684,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Kill tmux session
       tags:
-      - tmux
-  /api/v1/tmux/sessions/create:
+      - Tmux
+  /v1/tmux/sessions/create:
     post:
       consumes:
       - application/json
@@ -1669,8 +1716,8 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: Create tmux session
       tags:
-      - tmux
-  /api/v1/tmux/windows:
+      - Tmux
+  /v1/tmux/windows:
     get:
       consumes:
       - application/json
@@ -1695,5 +1742,5 @@ paths:
             $ref: '#/definitions/tmux-client_internal_types.APIError'
       summary: List tmux windows
       tags:
-      - tmux
+      - Tmux
 swagger: "2.0"

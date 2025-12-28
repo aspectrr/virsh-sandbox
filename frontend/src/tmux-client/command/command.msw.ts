@@ -19,40 +19,40 @@ import type {
 } from 'msw';
 
 import type {
-  GetApiV1CommandAllowed200,
+  GetV1CommandAllowed200,
   TmuxClientInternalTypesRunCommandResponse
 } from '.././model';
 
 
-export const getGetApiV1CommandAllowedResponseMock = (): GetApiV1CommandAllowed200 => ({})
+export const getGetV1CommandAllowedResponseMock = (): GetV1CommandAllowed200 => ({})
 
-export const getPostApiV1CommandRunResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesRunCommandResponse > = {}): TmuxClientInternalTypesRunCommandResponse => ({args: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.string.alpha({length: {min: 10, max: 20}}))), undefined]), command: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), dry_run: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), duration_ms: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), exit_code: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), stderr: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), stdout: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), timed_out: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
+export const getPostV1CommandRunResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesRunCommandResponse > = {}): TmuxClientInternalTypesRunCommandResponse => ({args: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.string.alpha({length: {min: 10, max: 20}}))), undefined]), command: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), dry_run: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), duration_ms: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), exit_code: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), stderr: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), stdout: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), timed_out: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
 
 
-export const getGetApiV1CommandAllowedMockHandler = (overrideResponse?: GetApiV1CommandAllowed200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetApiV1CommandAllowed200> | GetApiV1CommandAllowed200), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/command/allowed', async (info) => {await delay(1000);
+export const getGetV1CommandAllowedMockHandler = (overrideResponse?: GetV1CommandAllowed200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetV1CommandAllowed200> | GetV1CommandAllowed200), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/command/allowed', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1CommandAllowedResponseMock()),
+    : getGetV1CommandAllowedResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1CommandRunMockHandler = (overrideResponse?: TmuxClientInternalTypesRunCommandResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesRunCommandResponse> | TmuxClientInternalTypesRunCommandResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/command/run', async (info) => {await delay(1000);
+export const getPostV1CommandRunMockHandler = (overrideResponse?: TmuxClientInternalTypesRunCommandResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesRunCommandResponse> | TmuxClientInternalTypesRunCommandResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/command/run', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1CommandRunResponseMock()),
+    : getPostV1CommandRunResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 export const getCommandMock = () => [
-  getGetApiV1CommandAllowedMockHandler(),
-  getPostApiV1CommandRunMockHandler()
+  getGetV1CommandAllowedMockHandler(),
+  getPostV1CommandRunMockHandler()
 ]

@@ -23,10 +23,10 @@ import type {
 } from 'axios';
 
 import type {
-  PostApiV1FileExists200,
-  PostApiV1FileExistsBody,
-  PostApiV1FileHash200,
-  PostApiV1FileHashBody,
+  PostV1FileExists200,
+  PostV1FileExistsBody,
+  PostV1FileHash200,
+  PostV1FileHashBody,
   TmuxClientInternalTypesAPIError,
   TmuxClientInternalTypesCopyFileRequest,
   TmuxClientInternalTypesCopyFileResponse,
@@ -50,24 +50,24 @@ import type {
  * Copies a file from source to destination
  * @summary Copy file
  */
-export const postApiV1FileCopy = (
+export const postV1FileCopy = (
     tmuxClientInternalTypesCopyFileRequest: TmuxClientInternalTypesCopyFileRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesCopyFileResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/file/copy`,
+      `/v1/file/copy`,
       tmuxClientInternalTypesCopyFileRequest,options
     );
   }
 
 
 
-export const getPostApiV1FileCopyMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileCopy>>, TError,{data: TmuxClientInternalTypesCopyFileRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileCopy>>, TError,{data: TmuxClientInternalTypesCopyFileRequest}, TContext> => {
+export const getPostV1FileCopyMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileCopy>>, TError,{data: TmuxClientInternalTypesCopyFileRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1FileCopy>>, TError,{data: TmuxClientInternalTypesCopyFileRequest}, TContext> => {
 
-const mutationKey = ['postApiV1FileCopy'];
+const mutationKey = ['postV1FileCopy'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -77,10 +77,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1FileCopy>>, {data: TmuxClientInternalTypesCopyFileRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1FileCopy>>, {data: TmuxClientInternalTypesCopyFileRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1FileCopy(data,axiosOptions)
+          return  postV1FileCopy(data,axiosOptions)
         }
 
         
@@ -88,23 +88,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1FileCopyMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1FileCopy>>>
-    export type PostApiV1FileCopyMutationBody = TmuxClientInternalTypesCopyFileRequest
-    export type PostApiV1FileCopyMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1FileCopyMutationResult = NonNullable<Awaited<ReturnType<typeof postV1FileCopy>>>
+    export type PostV1FileCopyMutationBody = TmuxClientInternalTypesCopyFileRequest
+    export type PostV1FileCopyMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Copy file
  */
-export const usePostApiV1FileCopy = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileCopy>>, TError,{data: TmuxClientInternalTypesCopyFileRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1FileCopy = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileCopy>>, TError,{data: TmuxClientInternalTypesCopyFileRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1FileCopy>>,
+        Awaited<ReturnType<typeof postV1FileCopy>>,
         TError,
         {data: TmuxClientInternalTypesCopyFileRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1FileCopyMutationOptions(options);
+      const mutationOptions = getPostV1FileCopyMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -112,24 +112,24 @@ export const usePostApiV1FileCopy = <TError = AxiosError<TmuxClientInternalTypes
  * Deletes a file or directory
  * @summary Delete file
  */
-export const postApiV1FileDelete = (
+export const postV1FileDelete = (
     tmuxClientInternalTypesDeleteFileRequest: TmuxClientInternalTypesDeleteFileRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesDeleteFileResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/file/delete`,
+      `/v1/file/delete`,
       tmuxClientInternalTypesDeleteFileRequest,options
     );
   }
 
 
 
-export const getPostApiV1FileDeleteMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileDelete>>, TError,{data: TmuxClientInternalTypesDeleteFileRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileDelete>>, TError,{data: TmuxClientInternalTypesDeleteFileRequest}, TContext> => {
+export const getPostV1FileDeleteMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileDelete>>, TError,{data: TmuxClientInternalTypesDeleteFileRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1FileDelete>>, TError,{data: TmuxClientInternalTypesDeleteFileRequest}, TContext> => {
 
-const mutationKey = ['postApiV1FileDelete'];
+const mutationKey = ['postV1FileDelete'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -139,10 +139,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1FileDelete>>, {data: TmuxClientInternalTypesDeleteFileRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1FileDelete>>, {data: TmuxClientInternalTypesDeleteFileRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1FileDelete(data,axiosOptions)
+          return  postV1FileDelete(data,axiosOptions)
         }
 
         
@@ -150,23 +150,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1FileDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1FileDelete>>>
-    export type PostApiV1FileDeleteMutationBody = TmuxClientInternalTypesDeleteFileRequest
-    export type PostApiV1FileDeleteMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1FileDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof postV1FileDelete>>>
+    export type PostV1FileDeleteMutationBody = TmuxClientInternalTypesDeleteFileRequest
+    export type PostV1FileDeleteMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Delete file
  */
-export const usePostApiV1FileDelete = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileDelete>>, TError,{data: TmuxClientInternalTypesDeleteFileRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1FileDelete = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileDelete>>, TError,{data: TmuxClientInternalTypesDeleteFileRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1FileDelete>>,
+        Awaited<ReturnType<typeof postV1FileDelete>>,
         TError,
         {data: TmuxClientInternalTypesDeleteFileRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1FileDeleteMutationOptions(options);
+      const mutationOptions = getPostV1FileDeleteMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -174,24 +174,24 @@ export const usePostApiV1FileDelete = <TError = AxiosError<TmuxClientInternalTyp
  * Edits the content of a file
  * @summary Edit file
  */
-export const postApiV1FileEdit = (
+export const postV1FileEdit = (
     tmuxClientInternalTypesEditFileRequest: TmuxClientInternalTypesEditFileRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesEditFileResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/file/edit`,
+      `/v1/file/edit`,
       tmuxClientInternalTypesEditFileRequest,options
     );
   }
 
 
 
-export const getPostApiV1FileEditMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileEdit>>, TError,{data: TmuxClientInternalTypesEditFileRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileEdit>>, TError,{data: TmuxClientInternalTypesEditFileRequest}, TContext> => {
+export const getPostV1FileEditMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileEdit>>, TError,{data: TmuxClientInternalTypesEditFileRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1FileEdit>>, TError,{data: TmuxClientInternalTypesEditFileRequest}, TContext> => {
 
-const mutationKey = ['postApiV1FileEdit'];
+const mutationKey = ['postV1FileEdit'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -201,10 +201,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1FileEdit>>, {data: TmuxClientInternalTypesEditFileRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1FileEdit>>, {data: TmuxClientInternalTypesEditFileRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1FileEdit(data,axiosOptions)
+          return  postV1FileEdit(data,axiosOptions)
         }
 
         
@@ -212,23 +212,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1FileEditMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1FileEdit>>>
-    export type PostApiV1FileEditMutationBody = TmuxClientInternalTypesEditFileRequest
-    export type PostApiV1FileEditMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1FileEditMutationResult = NonNullable<Awaited<ReturnType<typeof postV1FileEdit>>>
+    export type PostV1FileEditMutationBody = TmuxClientInternalTypesEditFileRequest
+    export type PostV1FileEditMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Edit file
  */
-export const usePostApiV1FileEdit = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileEdit>>, TError,{data: TmuxClientInternalTypesEditFileRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1FileEdit = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileEdit>>, TError,{data: TmuxClientInternalTypesEditFileRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1FileEdit>>,
+        Awaited<ReturnType<typeof postV1FileEdit>>,
         TError,
         {data: TmuxClientInternalTypesEditFileRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1FileEditMutationOptions(options);
+      const mutationOptions = getPostV1FileEditMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -236,24 +236,24 @@ export const usePostApiV1FileEdit = <TError = AxiosError<TmuxClientInternalTypes
  * Checks if a file or directory exists
  * @summary Check if file exists
  */
-export const postApiV1FileExists = (
-    postApiV1FileExistsBody: PostApiV1FileExistsBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PostApiV1FileExists200>> => {
+export const postV1FileExists = (
+    postV1FileExistsBody: PostV1FileExistsBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PostV1FileExists200>> => {
     
     
     return axios.default.post(
-      `/api/v1/file/exists`,
-      postApiV1FileExistsBody,options
+      `/v1/file/exists`,
+      postV1FileExistsBody,options
     );
   }
 
 
 
-export const getPostApiV1FileExistsMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileExists>>, TError,{data: PostApiV1FileExistsBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileExists>>, TError,{data: PostApiV1FileExistsBody}, TContext> => {
+export const getPostV1FileExistsMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileExists>>, TError,{data: PostV1FileExistsBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1FileExists>>, TError,{data: PostV1FileExistsBody}, TContext> => {
 
-const mutationKey = ['postApiV1FileExists'];
+const mutationKey = ['postV1FileExists'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -263,10 +263,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1FileExists>>, {data: PostApiV1FileExistsBody}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1FileExists>>, {data: PostV1FileExistsBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1FileExists(data,axiosOptions)
+          return  postV1FileExists(data,axiosOptions)
         }
 
         
@@ -274,23 +274,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1FileExistsMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1FileExists>>>
-    export type PostApiV1FileExistsMutationBody = PostApiV1FileExistsBody
-    export type PostApiV1FileExistsMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1FileExistsMutationResult = NonNullable<Awaited<ReturnType<typeof postV1FileExists>>>
+    export type PostV1FileExistsMutationBody = PostV1FileExistsBody
+    export type PostV1FileExistsMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Check if file exists
  */
-export const usePostApiV1FileExists = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileExists>>, TError,{data: PostApiV1FileExistsBody}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1FileExists = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileExists>>, TError,{data: PostV1FileExistsBody}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1FileExists>>,
+        Awaited<ReturnType<typeof postV1FileExists>>,
         TError,
-        {data: PostApiV1FileExistsBody},
+        {data: PostV1FileExistsBody},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1FileExistsMutationOptions(options);
+      const mutationOptions = getPostV1FileExistsMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -298,24 +298,24 @@ export const usePostApiV1FileExists = <TError = AxiosError<TmuxClientInternalTyp
  * Computes the SHA256 hash of a file
  * @summary Get file hash
  */
-export const postApiV1FileHash = (
-    postApiV1FileHashBody: PostApiV1FileHashBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PostApiV1FileHash200>> => {
+export const postV1FileHash = (
+    postV1FileHashBody: PostV1FileHashBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PostV1FileHash200>> => {
     
     
     return axios.default.post(
-      `/api/v1/file/hash`,
-      postApiV1FileHashBody,options
+      `/v1/file/hash`,
+      postV1FileHashBody,options
     );
   }
 
 
 
-export const getPostApiV1FileHashMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileHash>>, TError,{data: PostApiV1FileHashBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileHash>>, TError,{data: PostApiV1FileHashBody}, TContext> => {
+export const getPostV1FileHashMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileHash>>, TError,{data: PostV1FileHashBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1FileHash>>, TError,{data: PostV1FileHashBody}, TContext> => {
 
-const mutationKey = ['postApiV1FileHash'];
+const mutationKey = ['postV1FileHash'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -325,10 +325,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1FileHash>>, {data: PostApiV1FileHashBody}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1FileHash>>, {data: PostV1FileHashBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1FileHash(data,axiosOptions)
+          return  postV1FileHash(data,axiosOptions)
         }
 
         
@@ -336,23 +336,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1FileHashMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1FileHash>>>
-    export type PostApiV1FileHashMutationBody = PostApiV1FileHashBody
-    export type PostApiV1FileHashMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1FileHashMutationResult = NonNullable<Awaited<ReturnType<typeof postV1FileHash>>>
+    export type PostV1FileHashMutationBody = PostV1FileHashBody
+    export type PostV1FileHashMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Get file hash
  */
-export const usePostApiV1FileHash = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileHash>>, TError,{data: PostApiV1FileHashBody}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1FileHash = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileHash>>, TError,{data: PostV1FileHashBody}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1FileHash>>,
+        Awaited<ReturnType<typeof postV1FileHash>>,
         TError,
-        {data: PostApiV1FileHashBody},
+        {data: PostV1FileHashBody},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1FileHashMutationOptions(options);
+      const mutationOptions = getPostV1FileHashMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -360,24 +360,24 @@ export const usePostApiV1FileHash = <TError = AxiosError<TmuxClientInternalTypes
  * Lists the contents of a directory
  * @summary List directory contents
  */
-export const postApiV1FileList = (
+export const postV1FileList = (
     tmuxClientInternalTypesListDirRequest: TmuxClientInternalTypesListDirRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesListDirResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/file/list`,
+      `/v1/file/list`,
       tmuxClientInternalTypesListDirRequest,options
     );
   }
 
 
 
-export const getPostApiV1FileListMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileList>>, TError,{data: TmuxClientInternalTypesListDirRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileList>>, TError,{data: TmuxClientInternalTypesListDirRequest}, TContext> => {
+export const getPostV1FileListMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileList>>, TError,{data: TmuxClientInternalTypesListDirRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1FileList>>, TError,{data: TmuxClientInternalTypesListDirRequest}, TContext> => {
 
-const mutationKey = ['postApiV1FileList'];
+const mutationKey = ['postV1FileList'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -387,10 +387,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1FileList>>, {data: TmuxClientInternalTypesListDirRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1FileList>>, {data: TmuxClientInternalTypesListDirRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1FileList(data,axiosOptions)
+          return  postV1FileList(data,axiosOptions)
         }
 
         
@@ -398,23 +398,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1FileListMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1FileList>>>
-    export type PostApiV1FileListMutationBody = TmuxClientInternalTypesListDirRequest
-    export type PostApiV1FileListMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1FileListMutationResult = NonNullable<Awaited<ReturnType<typeof postV1FileList>>>
+    export type PostV1FileListMutationBody = TmuxClientInternalTypesListDirRequest
+    export type PostV1FileListMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary List directory contents
  */
-export const usePostApiV1FileList = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileList>>, TError,{data: TmuxClientInternalTypesListDirRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1FileList = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileList>>, TError,{data: TmuxClientInternalTypesListDirRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1FileList>>,
+        Awaited<ReturnType<typeof postV1FileList>>,
         TError,
         {data: TmuxClientInternalTypesListDirRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1FileListMutationOptions(options);
+      const mutationOptions = getPostV1FileListMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -422,24 +422,24 @@ export const usePostApiV1FileList = <TError = AxiosError<TmuxClientInternalTypes
  * Reads the content of a file
  * @summary Read file
  */
-export const postApiV1FileRead = (
+export const postV1FileRead = (
     tmuxClientInternalTypesReadFileRequest: TmuxClientInternalTypesReadFileRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesReadFileResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/file/read`,
+      `/v1/file/read`,
       tmuxClientInternalTypesReadFileRequest,options
     );
   }
 
 
 
-export const getPostApiV1FileReadMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileRead>>, TError,{data: TmuxClientInternalTypesReadFileRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileRead>>, TError,{data: TmuxClientInternalTypesReadFileRequest}, TContext> => {
+export const getPostV1FileReadMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileRead>>, TError,{data: TmuxClientInternalTypesReadFileRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1FileRead>>, TError,{data: TmuxClientInternalTypesReadFileRequest}, TContext> => {
 
-const mutationKey = ['postApiV1FileRead'];
+const mutationKey = ['postV1FileRead'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -449,10 +449,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1FileRead>>, {data: TmuxClientInternalTypesReadFileRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1FileRead>>, {data: TmuxClientInternalTypesReadFileRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1FileRead(data,axiosOptions)
+          return  postV1FileRead(data,axiosOptions)
         }
 
         
@@ -460,23 +460,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1FileReadMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1FileRead>>>
-    export type PostApiV1FileReadMutationBody = TmuxClientInternalTypesReadFileRequest
-    export type PostApiV1FileReadMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1FileReadMutationResult = NonNullable<Awaited<ReturnType<typeof postV1FileRead>>>
+    export type PostV1FileReadMutationBody = TmuxClientInternalTypesReadFileRequest
+    export type PostV1FileReadMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Read file
  */
-export const usePostApiV1FileRead = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileRead>>, TError,{data: TmuxClientInternalTypesReadFileRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1FileRead = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileRead>>, TError,{data: TmuxClientInternalTypesReadFileRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1FileRead>>,
+        Awaited<ReturnType<typeof postV1FileRead>>,
         TError,
         {data: TmuxClientInternalTypesReadFileRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1FileReadMutationOptions(options);
+      const mutationOptions = getPostV1FileReadMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -484,24 +484,24 @@ export const usePostApiV1FileRead = <TError = AxiosError<TmuxClientInternalTypes
  * Writes content to a file
  * @summary Write file
  */
-export const postApiV1FileWrite = (
+export const postV1FileWrite = (
     tmuxClientInternalTypesWriteFileRequest: TmuxClientInternalTypesWriteFileRequest, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TmuxClientInternalTypesWriteFileResponse>> => {
     
     
     return axios.default.post(
-      `/api/v1/file/write`,
+      `/v1/file/write`,
       tmuxClientInternalTypesWriteFileRequest,options
     );
   }
 
 
 
-export const getPostApiV1FileWriteMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileWrite>>, TError,{data: TmuxClientInternalTypesWriteFileRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileWrite>>, TError,{data: TmuxClientInternalTypesWriteFileRequest}, TContext> => {
+export const getPostV1FileWriteMutationOptions = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileWrite>>, TError,{data: TmuxClientInternalTypesWriteFileRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1FileWrite>>, TError,{data: TmuxClientInternalTypesWriteFileRequest}, TContext> => {
 
-const mutationKey = ['postApiV1FileWrite'];
+const mutationKey = ['postV1FileWrite'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -511,10 +511,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiV1FileWrite>>, {data: TmuxClientInternalTypesWriteFileRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1FileWrite>>, {data: TmuxClientInternalTypesWriteFileRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  postApiV1FileWrite(data,axiosOptions)
+          return  postV1FileWrite(data,axiosOptions)
         }
 
         
@@ -522,23 +522,23 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiV1FileWriteMutationResult = NonNullable<Awaited<ReturnType<typeof postApiV1FileWrite>>>
-    export type PostApiV1FileWriteMutationBody = TmuxClientInternalTypesWriteFileRequest
-    export type PostApiV1FileWriteMutationError = AxiosError<TmuxClientInternalTypesAPIError>
+    export type PostV1FileWriteMutationResult = NonNullable<Awaited<ReturnType<typeof postV1FileWrite>>>
+    export type PostV1FileWriteMutationBody = TmuxClientInternalTypesWriteFileRequest
+    export type PostV1FileWriteMutationError = AxiosError<TmuxClientInternalTypesAPIError>
 
     /**
  * @summary Write file
  */
-export const usePostApiV1FileWrite = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1FileWrite>>, TError,{data: TmuxClientInternalTypesWriteFileRequest}, TContext>, axios?: AxiosRequestConfig}
+export const usePostV1FileWrite = <TError = AxiosError<TmuxClientInternalTypesAPIError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1FileWrite>>, TError,{data: TmuxClientInternalTypesWriteFileRequest}, TContext>, axios?: AxiosRequestConfig}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiV1FileWrite>>,
+        Awaited<ReturnType<typeof postV1FileWrite>>,
         TError,
         {data: TmuxClientInternalTypesWriteFileRequest},
         TContext
       > => {
 
-      const mutationOptions = getPostApiV1FileWriteMutationOptions(options);
+      const mutationOptions = getPostV1FileWriteMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }

@@ -22,105 +22,105 @@ import {
   TmuxClientInternalTypesApprovalStatus
 } from '.././model';
 import type {
-  DeleteApiV1HumanPendingRequestID200,
-  PostApiV1HumanAskAsync200,
+  DeleteV1HumanPendingRequestID200,
+  PostV1HumanAskAsync200,
   TmuxClientInternalTypesAskHumanResponse,
   TmuxClientInternalTypesListApprovalsResponse,
   TmuxClientInternalTypesPendingApproval
 } from '.././model';
 
 
-export const getPostApiV1HumanAskResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesAskHumanResponse > = {}): TmuxClientInternalTypesAskHumanResponse => ({approved: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), approved_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), approved_by: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), comment: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), expires_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesApprovalStatus)), undefined]), ...overrideResponse})
+export const getPostV1HumanAskResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesAskHumanResponse > = {}): TmuxClientInternalTypesAskHumanResponse => ({approved: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), approved_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), approved_by: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), comment: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), expires_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesApprovalStatus)), undefined]), ...overrideResponse})
 
-export const getPostApiV1HumanAskAsyncResponseMock = (): PostApiV1HumanAskAsync200 => ({
+export const getPostV1HumanAskAsyncResponseMock = (): PostV1HumanAskAsync200 => ({
         [faker.string.alphanumeric(5)]: faker.string.alpha({length: {min: 10, max: 20}})
       })
 
-export const getGetApiV1HumanPendingResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesListApprovalsResponse > = {}): TmuxClientInternalTypesListApprovalsResponse => ({pending: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({action_type: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), context: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), expires_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), prompt: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesApprovalStatus)), undefined]), urgency: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), ...overrideResponse})
+export const getGetV1HumanPendingResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesListApprovalsResponse > = {}): TmuxClientInternalTypesListApprovalsResponse => ({pending: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({action_type: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), context: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), expires_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), prompt: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesApprovalStatus)), undefined]), urgency: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), ...overrideResponse})
 
-export const getDeleteApiV1HumanPendingRequestIDResponseMock = (): DeleteApiV1HumanPendingRequestID200 => ({})
+export const getDeleteV1HumanPendingRequestIDResponseMock = (): DeleteV1HumanPendingRequestID200 => ({})
 
-export const getGetApiV1HumanPendingRequestIDResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesPendingApproval > = {}): TmuxClientInternalTypesPendingApproval => ({action_type: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), context: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), expires_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), prompt: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesApprovalStatus)), undefined]), urgency: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
+export const getGetV1HumanPendingRequestIDResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesPendingApproval > = {}): TmuxClientInternalTypesPendingApproval => ({action_type: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), context: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), created_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), expires_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), prompt: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesApprovalStatus)), undefined]), urgency: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
 
-export const getPostApiV1HumanRespondResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesAskHumanResponse > = {}): TmuxClientInternalTypesAskHumanResponse => ({approved: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), approved_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), approved_by: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), comment: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), expires_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesApprovalStatus)), undefined]), ...overrideResponse})
+export const getPostV1HumanRespondResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesAskHumanResponse > = {}): TmuxClientInternalTypesAskHumanResponse => ({approved: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), approved_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), approved_by: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), comment: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), expires_at: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), request_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(TmuxClientInternalTypesApprovalStatus)), undefined]), ...overrideResponse})
 
 
-export const getPostApiV1HumanAskMockHandler = (overrideResponse?: TmuxClientInternalTypesAskHumanResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesAskHumanResponse> | TmuxClientInternalTypesAskHumanResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/human/ask', async (info) => {await delay(1000);
+export const getPostV1HumanAskMockHandler = (overrideResponse?: TmuxClientInternalTypesAskHumanResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesAskHumanResponse> | TmuxClientInternalTypesAskHumanResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/human/ask', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1HumanAskResponseMock()),
+    : getPostV1HumanAskResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1HumanAskAsyncMockHandler = (overrideResponse?: PostApiV1HumanAskAsync200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostApiV1HumanAskAsync200> | PostApiV1HumanAskAsync200), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/human/ask-async', async (info) => {await delay(1000);
+export const getPostV1HumanAskAsyncMockHandler = (overrideResponse?: PostV1HumanAskAsync200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostV1HumanAskAsync200> | PostV1HumanAskAsync200), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/human/ask-async', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1HumanAskAsyncResponseMock()),
+    : getPostV1HumanAskAsyncResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getGetApiV1HumanPendingMockHandler = (overrideResponse?: TmuxClientInternalTypesListApprovalsResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesListApprovalsResponse> | TmuxClientInternalTypesListApprovalsResponse), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/human/pending', async (info) => {await delay(1000);
+export const getGetV1HumanPendingMockHandler = (overrideResponse?: TmuxClientInternalTypesListApprovalsResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesListApprovalsResponse> | TmuxClientInternalTypesListApprovalsResponse), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/human/pending', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1HumanPendingResponseMock()),
+    : getGetV1HumanPendingResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getDeleteApiV1HumanPendingRequestIDMockHandler = (overrideResponse?: DeleteApiV1HumanPendingRequestID200 | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteApiV1HumanPendingRequestID200> | DeleteApiV1HumanPendingRequestID200), options?: RequestHandlerOptions) => {
-  return http.delete('*/api/v1/human/pending/:requestID', async (info) => {await delay(1000);
+export const getDeleteV1HumanPendingRequestIDMockHandler = (overrideResponse?: DeleteV1HumanPendingRequestID200 | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteV1HumanPendingRequestID200> | DeleteV1HumanPendingRequestID200), options?: RequestHandlerOptions) => {
+  return http.delete('*/v1/human/pending/:requestID', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getDeleteApiV1HumanPendingRequestIDResponseMock()),
+    : getDeleteV1HumanPendingRequestIDResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getGetApiV1HumanPendingRequestIDMockHandler = (overrideResponse?: TmuxClientInternalTypesPendingApproval | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesPendingApproval> | TmuxClientInternalTypesPendingApproval), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/human/pending/:requestID', async (info) => {await delay(1000);
+export const getGetV1HumanPendingRequestIDMockHandler = (overrideResponse?: TmuxClientInternalTypesPendingApproval | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesPendingApproval> | TmuxClientInternalTypesPendingApproval), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/human/pending/:requestID', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1HumanPendingRequestIDResponseMock()),
+    : getGetV1HumanPendingRequestIDResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1HumanRespondMockHandler = (overrideResponse?: TmuxClientInternalTypesAskHumanResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesAskHumanResponse> | TmuxClientInternalTypesAskHumanResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/human/respond', async (info) => {await delay(1000);
+export const getPostV1HumanRespondMockHandler = (overrideResponse?: TmuxClientInternalTypesAskHumanResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesAskHumanResponse> | TmuxClientInternalTypesAskHumanResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/human/respond', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1HumanRespondResponseMock()),
+    : getPostV1HumanRespondResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 export const getHumanMock = () => [
-  getPostApiV1HumanAskMockHandler(),
-  getPostApiV1HumanAskAsyncMockHandler(),
-  getGetApiV1HumanPendingMockHandler(),
-  getDeleteApiV1HumanPendingRequestIDMockHandler(),
-  getGetApiV1HumanPendingRequestIDMockHandler(),
-  getPostApiV1HumanRespondMockHandler()
+  getPostV1HumanAskMockHandler(),
+  getPostV1HumanAskAsyncMockHandler(),
+  getGetV1HumanPendingMockHandler(),
+  getDeleteV1HumanPendingRequestIDMockHandler(),
+  getGetV1HumanPendingRequestIDMockHandler(),
+  getPostV1HumanRespondMockHandler()
 ]

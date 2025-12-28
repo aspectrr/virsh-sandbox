@@ -19,9 +19,9 @@ import type {
 } from 'msw';
 
 import type {
-  DeleteApiV1TmuxPanesPaneID200,
-  DeleteApiV1TmuxSessionsSessionName200,
-  PostApiV1TmuxSessionsCreate200,
+  DeleteV1TmuxPanesPaneID200,
+  DeleteV1TmuxSessionsSessionName200,
+  PostV1TmuxSessionsCreate200,
   TmuxClientInternalTypesCreatePaneResponse,
   TmuxClientInternalTypesKillSessionResponse,
   TmuxClientInternalTypesListPanesResponse,
@@ -33,172 +33,172 @@ import type {
 } from '.././model';
 
 
-export const getGetApiV1TmuxPanesResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesListPanesResponse > = {}): TmuxClientInternalTypesListPanesResponse => ({panes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({active: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), current_path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), pane_height: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), pane_index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), pane_pid: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), pane_title: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), pane_width: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), session_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), window_index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), window_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), ...overrideResponse})
+export const getGetV1TmuxPanesResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesListPanesResponse > = {}): TmuxClientInternalTypesListPanesResponse => ({panes: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({active: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), current_path: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), pane_height: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), pane_index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), pane_pid: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), pane_title: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), pane_width: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), session_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), window_index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), window_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), ...overrideResponse})
 
-export const getDeleteApiV1TmuxPanesPaneIDResponseMock = (): DeleteApiV1TmuxPanesPaneID200 => ({})
+export const getDeleteV1TmuxPanesPaneIDResponseMock = (): DeleteV1TmuxPanesPaneID200 => ({})
 
-export const getPostApiV1TmuxPanesCreateResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesCreatePaneResponse > = {}): TmuxClientInternalTypesCreatePaneResponse => ({pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), pane_index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), session_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), window_index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ...overrideResponse})
+export const getPostV1TmuxPanesCreateResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesCreatePaneResponse > = {}): TmuxClientInternalTypesCreatePaneResponse => ({pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), pane_index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), session_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), window_index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ...overrideResponse})
 
-export const getPostApiV1TmuxPanesReadResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesReadPaneResponse > = {}): TmuxClientInternalTypesReadPaneResponse => ({content: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), lines: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
+export const getPostV1TmuxPanesReadResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesReadPaneResponse > = {}): TmuxClientInternalTypesReadPaneResponse => ({content: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), lines: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), ...overrideResponse})
 
-export const getPostApiV1TmuxPanesSendKeysResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesSendKeysResponse > = {}): TmuxClientInternalTypesSendKeysResponse => ({pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), sent: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
+export const getPostV1TmuxPanesSendKeysResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesSendKeysResponse > = {}): TmuxClientInternalTypesSendKeysResponse => ({pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), sent: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
 
-export const getPostApiV1TmuxPanesSwitchResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesSwitchPaneResponse > = {}): TmuxClientInternalTypesSwitchPaneResponse => ({pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), switched: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
+export const getPostV1TmuxPanesSwitchResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesSwitchPaneResponse > = {}): TmuxClientInternalTypesSwitchPaneResponse => ({pane_id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), switched: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
 
-export const getGetApiV1TmuxSessionsResponseMock = (): TmuxClientInternalTypesSessionInfo[] => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({attached: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), created: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), last_pane_x: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), last_pane_y: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), windows: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})))
+export const getGetV1TmuxSessionsResponseMock = (): TmuxClientInternalTypesSessionInfo[] => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({attached: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), created: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), last_pane_x: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), last_pane_y: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), windows: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})))
 
-export const getPostApiV1TmuxSessionsSessionIdReleaseResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesKillSessionResponse > = {}): TmuxClientInternalTypesKillSessionResponse => ({session_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), success: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
+export const getPostV1TmuxSessionsSessionIdReleaseResponseMock = (overrideResponse: Partial< TmuxClientInternalTypesKillSessionResponse > = {}): TmuxClientInternalTypesKillSessionResponse => ({session_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), success: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ...overrideResponse})
 
-export const getDeleteApiV1TmuxSessionsSessionNameResponseMock = (): DeleteApiV1TmuxSessionsSessionName200 => ({})
+export const getDeleteV1TmuxSessionsSessionNameResponseMock = (): DeleteV1TmuxSessionsSessionName200 => ({})
 
-export const getPostApiV1TmuxSessionsCreateResponseMock = (): PostApiV1TmuxSessionsCreate200 => ({
+export const getPostV1TmuxSessionsCreateResponseMock = (): PostV1TmuxSessionsCreate200 => ({
         [faker.string.alphanumeric(5)]: faker.string.alpha({length: {min: 10, max: 20}})
       })
 
-export const getGetApiV1TmuxWindowsResponseMock = (): TmuxClientInternalTypesWindowInfo[] => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({active: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), height: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), panes: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), session_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), width: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})))
+export const getGetV1TmuxWindowsResponseMock = (): TmuxClientInternalTypesWindowInfo[] => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({active: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), height: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), index: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), panes: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), session_name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), width: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})))
 
 
-export const getGetApiV1TmuxPanesMockHandler = (overrideResponse?: TmuxClientInternalTypesListPanesResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesListPanesResponse> | TmuxClientInternalTypesListPanesResponse), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/tmux/panes', async (info) => {await delay(1000);
+export const getGetV1TmuxPanesMockHandler = (overrideResponse?: TmuxClientInternalTypesListPanesResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesListPanesResponse> | TmuxClientInternalTypesListPanesResponse), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/tmux/panes', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1TmuxPanesResponseMock()),
+    : getGetV1TmuxPanesResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getDeleteApiV1TmuxPanesPaneIDMockHandler = (overrideResponse?: DeleteApiV1TmuxPanesPaneID200 | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteApiV1TmuxPanesPaneID200> | DeleteApiV1TmuxPanesPaneID200), options?: RequestHandlerOptions) => {
-  return http.delete('*/api/v1/tmux/panes/:paneID', async (info) => {await delay(1000);
+export const getDeleteV1TmuxPanesPaneIDMockHandler = (overrideResponse?: DeleteV1TmuxPanesPaneID200 | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteV1TmuxPanesPaneID200> | DeleteV1TmuxPanesPaneID200), options?: RequestHandlerOptions) => {
+  return http.delete('*/v1/tmux/panes/:paneID', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getDeleteApiV1TmuxPanesPaneIDResponseMock()),
+    : getDeleteV1TmuxPanesPaneIDResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1TmuxPanesCreateMockHandler = (overrideResponse?: TmuxClientInternalTypesCreatePaneResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesCreatePaneResponse> | TmuxClientInternalTypesCreatePaneResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/tmux/panes/create', async (info) => {await delay(1000);
+export const getPostV1TmuxPanesCreateMockHandler = (overrideResponse?: TmuxClientInternalTypesCreatePaneResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesCreatePaneResponse> | TmuxClientInternalTypesCreatePaneResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/tmux/panes/create', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1TmuxPanesCreateResponseMock()),
+    : getPostV1TmuxPanesCreateResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1TmuxPanesReadMockHandler = (overrideResponse?: TmuxClientInternalTypesReadPaneResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesReadPaneResponse> | TmuxClientInternalTypesReadPaneResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/tmux/panes/read', async (info) => {await delay(1000);
+export const getPostV1TmuxPanesReadMockHandler = (overrideResponse?: TmuxClientInternalTypesReadPaneResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesReadPaneResponse> | TmuxClientInternalTypesReadPaneResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/tmux/panes/read', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1TmuxPanesReadResponseMock()),
+    : getPostV1TmuxPanesReadResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1TmuxPanesSendKeysMockHandler = (overrideResponse?: TmuxClientInternalTypesSendKeysResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesSendKeysResponse> | TmuxClientInternalTypesSendKeysResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/tmux/panes/send-keys', async (info) => {await delay(1000);
+export const getPostV1TmuxPanesSendKeysMockHandler = (overrideResponse?: TmuxClientInternalTypesSendKeysResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesSendKeysResponse> | TmuxClientInternalTypesSendKeysResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/tmux/panes/send-keys', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1TmuxPanesSendKeysResponseMock()),
+    : getPostV1TmuxPanesSendKeysResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1TmuxPanesSwitchMockHandler = (overrideResponse?: TmuxClientInternalTypesSwitchPaneResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesSwitchPaneResponse> | TmuxClientInternalTypesSwitchPaneResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/tmux/panes/switch', async (info) => {await delay(1000);
+export const getPostV1TmuxPanesSwitchMockHandler = (overrideResponse?: TmuxClientInternalTypesSwitchPaneResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesSwitchPaneResponse> | TmuxClientInternalTypesSwitchPaneResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/tmux/panes/switch', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1TmuxPanesSwitchResponseMock()),
+    : getPostV1TmuxPanesSwitchResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getGetApiV1TmuxSessionsMockHandler = (overrideResponse?: TmuxClientInternalTypesSessionInfo[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesSessionInfo[]> | TmuxClientInternalTypesSessionInfo[]), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/tmux/sessions', async (info) => {await delay(1000);
+export const getGetV1TmuxSessionsMockHandler = (overrideResponse?: TmuxClientInternalTypesSessionInfo[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesSessionInfo[]> | TmuxClientInternalTypesSessionInfo[]), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/tmux/sessions', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1TmuxSessionsResponseMock()),
+    : getGetV1TmuxSessionsResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1TmuxSessionsSessionIdReleaseMockHandler = (overrideResponse?: TmuxClientInternalTypesKillSessionResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesKillSessionResponse> | TmuxClientInternalTypesKillSessionResponse), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/tmux/sessions/:sessionId/release', async (info) => {await delay(1000);
+export const getPostV1TmuxSessionsSessionIdReleaseMockHandler = (overrideResponse?: TmuxClientInternalTypesKillSessionResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<TmuxClientInternalTypesKillSessionResponse> | TmuxClientInternalTypesKillSessionResponse), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/tmux/sessions/:sessionId/release', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1TmuxSessionsSessionIdReleaseResponseMock()),
+    : getPostV1TmuxSessionsSessionIdReleaseResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getDeleteApiV1TmuxSessionsSessionNameMockHandler = (overrideResponse?: DeleteApiV1TmuxSessionsSessionName200 | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteApiV1TmuxSessionsSessionName200> | DeleteApiV1TmuxSessionsSessionName200), options?: RequestHandlerOptions) => {
-  return http.delete('*/api/v1/tmux/sessions/:sessionName', async (info) => {await delay(1000);
+export const getDeleteV1TmuxSessionsSessionNameMockHandler = (overrideResponse?: DeleteV1TmuxSessionsSessionName200 | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<DeleteV1TmuxSessionsSessionName200> | DeleteV1TmuxSessionsSessionName200), options?: RequestHandlerOptions) => {
+  return http.delete('*/v1/tmux/sessions/:sessionName', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getDeleteApiV1TmuxSessionsSessionNameResponseMock()),
+    : getDeleteV1TmuxSessionsSessionNameResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getPostApiV1TmuxSessionsCreateMockHandler = (overrideResponse?: PostApiV1TmuxSessionsCreate200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostApiV1TmuxSessionsCreate200> | PostApiV1TmuxSessionsCreate200), options?: RequestHandlerOptions) => {
-  return http.post('*/api/v1/tmux/sessions/create', async (info) => {await delay(1000);
+export const getPostV1TmuxSessionsCreateMockHandler = (overrideResponse?: PostV1TmuxSessionsCreate200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostV1TmuxSessionsCreate200> | PostV1TmuxSessionsCreate200), options?: RequestHandlerOptions) => {
+  return http.post('*/v1/tmux/sessions/create', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiV1TmuxSessionsCreateResponseMock()),
+    : getPostV1TmuxSessionsCreateResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 
-export const getGetApiV1TmuxWindowsMockHandler = (overrideResponse?: TmuxClientInternalTypesWindowInfo[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesWindowInfo[]> | TmuxClientInternalTypesWindowInfo[]), options?: RequestHandlerOptions) => {
-  return http.get('*/api/v1/tmux/windows', async (info) => {await delay(1000);
+export const getGetV1TmuxWindowsMockHandler = (overrideResponse?: TmuxClientInternalTypesWindowInfo[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<TmuxClientInternalTypesWindowInfo[]> | TmuxClientInternalTypesWindowInfo[]), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/tmux/windows', async (info) => {await delay(1000);
   
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetApiV1TmuxWindowsResponseMock()),
+    : getGetV1TmuxWindowsResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
   }, options)
 }
 export const getTmuxMock = () => [
-  getGetApiV1TmuxPanesMockHandler(),
-  getDeleteApiV1TmuxPanesPaneIDMockHandler(),
-  getPostApiV1TmuxPanesCreateMockHandler(),
-  getPostApiV1TmuxPanesReadMockHandler(),
-  getPostApiV1TmuxPanesSendKeysMockHandler(),
-  getPostApiV1TmuxPanesSwitchMockHandler(),
-  getGetApiV1TmuxSessionsMockHandler(),
-  getPostApiV1TmuxSessionsSessionIdReleaseMockHandler(),
-  getDeleteApiV1TmuxSessionsSessionNameMockHandler(),
-  getPostApiV1TmuxSessionsCreateMockHandler(),
-  getGetApiV1TmuxWindowsMockHandler()
+  getGetV1TmuxPanesMockHandler(),
+  getDeleteV1TmuxPanesPaneIDMockHandler(),
+  getPostV1TmuxPanesCreateMockHandler(),
+  getPostV1TmuxPanesReadMockHandler(),
+  getPostV1TmuxPanesSendKeysMockHandler(),
+  getPostV1TmuxPanesSwitchMockHandler(),
+  getGetV1TmuxSessionsMockHandler(),
+  getPostV1TmuxSessionsSessionIdReleaseMockHandler(),
+  getDeleteV1TmuxSessionsSessionNameMockHandler(),
+  getPostV1TmuxSessionsCreateMockHandler(),
+  getGetV1TmuxWindowsMockHandler()
 ]

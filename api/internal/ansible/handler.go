@@ -103,7 +103,7 @@ func (h *Handler) HandleGetJob(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandleJobWebSocket handles WebSocket connections for job output streaming.
-// @Summary Run Ansible job via WebSocket
+// @Summary Stream Ansible job output
 // @Description Connects via WebSocket to run an Ansible job and stream output
 // @Tags Ansible
 // @Param job_id path string true "Job ID"
