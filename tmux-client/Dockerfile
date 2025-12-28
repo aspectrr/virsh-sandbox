@@ -37,6 +37,10 @@ RUN mkdir -p /app/data /app/config /app/plans /app/backups \
 # Copy binary from builder
 COPY --from=builder /tmux-agent /usr/local/bin/tmux-agent
 
+# Copy entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Copy API documentation
 COPY ./docs /usr/local/bin/docs
 
@@ -60,5 +64,5 @@ ENV TMUX_AGENT_HOST=0.0.0.0 \
 EXPOSE 8081
 
 # Run the server
-ENTRYPOINT ["/usr/local/bin/tmux-agent"]
-CMD ["-config", "/usr/local/bin/config.yaml"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/local/bin/tmux-agent", "-config", "/usr/local/bin/config.yaml"]

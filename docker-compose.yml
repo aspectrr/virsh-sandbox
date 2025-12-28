@@ -14,10 +14,10 @@
 #   need to add SYS_ADMIN capability and map /dev/nbdX devices (see commented lines).
 
 services:
-  api:
+  virsh-sandbox:
     container_name: virsh-sandbox-api
     build:
-      context: ./api
+      context: ./virsh-sandbox
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
@@ -117,14 +117,14 @@ services:
       timeout: 5s
       retries: 5
 
-  frontend:
+  web:
     build:
-      context: ./frontend
+      context: ./web
       dockerfile: Dockerfile
     container_name: virsh-sandbox-frontend
     restart: unless-stopped
     depends_on:
-      - api
+      - virsh-sandbox
       - tmux-client
     ports:
       - "5173:5173"
