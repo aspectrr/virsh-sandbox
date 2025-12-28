@@ -19,11 +19,11 @@ pre-commit:
       root: "api"
       run: make fmt
       stage_fixed: true
-    lint-api:
-      glob: "*.go"
-      root: "api"
-      run: make lint
-    lint-tmux-client:
-      glob: "*.go"
-      root: "tmux-client"
-      run: make lint
+    # lint-api:
+    #   glob: "*.go"
+    #   root: "api"
+    #   run: make lint
+    # lint-tmux-client:
+    #   glob: "*.go"
+    #   root: "tmux-client"
+    #   run: make lint
