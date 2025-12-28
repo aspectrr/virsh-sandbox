@@ -10,7 +10,7 @@ export default defineConfig({
       mock: true,
     },
     input: {
-      target: "../api/docs/swagger.yaml",
+      target: "../virsh-sandbox/docs/swagger.yaml",
     },
   },
   // "virsh-sandbox-api-zod": {
@@ -21,7 +21,7 @@ export default defineConfig({
   //     fileExtension: ".zod.ts",
   //   },
   //   input: {
-  //     target: "../api/docs/swagger.yaml",
+  //     target: "../virsh-sandbox/docs/swagger.yaml",
   //   },
   // },
   "tmux-client": {
