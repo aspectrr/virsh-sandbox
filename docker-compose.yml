@@ -87,9 +87,6 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
-    volumes:
-      - ${BASE_IMAGES_DIR:-/var/lib/libvirt/images/base}:/var/lib/libvirt/images/base:ro
-      - ${JOBS_DIR:-/var/lib/libvirt/images/jobs}:/var/lib/libvirt/images/jobs:rw
     ports:
       - "8081:8081"
     healthcheck:

@@ -1,346 +1,476 @@
-# tmux-agent
+# virsh-sandbox
 
-A secure, auditable HTTP API for LLM-driven agent execution. This service provides controlled access to tmux panes, filesystem operations, and command execution with built-in safety constraints, audit logging, and human-in-the-loop approval for sensitive actions.
+A secure, auditable platform for LLM-driven agent execution in isolated KVM/libvirt virtual machine sandboxes. This project provides a REST API for orchestrating virtual machines, a tmux-based client for interactive terminal access, and a web frontend for monitoring and management.
 
 ## Overview
 
-tmux-agent is designed to be used by a fallible, probabilistic AI agent that must be audited and overridden by humans. It wraps tmux and filesystem operations as explicit, explainable tools with:
+virsh-sandbox enables AI agents to execute code and commands in fully isolated virtual machine environments. The platform provides:
 
-- **Explicit tool semantics** - No hidden behaviors or magic
-- **Audit logging** - Every action is logged with timestamp, arguments, results, and errors
-- **Safety by default** - Denylists for dangerous commands and paths
-- **Human approval** - Blocking approval workflow for sensitive operations
-- **No raw shell access** - Commands must be structured with explicit arguments
+- **VM Isolation** - Each agent session runs in a dedicated KVM virtual machine
+- **Snapshot & Restore** - Create checkpoints and rollback to previous states
+- **SSH Command Execution** - Run commands securely via SSH
+- **Tmux Integration** - Interactive terminal sessions with audit logging
+- **Human Approval** - Blocking approval workflow for sensitive operations
+- **Full Audit Trail** - Every action is logged for forensic analysis
 
-## Features
+## Architecture
 
-### 🖥️ Tmux Tool
-- List sessions, windows, and panes
-- Read pane content (with line limits)
-- Switch focus between panes
-- Create new panes/windows with optional startup commands
-- Send only approved keystrokes (Enter, Ctrl+C, etc.)
-
-### 📁 File Tool
-- Read files with line range support
-- Write files with optional directory creation
-- **Patch-based editing** - Find/replace with automatic diff generation
-- Copy and delete files (with configurable permissions)
-- Automatic backups before edits
-
-### ⚡ Command Tool
-- Execute single commands with explicit arguments
-- **No pipes, redirects, or command chaining**
-- Configurable allowlists/denylists
-- Timeout and output size limits
-- Dry-run mode
-
-### 👤 Human Approval Tool
-- Blocking approval requests for sensitive actions
-- Async approval with polling
-- Configurable action type requirements
-- Webhook/command notifications
-- Timeout with auto-reject
-
-### 📋 Plan Tool
-- Create multi-step execution plans
-- Track progress and status
-- Persist plans to disk
-- Non-executing (for transparency only)
-
-## Installation
-
-### Prerequisites
-
-- Go 1.21 or later
-- tmux (for tmux tool functionality)
-
-### Build
-
-```bash
-go mod download
-go build -o tmux-agent ./cmd/server
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              Host Machine                                    │
+│                                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐ │
+│  │   Web UI     │  │ virsh-sandbox│  │ tmux-client  │  │   PostgreSQL     │ │
+│  │   (React)    │  │     API      │  │   (Go)       │  │                  │ │
+│  │   :5173      │  │   :8080      │  │   :8081      │  │   :5432          │ │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └────────┬─────────┘ │
+│         │                 │                 │                    │          │
+│         └─────────────────┴─────────────────┴────────────────────┘          │
+│                                   │                                          │
+│                     ┌─────────────▼─────────────┐                           │
+│                     │     libvirt / KVM         │                           │
+│                     │                           │                           │
+│                     │  ┌───────┐  ┌───────┐     │                           │
+│                     │  │ VM 1  │  │ VM 2  │ ... │                           │
+│                     │  └───────┘  └───────┘     │                           │
+│                     └───────────────────────────┘                           │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Run
+## Project Structure
+
+```
+.
+├── docker-compose.yml       # Main Docker Compose orchestration
+├── mprocs.yaml              # Multi-process runner configuration
+├── nginx.conf               # Reverse proxy configuration
+├── lefthook.yaml            # Git hooks configuration
+├── virsh-sandbox/           # Main API server (Go)
+│   ├── cmd/api/             # API entry point
+│   ├── internal/            # Internal packages
+│   ├── scripts/             # Setup and utility scripts
+│   ├── docs/                # OpenAPI/Swagger docs
+│   ├── Makefile             # Build commands
+│   └── Dockerfile
+├── tmux-client/             # Tmux-based terminal API (Go)
+│   ├── cmd/server/          # Server entry point
+│   ├── internal/            # Internal packages
+│   ├── config.example.yaml  # Example configuration
+│   ├── Makefile             # Build commands
+│   └── Dockerfile
+├── web/                     # React frontend
+│   ├── src/                 # Source code
+│   ├── package.json         # Dependencies
+│   └── Dockerfile
+└── examples/
+    └── agent-example/       # Python SDK + AI agent example
+```
+
+## Prerequisites
+
+- **Go 1.21+** - For building the API and tmux-client
+- **Docker & Docker Compose** - For containerized deployment
+- **libvirt/KVM** - For virtual machine management
+- **tmux** - For the tmux-client functionality
+- **Node.js/Bun** - For the web frontend
+- **PostgreSQL** - For state persistence
+
+### macOS Setup (Lima)
+
+On macOS, use Lima to run libvirt in a Linux VM:
 
 ```bash
-# With default configuration
-./tmux-agent
+# Install Lima
+brew install lima libvirt
 
-# With custom configuration file
-./tmux-agent -config config.yaml
+# Set up Lima VM with libvirt
+cd virsh-sandbox
+./scripts/setup-lima-libvirt.sh --create-test-vm
+```
+
+## Quick Start
+
+### Option 1: Docker Compose (Recommended)
+
+The easiest way to get started is using Docker Compose:
+
+```bash
+# Clone the repository
+git clone https://github.com/your-org/virsh-sandbox.git
+cd virsh-sandbox
+
+# Create a .env file (optional, for customization)
+cat > .env << EOF
+LIBVIRT_URI=qemu:///system
+LIBVIRT_NETWORK=default
+DATABASE_URL=postgresql://virsh_sandbox:virsh_sandbox@postgres:5432/virsh_sandbox
+EOF
+
+# Start all services
+docker-compose up --build
+
+# Services will be available at:
+# - API:         http://localhost:8080
+# - Tmux Client: http://localhost:8081
+# - Web UI:      http://localhost:5173
+# - PostgreSQL:  localhost:5432
+```
+
+### Option 2: mprocs (Development)
+
+For local development with hot-reload:
+
+```bash
+# Install mprocs
+brew install mprocs  # macOS
+# or: cargo install mprocs
+
+# Start all services
+mprocs
+
+# This runs:
+# - PostgreSQL (via docker-compose)
+# - API server (with hot-reload)
+# - Tmux client (with hot-reload)
+# - Frontend dev server
+```
+
+### Option 3: Manual Setup
+
+#### 1. Start PostgreSQL
+
+```bash
+docker-compose up -d postgres
+```
+
+#### 2. Build and Run the API
+
+```bash
+cd virsh-sandbox
+
+# Install dependencies
+go mod download
+
+# Run the API
+export LIBVIRT_URI="qemu:///system"
+export DATABASE_URL="postgresql://virsh_sandbox:virsh_sandbox@localhost:5432/virsh_sandbox"
+make run
+
+# Or build and run
+make build
+./bin/virsh-sandbox-api
+```
+
+#### 3. Build and Run the Tmux Client
+
+```bash
+cd tmux-client
+
+# Copy and configure
+cp config.example.yaml config.yaml
+# Edit config.yaml as needed
+
+# Run
+make run
+
+# Or build and run
+make build
+./bin/tmux-client
+```
+
+#### 4. Start the Frontend
+
+```bash
+cd web
+
+# Install dependencies
+bun install  # or: npm install
+
+# Start dev server
+bun run dev  # or: npm run dev
+```
+
+## Scripts Reference
+
+### virsh-sandbox/scripts/
+
+| Script | Description |
+|--------|-------------|
+| `setup-lima-libvirt.sh` | Sets up a Lima VM with libvirt/KVM on macOS |
+| `create-test-vm.sh` | Creates a test VM for development |
+| `fmt.sh` | Formats Go code with gofumpt |
+| `lint.sh` | Runs golangci-lint |
+| `vet.sh` | Runs go vet |
+| `generate-openapi.sh` | Generates OpenAPI documentation |
+
+### Makefile Targets
+
+Both `virsh-sandbox/` and `tmux-client/` have similar Makefile targets:
+
+```bash
+make build          # Build the binary
+make run            # Run the server
+make test           # Run tests
+make test-coverage  # Run tests with coverage
+make fmt            # Format code
+make lint           # Run linter
+make vet            # Run go vet
+make check          # Run all checks (fmt, vet, lint)
+make deps           # Download dependencies
+make tidy           # Tidy go.mod
+make generate-openapi  # Generate OpenAPI docs
+make install-tools  # Install dev tools
+make docker-build   # Build Docker image
+make help           # Show all targets
 ```
 
 ## Configuration
 
-Copy `config.example.yaml` to `config.yaml` and modify as needed. Key configuration options:
-
 ### Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `TMUX_AGENT_HOST` | Server bind address |
-| `TMUX_AGENT_PORT` | Server port |
-| `TMUX_AGENT_ROOT_DIR` | Root directory for file operations |
-| `TMUX_AGENT_AUDIT_FILE` | Audit log file path |
-| `TMUX_AGENT_API_KEYS` | Comma-separated API keys |
+#### virsh-sandbox API
 
-## API Reference
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `LOG_FORMAT` | Log format (text/json) | `text` |
+| `LOG_LEVEL` | Log level (debug/info/warn/error) | `info` |
+| `API_HTTP_ADDR` | HTTP listen address | `:8080` |
+| `LIBVIRT_URI` | Libvirt connection URI | `qemu:///system` |
+| `LIBVIRT_NETWORK` | Libvirt network name | `default` |
+| `BASE_IMAGE_DIR` | Base VM images directory | `/var/lib/libvirt/images/base` |
+| `SANDBOX_WORKDIR` | Sandbox working directory | `/var/lib/libvirt/images/jobs` |
+| `DATABASE_URL` | PostgreSQL connection string | - |
+| `DEFAULT_VCPUS` | Default vCPUs per VM | `2` |
+| `DEFAULT_MEMORY_MB` | Default memory per VM (MB) | `2048` |
+| `COMMAND_TIMEOUT_SEC` | Command execution timeout | `600` |
+| `IP_DISCOVERY_TIMEOUT_SEC` | VM IP discovery timeout | `120` |
 
-All endpoints return JSON responses with the following structure:
+#### Tmux Client
 
-```json
-{
-  "success": true,
-  "data": { ... },
-  "timestamp": "2024-01-15T10:30:00Z",
-  "request_id": "uuid"
-}
-```
+See `tmux-client/config.example.yaml` for full configuration options including:
 
-### Health Check
+- Server settings (host, port, TLS)
+- Tmux tool configuration (allowed keys, max lines)
+- File tool configuration (root directory, allowed/denied paths)
+- Command tool configuration (allowed/denied commands)
+- Human approval settings
+- Audit logging configuration
 
-```
-GET /health
-```
+## API Endpoints
 
-### Tmux Endpoints
+### virsh-sandbox API (port 8080)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/v1/tmux/sessions` | List all tmux sessions |
-| GET | `/api/v1/tmux/windows` | List all windows |
-| GET | `/api/v1/tmux/panes` | List all panes |
+| GET | `/v1/health` | Health check |
+| GET | `/v1/vms` | List all VMs |
+| POST | `/v1/sandboxes` | Create a new sandbox |
+| GET | `/v1/sandboxes/{id}` | Get sandbox details |
+| POST | `/v1/sandboxes/{id}/start` | Start a sandbox |
+| POST | `/v1/sandboxes/{id}/stop` | Stop a sandbox |
+| DELETE | `/v1/sandboxes/{id}` | Destroy a sandbox |
+| POST | `/v1/sandboxes/{id}/command` | Run a command |
+| POST | `/v1/sandboxes/{id}/snapshots` | Create a snapshot |
+| GET | `/v1/sandboxes/{id}/snapshots` | List snapshots |
+| POST | `/v1/sandboxes/{id}/snapshots/{name}/restore` | Restore snapshot |
+
+### Tmux Client API (port 8081)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/v1/health` | Health check |
+| GET | `/api/v1/tmux/sessions` | List tmux sessions |
+| GET | `/api/v1/tmux/panes` | List panes |
 | POST | `/api/v1/tmux/panes/read` | Read pane content |
-| POST | `/api/v1/tmux/panes/switch` | Switch to a pane |
-| POST | `/api/v1/tmux/panes/create` | Create new pane |
-| POST | `/api/v1/tmux/panes/send-keys` | Send approved keys |
-| POST | `/api/v1/tmux/sessions/create` | Create new session |
+| POST | `/api/v1/tmux/panes/send-keys` | Send keystrokes |
+| POST | `/api/v1/file/read` | Read file |
+| POST | `/api/v1/file/write` | Write file |
+| POST | `/api/v1/file/edit` | Edit file (patch) |
+| POST | `/api/v1/command/run` | Run command |
+| POST | `/api/v1/human/ask` | Request human approval |
+| POST | `/api/v1/plan/create` | Create execution plan |
 
-### File Endpoints
+## Example Setups
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/file/read` | Read file content |
-| POST | `/api/v1/file/write` | Write/create file |
-| POST | `/api/v1/file/edit` | Edit file (find/replace) |
-| POST | `/api/v1/file/copy` | Copy file |
-| POST | `/api/v1/file/delete` | Delete file |
-| POST | `/api/v1/file/list` | List directory |
+### Development Setup (macOS)
 
-### Command Endpoints
+```bash
+# 1. Set up Lima with libvirt
+./virsh-sandbox/scripts/setup-lima-libvirt.sh --cpus 4 --memory 8 --create-test-vm
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/command/run` | Run a command |
-| GET | `/api/v1/command/allowed` | Get allowed/denied commands |
+# 2. Source environment
+source .env.lima
 
-### Human Approval Endpoints
+# 3. Start services with mprocs
+mprocs
+```
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/human/ask` | Request approval (blocking) |
-| POST | `/api/v1/human/ask-async` | Request approval (async) |
-| GET | `/api/v1/human/pending` | List pending approvals |
-| POST | `/api/v1/human/respond` | Respond to approval request |
+### Production Setup (Linux with KVM)
 
-### Plan Endpoints
+```bash
+# 1. Ensure libvirt is installed and running
+sudo systemctl enable --now libvirtd
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/plan/create` | Create a new plan |
-| GET | `/api/v1/plan` | List all plans |
-| GET | `/api/v1/plan/{id}` | Get plan details |
-| POST | `/api/v1/plan/update` | Update plan step |
-| POST | `/api/v1/plan/{id}/advance` | Advance to next step |
-| POST | `/api/v1/plan/{id}/abort` | Abort plan |
+# 2. Create base VM images
+sudo mkdir -p /var/lib/libvirt/images/base
+# Copy your golden images here
+
+# 3. Configure environment
+cat > .env << EOF
+LIBVIRT_URI=qemu:///system
+LIBVIRT_NETWORK=default
+DATABASE_URL=postgresql://virsh_sandbox:virsh_sandbox@localhost:5432/virsh_sandbox
+LOG_LEVEL=info
+LOG_FORMAT=json
+EOF
+
+# 4. Start with Docker Compose
+docker-compose up -d
+```
+
+### AI Agent Integration
+
+See `examples/agent-example/` for a complete example using Python and OpenAI:
+
+```bash
+cd examples/agent-example
+
+# Install dependencies
+uv sync  # or: pip install -r requirements.txt
+
+# Set OpenAI API key
+export OPENAI_API_KEY="your-key"
+
+# Run the agent
+uv run python main.py
+```
+
+Example usage in Python:
+
+```python
+from client import VirshSandboxClient
+
+with VirshSandboxClient(host="http://localhost:8080") as client:
+    # Create a sandbox
+    sandbox = client.create_sandbox(
+        source_vm_name="ubuntu-base",
+        agent_id="my-agent",
+        cpu=2,
+        memory_mb=2048,
+    )
+    
+    # Start and wait for IP
+    client.start_sandbox(sandbox.sandbox.id, wait_for_ip=True)
+    
+    # Run commands
+    result = client.run_command(
+        sandbox_id=sandbox.sandbox.id,
+        command="echo 'Hello from sandbox!'",
+        username="root",
+        private_key_path="~/.ssh/id_rsa",
+    )
+    print(result.command.stdout)
+    
+    # Create checkpoint
+    client.create_snapshot(sandbox.sandbox.id, name="checkpoint-1")
+    
+    # Clean up
+    client.destroy_sandbox(sandbox.sandbox.id)
+```
 
 ## Security Model
 
 ### Assumptions
 
-1. **Non-root process**: This service runs as an unprivileged user
-2. **Local network**: By default, binds to localhost only
-3. **Trusted agent**: The calling agent is semi-trusted but fallible
-4. **Human oversight**: Sensitive actions require human approval
-5. **Audit trail**: All actions are logged for forensic analysis
+1. **Isolated VMs** - Each sandbox runs in a separate KVM virtual machine
+2. **Network Isolation** - VMs are on isolated virtual networks
+3. **Non-root API** - The API runs as an unprivileged user
+4. **Human Oversight** - Sensitive actions require human approval
+5. **Audit Trail** - All actions are logged for forensic analysis
 
-### What This Service Does NOT Provide
+### Safety Features
 
-- VM/container isolation
-- Sandboxing
-- Network segmentation
-- User authentication federation
-- Encryption at rest
-
-### Command Execution Safety
-
-The command tool enforces strict validation:
-
-```
-❌ NOT ALLOWED:
-- Pipes: ls | grep foo
-- Redirects: echo foo > file
-- Chaining: cmd1 && cmd2
-- Subshells: $(command)
-- Backticks: `command`
-
-✅ ALLOWED:
-- Single command with arguments: ["ls", "-la", "/tmp"]
-```
-
-### File Access Safety
-
-- All paths validated against root directory
-- Explicit denylist for sensitive paths (`/etc/shadow`, `~/.ssh`, etc.)
-- Extension denylist for key files (`.pem`, `.key`, etc.)
-- Backups created before edits
-- Maximum file size limits
-
-### Tmux Safety
-
-- Only approved keystrokes can be sent
-- No arbitrary text injection
-- Pane read limits to prevent memory exhaustion
-- Session/pane ID validation
-
-## Audit Logging
-
-All tool invocations are logged to an append-only audit log:
-
-```json
-{
-  "timestamp": "2024-01-15T10:30:00Z",
-  "request_id": "550e8400-e29b-41d4-a716-446655440000",
-  "tool": "file",
-  "action": "edit",
-  "arguments": {"path": "config.yaml", "old_text": "...", "new_text": "..."},
-  "result": {"edited": true, "diff": "..."},
-  "duration_ms": 45,
-  "client_ip": "127.0.0.1"
-}
-```
-
-Sensitive fields (passwords, tokens, etc.) are automatically redacted.
-
-## Human Approval Workflow
-
-For sensitive actions, the agent must request human approval:
-
-```bash
-# Agent requests approval (blocks until approved/rejected/timeout)
-POST /api/v1/human/ask
-{
-  "prompt": "Delete production database backup?",
-  "action_type": "destructive",
-  "urgency": "high",
-  "timeout_secs": 300
-}
-
-# Human reviews pending approvals
-GET /api/v1/human/pending
-
-# Human responds
-POST /api/v1/human/respond
-{
-  "request_id": "...",
-  "approved": false,
-  "approved_by": "admin@example.com",
-  "comment": "Use staging backup instead"
-}
-```
-
-## Example Usage
-
-### Read a Pane
-
-```bash
-curl -X POST http://localhost:8080/api/v1/tmux/panes/read \
-  -H "Content-Type: application/json" \
-  -d '{"pane_id": "%0", "last_n_lines": 50}'
-```
-
-### Edit a File
-
-```bash
-curl -X POST http://localhost:8080/api/v1/file/edit \
-  -H "Content-Type: application/json" \
-  -d '{
-    "path": "config.yaml",
-    "old_text": "port: 8080",
-    "new_text": "port: 9090"
-  }'
-```
-
-### Run a Command
-
-```bash
-curl -X POST http://localhost:8080/api/v1/command/run \
-  -H "Content-Type: application/json" \
-  -d '{
-    "command": "git",
-    "args": ["status", "--short"],
-    "timeout": 10
-  }'
-```
-
-### Create a Plan
-
-```bash
-curl -X POST http://localhost:8080/api/v1/plan/create \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Deploy Application",
-    "steps": [
-      "Run tests",
-      "Build container",
-      "Push to registry",
-      "Update deployment"
-    ]
-  }'
-```
+- **Command Allowlists/Denylists** - Control which commands can be executed
+- **Path Restrictions** - Limit file access to specific directories
+- **Snapshot Rollback** - Easily restore to known-good states
+- **Timeout Limits** - Prevent runaway processes
+- **Output Size Limits** - Prevent memory exhaustion
 
 ## Development
-
-### Project Structure
-
-```
-.
-├── cmd/
-│   └── server/
-│       └── main.go           # Server entry point
-├── internal/
-│   ├── api/
-│   │   ├── handlers.go       # HTTP handlers
-│   │   └── middleware.go     # Auth, rate limiting, etc.
-│   ├── audit/
-│   │   └── logger.go         # Append-only audit logging
-│   ├── config/
-│   │   └── config.go         # Configuration management
-│   ├── tools/
-│   │   ├── command/          # Command execution tool
-│   │   ├── file/             # File operations tool
-│   │   ├── human/            # Human approval tool
-│   │   ├── plan/             # Planning tool
-│   │   └── tmux/             # Tmux interaction tool
-│   └── types/
-│       └── types.go          # Shared type definitions
-├── config.example.yaml       # Example configuration
-├── go.mod
-└── README.md
-```
 
 ### Running Tests
 
 ```bash
-go test ./...
+# API tests
+cd virsh-sandbox && make test
+
+# Tmux client tests
+cd tmux-client && make test
+
+# With coverage
+make test-coverage
 ```
 
-### Building for Production
+### Code Quality
 
 ```bash
-CGO_ENABLED=0 go build -ldflags="-s -w" -o tmux-agent ./cmd/server
+# Format code
+make fmt
+
+# Run linter
+make lint
+
+# Run all checks
+make check
+```
+
+### Git Hooks
+
+The project uses Lefthook for Git hooks:
+
+```bash
+# Install lefthook
+brew install lefthook  # or: go install github.com/evilmartians/lefthook@latest
+
+# Install hooks
+lefthook install
+```
+
+## Troubleshooting
+
+### Cannot connect to libvirt
+
+```bash
+# Check libvirt status
+sudo systemctl status libvirtd
+
+# Test connection
+virsh -c qemu:///system list --all
+
+# For Lima on macOS
+limactl list
+limactl shell virsh-sandbox-dev -- systemctl status libvirtd
+```
+
+### VM has no IP address
+
+```bash
+# Check default network
+virsh net-list --all
+virsh net-start default
+
+# Check DHCP leases
+virsh net-dhcp-leases default
+```
+
+### Database connection issues
+
+```bash
+# Check PostgreSQL is running
+docker-compose ps postgres
+
+# Test connection
+psql postgresql://virsh_sandbox:virsh_sandbox@localhost:5432/virsh_sandbox
 ```
 
 ## License
@@ -352,6 +482,7 @@ MIT License
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes with tests
-4. Submit a pull request
+4. Run `make check` to ensure code quality
+5. Submit a pull request
 
-All contributions must maintain the security model and audit requirements.
+All contributions must maintain the security model and include appropriate tests.
