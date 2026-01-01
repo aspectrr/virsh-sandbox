@@ -13,7 +13,7 @@ Quick Start:
     >>> service_a.users.list()
 """
 
-__version__ = "0.0.1-beta"
+__version__ = "0.0.5-beta"
 
 # Import all API classes
 from virsh_sandbox.api.ansible_api import AnsibleApi

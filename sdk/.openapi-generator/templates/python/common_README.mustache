@@ -1,3 +1,66 @@
+### Unified Client (Recommended)
+
+The SDK provides a unified `VirshSandbox` client that simplifies API usage with flattened parameters:
+
+```python
+import asyncio
+from {{{packageName}}} import VirshSandbox
+
+async def main():
+    # Create a unified client
+    client = VirshSandbox(
+        host="http://localhost:8080",
+        tmux_host="http://localhost:8081"  # Optional: separate host for tmux operations
+    )
+
+    # Create a sandbox with simple parameters - no request objects needed!
+    result = await client.sandbox.create_sandbox(
+        source_vm_name="ubuntu-base",
+        vm_name="my-sandbox",
+        cpu=2,
+        memory_mb=4096
+    )
+
+    # Run commands with flattened parameters
+    output = await client.command.run_command(
+        command="ls",
+        args=["-la"],
+        timeout=30
+    )
+
+    # File operations
+    content = await client.file.read_file(path="/etc/hosts")
+
+    # Tmux operations
+    panes = await client.tmux.list_tmux_panes()
+
+    # Clean up
+    await client.close()
+
+# Or use as async context manager for automatic cleanup
+async def main_with_context():
+    async with VirshSandbox(host="http://localhost:8080") as client:
+        # All APIs accessible through namespaced properties:
+        # - client.sandbox   (SandboxOperations)
+        # - client.command   (CommandOperations)
+        # - client.file      (FileOperations)
+        # - client.tmux      (TmuxOperations)
+        # - client.ansible   (AnsibleOperations)
+        # - client.audit     (AuditOperations)
+        # - client.health    (HealthOperations)
+        # - client.human     (HumanOperations)
+        # - client.plan      (PlanOperations)
+        # - client.vms       (VMsOperations)
+
+        await client.sandbox.create_sandbox(source_vm_name="base-vm")
+
+asyncio.run(main())
+```
+
+### Individual API Classes (Advanced)
+
+For more control, you can use the individual API classes directly with request objects:
+
 ```python
 {{#apiInfo}}{{#apis}}{{#-last}}{{#hasHttpSignatureMethods}}import datetime{{/hasHttpSignatureMethods}}{{/-last}}{{/apis}}{{/apiInfo}}
 import {{{packageName}}}
@@ -5,7 +68,6 @@ from {{{packageName}}}.rest import ApiException
 from pprint import pprint
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 {{> python_doc_auth_partial}}
-
 
 # Enter a context with an instance of the API client
 {{#async}}async {{/async}}with {{{packageName}}}.ApiClient(configuration) as api_client:

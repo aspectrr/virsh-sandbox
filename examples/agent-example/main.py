@@ -11,10 +11,7 @@ import json
 import time
 from uuid import uuid4
 from typing import Any
-import virsh_sandbox
-from virsh_sandbox.api import SandboxApi
-from virsh_sandbox.api.sandbox_api import InternalRestCreateSandboxRequest, ApiException
-from virsh_sandbox.api.command_api import TmuxClientInternalTypesRunCommandRequest
+from virsh_sandbox import VirshSandbox, ApiException
 from openai import OpenAI
 import configuration
 from tools import TOOLS
@@ -30,6 +27,7 @@ MODEL = "gpt-5.2"
 
 openai_client = OpenAI()
 
+client = VirshSandbox(API_BASE, TMUX_BASE)
 
 # ---------------------------
 # Tool dispatcher
@@ -37,93 +35,91 @@ openai_client = OpenAI()
 
 
 def call_tool(name: str, args: dict[str, Any]) -> dict[str, Any]:
-    with virsh_sandbox.ApiClient(configuration) as client:
-        """
-        Maps LLM tool calls to the virsh-sandbox API client.
-        """
-        try:
-            # if name == "check_health":
-            #     return sandbox_client.check_health()
+    """
+    Maps LLM tool calls to the virsh-sandbox API client.
+    """
+    try:
+        # if name == "check_health":
+        #     return sandbox_client.check_health()
 
-            # if name == "list_vms":
-            #     response = sandbox_client.list_vms()
-            #     return {"vms": [vm.to_dict() for vm in (response.vms or [])]}
+        # if name == "list_vms":
+        #     response = sandbox_client.list_vms()
+        #     return {"vms": [vm.to_dict() for vm in (response.vms or [])]}
 
-            # if name == "create_sandbox":
-            #     response = sandbox_client.create_sandbox(
-            #         source_vm_name=args["source_vm_name"],
-            #         agent_id=args["agent_id"],
-            #         vm_name=args.get("vm_name"),
-            #         cpu=args.get("cpu"),
-            #         memory_mb=args.get("memory_mb"),
-            #     )
-            #     return response.sandbox.to_dict()
+        # if name == "create_sandbox":
+        #     response = sandbox_client.create_sandbox(
+        #         source_vm_name=args["source_vm_name"],
+        #         agent_id=args["agent_id"],
+        #         vm_name=args.get("vm_name"),
+        #         cpu=args.get("cpu"),
+        #         memory_mb=args.get("memory_mb"),
+        #     )
+        #     return response.sandbox.to_dict()
 
-            # if name == "start_sandbox":
-            #     response = sandbox_client.start_sandbox(
-            #         sandbox_id=args["sandbox_id"],
-            #         wait_for_ip=args.get("wait_for_ip", True),
-            #     )
-            #     return {"ip_address": response.ip_address}
+        # if name == "start_sandbox":
+        #     response = sandbox_client.start_sandbox(
+        #         sandbox_id=args["sandbox_id"],
+        #         wait_for_ip=args.get("wait_for_ip", True),
+        #     )
+        #     return {"ip_address": response.ip_address}
 
-            # if name == "destroy_sandbox":
-            #     sandbox_client.destroy_sandbox(args["sandbox_id"])
-            #     return {"success": True, "message": "Sandbox destroyed"}
+        # if name == "destroy_sandbox":
+        #     sandbox_client.destroy_sandbox(args["sandbox_id"])
+        #     return {"success": True, "message": "Sandbox destroyed"}
 
-            if name == "run_command":
-                command_api = virsh_sandbox.CommandApi(client)
-                request = TmuxClientInternalTypesRunCommandRequest(
-                    # sandbox_id=args["sandbox_id"],
-                    command=args["command"],
-                    env=args.get("env"),
-                )
+        if name == "run_command":
+            client.command.run_command(
+                # sandbox_id=args["sandbox_id"],
+                command=args["command"],
+                env=args.get("env", {})
+            )
+            return {"success": True, "message": "Command executed"}
 
+        # if name == "create_snapshot":
+        #     response = sandbox_client.create_snapshot(
+        #         sandbox_id=args["sandbox_id"],
+        #         name=args["name"],
+        #         external=args.get("external", False),
+        #     )
+        #     return response.snapshot.to_dict()
 
-            # if name == "create_snapshot":
-            #     response = sandbox_client.create_snapshot(
-            #         sandbox_id=args["sandbox_id"],
-            #         name=args["name"],
-            #         external=args.get("external", False),
-            #     )
-            #     return response.snapshot.to_dict()
+        # if name == "diff_snapshots":
+        #     response = sandbox_client.diff_snapshots(
+        #         sandbox_id=args["sandbox_id"],
+        #         from_snapshot=args["from_snapshot"],
+        #         to_snapshot=args["to_snapshot"],
+        #     )
+        #     return response.diff.to_dict()
 
-            # if name == "diff_snapshots":
-            #     response = sandbox_client.diff_snapshots(
-            #         sandbox_id=args["sandbox_id"],
-            #         from_snapshot=args["from_snapshot"],
-            #         to_snapshot=args["to_snapshot"],
-            #     )
-            #     return response.diff.to_dict()
+        # if name == "inject_ssh_key":
+        #     sandbox_client.inject_ssh_key(
+        #         sandbox_id=args["sandbox_id"],
+        #         public_key=args["public_key"],
+        #         username=args.get("username"),
+        #     )
+        #     return {"success": True, "message": "SSH key injected"}
 
-            # if name == "inject_ssh_key":
-            #     sandbox_client.inject_ssh_key(
-            #         sandbox_id=args["sandbox_id"],
-            #         public_key=args["public_key"],
-            #         username=args.get("username"),
-            #     )
-            #     return {"success": True, "message": "SSH key injected"}
+        # if name == "create_ansible_job":
+        #     response = sandbox_client.create_ansible_job(
+        #         vm_name=args["vm_name"],
+        #         playbook=args["playbook"],
+        #         check=args.get("check", False),
+        #     )
+        #     return {"job_id": response.job_id, "ws_url": response.ws_url}
 
-            # if name == "create_ansible_job":
-            #     response = sandbox_client.create_ansible_job(
-            #         vm_name=args["vm_name"],
-            #         playbook=args["playbook"],
-            #         check=args.get("check", False),
-            #     )
-            #     return {"job_id": response.job_id, "ws_url": response.ws_url}
+        # if name == "get_ansible_job":
+        #     response = sandbox_client.get_ansible_job(args["job_id"])
+        #     return response.to_dict()
 
-            # if name == "get_ansible_job":
-            #     response = sandbox_client.get_ansible_job(args["job_id"])
-            #     return response.to_dict()
+        raise ValueError(f"Unknown tool: {name}")
 
-            raise ValueError(f"Unknown tool: {name}")
-
-        except ApiException as e:
-            return {
-                "error": True,
-                "status": e.status,
-                "reason": e.reason,
-                "body": e.body,
-            }
+    except ApiException as e:
+        return {
+            "error": True,
+            "status": e.status,
+            "reason": e.reason,
+            "body": e.body,
+        }
 
 
 # ---------------------------
@@ -220,23 +216,18 @@ if __name__ == "__main__":
     sandbox = None
     session = None
 
-    with virsh_sandbox.ApiClient(configuration) as client:
-        try:
-            agent_id = str(uuid4())
-            sandbox_api = virsh_sandbox.SandboxApi(client)
-            request = InternalRestCreateSandboxRequest(source_vm_name="test_vm_1", agent_id=agent_id)
+    try:
 
-            sandbox = sandbox_api.create_sandbox(request=request)
+        sandbox = client.sandbox.create_sandbox(source_vm_name="test-vm-1")
 
-            # session = tmux_client.create_session()
+        session = client.tmux.create_tmux_session()
 
-            run_agent(
-                "Install an httpd server, create a basic html page and configure it to serve the page."
-                "Start with a plan, update the plan as you go. Ask the human for help."
-            )
-        except Exception as e:
-            print(f"Error: {e}")
-        # finally:
-        #     if(sandbox):
-        #         request = InternalRestDestroySandboxRequest(sandbox_id=sandbox["sandbox_id"])
-        #         sandbox_api.destroy_sandbox(request=request)
+        run_agent(
+            "Install an httpd server, create a basic html page and configure it to serve the page."
+            "Start with a plan, update the plan as you go. Ask the human for help."
+        )
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        if(sandbox):
+            client.sandbox.destroy_sandbox(id=sandbox.id)

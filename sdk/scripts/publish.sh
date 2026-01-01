@@ -30,7 +30,7 @@ bash scripts/generate.sh
 
 # Build
 echo -e "${BLUE}Building package...${NC}"
-cd virsh-sandbox-python
+cd virsh-sandbox-py
 python3 -m build
 
 # Check
@@ -47,7 +47,7 @@ if [ "$TARGET" = "pypi" ]; then
     fi
 else
     echo -e "${BLUE}Publishing to TestPyPI...${NC}"
-    twine upload --repository testpypi dist/*
+    twine upload --repository testpypi dist/* --verbose
 fi
 
 echo -e "${GREEN}Published successfully!${NC}"
