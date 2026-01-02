@@ -34,7 +34,7 @@ jobs:
           pip install black isort mypy pytest
 
       - name: Generate SDK
-        run: bash scripts/generate.sh
+        run: cd sdk && bash scripts/generate.sh
 
       - name: Check for changes
         id: changes
