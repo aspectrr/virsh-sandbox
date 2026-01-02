@@ -1072,9 +1072,19 @@ class TmuxOperations:
         )
         return await self._api.create_tmux_pane(request=request)
 
-    async def create_tmux_session(self) -> Dict[str, str]:
-        """Create tmux session"""
-        return await self._api.create_tmux_session(request={})
+    async def create_tmux_session(
+        self,
+        sandbox_id: Optional[str] = None,
+    ) -> Dict[str, str]:
+        """Create tmux session
+
+        Args:
+            sandbox_id: The ID of the sandbox to associate with the tmux session
+        """
+        request = {}
+        if sandbox_id is not None:
+            request["sandbox_id"] = sandbox_id
+        return await self._api.create_tmux_session(request=request)
 
     async def kill_tmux_pane(
         self,
