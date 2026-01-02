@@ -71,7 +71,7 @@ func (s *Server) routes() {
 	r.Get("/docs", func(w http.ResponseWriter, r *http.Request) {
 		htmlContent, err := scalar.ApiReferenceHTML(&scalar.Options{
 			// SpecURL: "https://generator3.swagger.io/openapi.json",// allow external URL or local path file
-			SpecURL: "./docs/swagger.json",
+			SpecURL: "./docs/openapi.yaml",
 			CustomOptions: scalar.CustomOptions{
 				PageTitle: "Virsh Sandbox API",
 			},

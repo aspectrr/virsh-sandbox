@@ -259,7 +259,7 @@ class PlanApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/plan/{planID}/abort",
+            resource_path="/v1/plan/{planID}/abort",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -495,7 +495,7 @@ class PlanApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/plan/{planID}/advance",
+            resource_path="/v1/plan/{planID}/advance",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -713,7 +713,7 @@ class PlanApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/plan/create",
+            resource_path="/v1/plan/create",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -923,7 +923,7 @@ class PlanApi:
 
         return self.api_client.param_serialize(
             method="DELETE",
-            resource_path="/tmux-client/v1/plan/{planID}",
+            resource_path="/v1/plan/{planID}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1133,7 +1133,7 @@ class PlanApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/tmux-client/v1/plan/{planID}",
+            resource_path="/v1/plan/{planID}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1325,7 +1325,7 @@ class PlanApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/tmux-client/v1/plan/",
+            resource_path="/v1/plan/",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1546,7 +1546,7 @@ class PlanApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/plan/update",
+            resource_path="/v1/plan/update",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

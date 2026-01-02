@@ -1,10 +1,10 @@
 # virsh_sandbox.VMsApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**list_virtual_machines**](VMsApi.md#list_virtual_machines) | **GET** /virsh-sandbox/v1/vms | List all VMs
+[**list_virtual_machines**](VMsApi.md#list_virtual_machines) | **GET** /v1/vms | List all VMs
 
 
 # **list_virtual_machines**
@@ -23,10 +23,10 @@ from virsh_sandbox.models.internal_rest_list_vms_response import InternalRestLis
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 

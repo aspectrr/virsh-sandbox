@@ -1,20 +1,20 @@
 # virsh_sandbox.TmuxApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_tmux_pane**](TmuxApi.md#create_tmux_pane) | **POST** /tmux-client/v1/tmux/panes/create | Create tmux pane
-[**create_tmux_session**](TmuxApi.md#create_tmux_session) | **POST** /tmux-client/v1/tmux/sessions/create | Create tmux session
-[**kill_tmux_pane**](TmuxApi.md#kill_tmux_pane) | **DELETE** /tmux-client/v1/tmux/panes/{paneID} | Kill tmux pane
-[**kill_tmux_session**](TmuxApi.md#kill_tmux_session) | **DELETE** /tmux-client/v1/tmux/sessions/{sessionName} | Kill tmux session
-[**list_tmux_panes**](TmuxApi.md#list_tmux_panes) | **GET** /tmux-client/v1/tmux/panes | List tmux panes
-[**list_tmux_sessions**](TmuxApi.md#list_tmux_sessions) | **GET** /tmux-client/v1/tmux/sessions | List tmux sessions
-[**list_tmux_windows**](TmuxApi.md#list_tmux_windows) | **GET** /tmux-client/v1/tmux/windows | List tmux windows
-[**read_tmux_pane**](TmuxApi.md#read_tmux_pane) | **POST** /tmux-client/v1/tmux/panes/read | Read tmux pane
-[**release_tmux_session**](TmuxApi.md#release_tmux_session) | **POST** /tmux-client/v1/tmux/sessions/{sessionId}/release | Release tmux session
-[**send_keys_to_pane**](TmuxApi.md#send_keys_to_pane) | **POST** /tmux-client/v1/tmux/panes/send-keys | Send keys to tmux pane
-[**switch_tmux_pane**](TmuxApi.md#switch_tmux_pane) | **POST** /tmux-client/v1/tmux/panes/switch | Switch tmux pane
+[**create_tmux_pane**](TmuxApi.md#create_tmux_pane) | **POST** /v1/tmux/panes/create | Create tmux pane
+[**create_tmux_session**](TmuxApi.md#create_tmux_session) | **POST** /v1/tmux/sessions/create | Create tmux session
+[**kill_tmux_pane**](TmuxApi.md#kill_tmux_pane) | **DELETE** /v1/tmux/panes/{paneID} | Kill tmux pane
+[**kill_tmux_session**](TmuxApi.md#kill_tmux_session) | **DELETE** /v1/tmux/sessions/{sessionName} | Kill tmux session
+[**list_tmux_panes**](TmuxApi.md#list_tmux_panes) | **GET** /v1/tmux/panes | List tmux panes
+[**list_tmux_sessions**](TmuxApi.md#list_tmux_sessions) | **GET** /v1/tmux/sessions | List tmux sessions
+[**list_tmux_windows**](TmuxApi.md#list_tmux_windows) | **GET** /v1/tmux/windows | List tmux windows
+[**read_tmux_pane**](TmuxApi.md#read_tmux_pane) | **POST** /v1/tmux/panes/read | Read tmux pane
+[**release_tmux_session**](TmuxApi.md#release_tmux_session) | **POST** /v1/tmux/sessions/{sessionId}/release | Release tmux session
+[**send_keys_to_pane**](TmuxApi.md#send_keys_to_pane) | **POST** /v1/tmux/panes/send-keys | Send keys to tmux pane
+[**switch_tmux_pane**](TmuxApi.md#switch_tmux_pane) | **POST** /v1/tmux/panes/switch | Switch tmux pane
 
 
 # **create_tmux_pane**
@@ -34,10 +34,10 @@ from virsh_sandbox.models.tmux_client_internal_types_create_pane_response import
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -103,10 +103,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -172,10 +172,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -241,10 +241,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -311,10 +311,10 @@ from virsh_sandbox.models.tmux_client_internal_types_list_panes_response import 
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -381,10 +381,10 @@ from virsh_sandbox.models.tmux_client_internal_types_session_info import TmuxCli
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -446,10 +446,10 @@ from virsh_sandbox.models.tmux_client_internal_types_window_info import TmuxClie
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -516,10 +516,10 @@ from virsh_sandbox.models.tmux_client_internal_types_read_pane_response import T
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -586,10 +586,10 @@ from virsh_sandbox.models.tmux_client_internal_types_kill_session_response impor
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -656,10 +656,10 @@ from virsh_sandbox.models.tmux_client_internal_types_send_keys_response import T
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -728,10 +728,10 @@ from virsh_sandbox.models.tmux_client_internal_types_switch_pane_response import
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 

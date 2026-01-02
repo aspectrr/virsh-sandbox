@@ -1,18 +1,23 @@
 # virsh_sandbox.SandboxApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_sandbox**](SandboxApi.md#create_sandbox) | **POST** /virsh-sandbox/v1/sandbox/create | Create a new sandbox
-[**create_snapshot**](SandboxApi.md#create_snapshot) | **POST** /virsh-sandbox/v1/sandbox/{id}/snapshot | Create snapshot
-[**destroy_sandbox**](SandboxApi.md#destroy_sandbox) | **DELETE** /virsh-sandbox/v1/sandbox/{id} | Destroy sandbox
-[**diff_snapshots**](SandboxApi.md#diff_snapshots) | **POST** /virsh-sandbox/v1/sandbox/{id}/diff | Diff snapshots
-[**generate_configuration**](SandboxApi.md#generate_configuration) | **POST** /virsh-sandbox/v1/sandbox/{id}/generate/{tool} | Generate configuration
-[**inject_ssh_key**](SandboxApi.md#inject_ssh_key) | **POST** /virsh-sandbox/v1/sandbox/{id}/sshkey | Inject SSH key into sandbox
-[**publish_changes**](SandboxApi.md#publish_changes) | **POST** /virsh-sandbox/v1/sandbox/{id}/publish | Publish changes
-[**run_sandbox_command**](SandboxApi.md#run_sandbox_command) | **POST** /virsh-sandbox/v1/sandbox/{id}/run | Run command in sandbox
-[**start_sandbox**](SandboxApi.md#start_sandbox) | **POST** /virsh-sandbox/v1/sandbox/{id}/start | Start sandbox
+[**create_sandbox**](SandboxApi.md#create_sandbox) | **POST** /v1/sandbox/create | Create a new sandbox
+[**create_sandbox_session**](SandboxApi.md#create_sandbox_session) | **POST** /v1/sandbox/sessions/create | Create sandbox session
+[**create_snapshot**](SandboxApi.md#create_snapshot) | **POST** /v1/sandbox/{id}/snapshot | Create snapshot
+[**destroy_sandbox**](SandboxApi.md#destroy_sandbox) | **DELETE** /v1/sandbox/{id} | Destroy sandbox
+[**diff_snapshots**](SandboxApi.md#diff_snapshots) | **POST** /v1/sandbox/{id}/diff | Diff snapshots
+[**generate_configuration**](SandboxApi.md#generate_configuration) | **POST** /v1/sandbox/{id}/generate/{tool} | Generate configuration
+[**get_sandbox_session**](SandboxApi.md#get_sandbox_session) | **GET** /v1/sandbox/sessions/{sessionName} | Get sandbox session
+[**inject_ssh_key**](SandboxApi.md#inject_ssh_key) | **POST** /v1/sandbox/{id}/sshkey | Inject SSH key into sandbox
+[**kill_sandbox_session**](SandboxApi.md#kill_sandbox_session) | **DELETE** /v1/sandbox/sessions/{sessionName} | Kill sandbox session
+[**list_sandbox_sessions**](SandboxApi.md#list_sandbox_sessions) | **GET** /v1/sandbox/sessions | List sandbox sessions
+[**publish_changes**](SandboxApi.md#publish_changes) | **POST** /v1/sandbox/{id}/publish | Publish changes
+[**run_sandbox_command**](SandboxApi.md#run_sandbox_command) | **POST** /v1/sandbox/{id}/run | Run command in sandbox
+[**sandbox_api_health**](SandboxApi.md#sandbox_api_health) | **GET** /v1/sandbox/health | Check sandbox API health
+[**start_sandbox**](SandboxApi.md#start_sandbox) | **POST** /v1/sandbox/{id}/start | Start sandbox
 
 
 # **create_sandbox**
@@ -32,10 +37,10 @@ from virsh_sandbox.models.internal_rest_create_sandbox_response import InternalR
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -86,6 +91,77 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **create_sandbox_session**
+> InternalApiCreateSandboxSessionResponse create_sandbox_session(request)
+
+Create sandbox session
+
+Creates a new tmux session connected to a sandbox VM via SSH certificate
+
+### Example
+
+
+```python
+import virsh_sandbox
+from virsh_sandbox.models.internal_api_create_sandbox_session_request import InternalApiCreateSandboxSessionRequest
+from virsh_sandbox.models.internal_api_create_sandbox_session_response import InternalApiCreateSandboxSessionResponse
+from virsh_sandbox.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = virsh_sandbox.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with virsh_sandbox.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virsh_sandbox.SandboxApi(api_client)
+    request = virsh_sandbox.InternalApiCreateSandboxSessionRequest() # InternalApiCreateSandboxSessionRequest | Create sandbox session request
+
+    try:
+        # Create sandbox session
+        api_response = api_instance.create_sandbox_session(request)
+        print("The response of SandboxApi->create_sandbox_session:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SandboxApi->create_sandbox_session: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**InternalApiCreateSandboxSessionRequest**](InternalApiCreateSandboxSessionRequest.md)| Create sandbox session request | 
+
+### Return type
+
+[**InternalApiCreateSandboxSessionResponse**](InternalApiCreateSandboxSessionResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**400** | Bad Request |  -  |
+**500** | Internal Server Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **create_snapshot**
 > InternalRestSnapshotResponse create_snapshot(id, request)
 
@@ -103,10 +179,10 @@ from virsh_sandbox.models.internal_rest_snapshot_response import InternalRestSna
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -174,10 +250,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -243,10 +319,10 @@ from virsh_sandbox.models.internal_rest_diff_response import InternalRestDiffRes
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -314,10 +390,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -367,6 +443,75 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_sandbox_session**
+> InternalApiSandboxSessionInfo get_sandbox_session(session_name)
+
+Get sandbox session
+
+Gets details of a specific sandbox session
+
+### Example
+
+
+```python
+import virsh_sandbox
+from virsh_sandbox.models.internal_api_sandbox_session_info import InternalApiSandboxSessionInfo
+from virsh_sandbox.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = virsh_sandbox.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with virsh_sandbox.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virsh_sandbox.SandboxApi(api_client)
+    session_name = 'session_name_example' # str | Session name
+
+    try:
+        # Get sandbox session
+        api_response = api_instance.get_sandbox_session(session_name)
+        print("The response of SandboxApi->get_sandbox_session:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SandboxApi->get_sandbox_session: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **session_name** | **str**| Session name | 
+
+### Return type
+
+[**InternalApiSandboxSessionInfo**](InternalApiSandboxSessionInfo.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**404** | Not Found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **inject_ssh_key**
 > inject_ssh_key(id, request)
 
@@ -383,10 +528,10 @@ from virsh_sandbox.models.internal_rest_inject_ssh_key_request import InternalRe
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -437,6 +582,141 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **kill_sandbox_session**
+> Dict[str, object] kill_sandbox_session(session_name)
+
+Kill sandbox session
+
+Kills a sandbox session and cleans up its credentials
+
+### Example
+
+
+```python
+import virsh_sandbox
+from virsh_sandbox.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = virsh_sandbox.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with virsh_sandbox.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virsh_sandbox.SandboxApi(api_client)
+    session_name = 'session_name_example' # str | Session name
+
+    try:
+        # Kill sandbox session
+        api_response = api_instance.kill_sandbox_session(session_name)
+        print("The response of SandboxApi->kill_sandbox_session:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SandboxApi->kill_sandbox_session: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **session_name** | **str**| Session name | 
+
+### Return type
+
+**Dict[str, object]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**400** | Bad Request |  -  |
+**404** | Not Found |  -  |
+**500** | Internal Server Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **list_sandbox_sessions**
+> InternalApiListSandboxSessionsResponse list_sandbox_sessions()
+
+List sandbox sessions
+
+Lists all active sandbox sessions
+
+### Example
+
+
+```python
+import virsh_sandbox
+from virsh_sandbox.models.internal_api_list_sandbox_sessions_response import InternalApiListSandboxSessionsResponse
+from virsh_sandbox.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = virsh_sandbox.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with virsh_sandbox.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virsh_sandbox.SandboxApi(api_client)
+
+    try:
+        # List sandbox sessions
+        api_response = api_instance.list_sandbox_sessions()
+        print("The response of SandboxApi->list_sandbox_sessions:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SandboxApi->list_sandbox_sessions: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**InternalApiListSandboxSessionsResponse**](InternalApiListSandboxSessionsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**500** | Internal Server Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **publish_changes**
 > publish_changes(id, request)
 
@@ -453,10 +733,10 @@ from virsh_sandbox.models.internal_rest_publish_request import InternalRestPubli
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -523,10 +803,10 @@ from virsh_sandbox.models.internal_rest_run_command_response import InternalRest
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -579,6 +859,70 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **sandbox_api_health**
+> Dict[str, object] sandbox_api_health()
+
+Check sandbox API health
+
+Checks if the virsh-sandbox API is reachable
+
+### Example
+
+
+```python
+import virsh_sandbox
+from virsh_sandbox.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = virsh_sandbox.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with virsh_sandbox.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virsh_sandbox.SandboxApi(api_client)
+
+    try:
+        # Check sandbox API health
+        api_response = api_instance.sandbox_api_health()
+        print("The response of SandboxApi->sandbox_api_health:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SandboxApi->sandbox_api_health: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**Dict[str, object]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**500** | Internal Server Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **start_sandbox**
 > InternalRestStartSandboxResponse start_sandbox(id, request=request)
 
@@ -596,10 +940,10 @@ from virsh_sandbox.models.internal_rest_start_sandbox_response import InternalRe
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 

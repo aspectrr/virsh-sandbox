@@ -242,6 +242,27 @@ audit:
     - "api_key"
     - "private_key"
 
+# Sandbox VM Access Configuration
+# Enables SSH certificate-based access to virsh-sandbox VMs
+sandbox:
+  # Enable sandbox VM access features
+  enabled: false
+  # Base URL of the virsh-sandbox API
+  # Can also be set via SANDBOX_API_URL environment variable
+  api_base_url: "http://localhost:8080"
+  # Directory to store ephemeral SSH keys and certificates
+  # Can also be set via SANDBOX_KEY_DIR environment variable
+  key_dir: "/tmp/sandbox-keys"
+  # Default certificate TTL in minutes (1-10)
+  default_ttl_minutes: 5
+  # User ID for certificate requests (defaults to $USER if empty)
+  # Can also be set via SANDBOX_USER_ID environment variable
+  user_id: ""
+  # HTTP timeout for API requests
+  http_timeout: 30s
+  # Clean up ephemeral keys when session ends
+  cleanup_on_exit: true
+
 # Security Configuration
 security:
   # Enable API key authentication

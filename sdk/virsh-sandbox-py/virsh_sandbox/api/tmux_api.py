@@ -253,7 +253,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/tmux/panes/create",
+            resource_path="/v1/tmux/panes/create",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -471,7 +471,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/tmux/sessions/create",
+            resource_path="/v1/tmux/sessions/create",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -681,7 +681,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="DELETE",
-            resource_path="/tmux-client/v1/tmux/panes/{paneID}",
+            resource_path="/v1/tmux/panes/{paneID}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -891,7 +891,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="DELETE",
-            resource_path="/tmux-client/v1/tmux/sessions/{sessionName}",
+            resource_path="/v1/tmux/sessions/{sessionName}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1102,7 +1102,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/tmux-client/v1/tmux/panes",
+            resource_path="/v1/tmux/panes",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1294,7 +1294,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/tmux-client/v1/tmux/sessions",
+            resource_path="/v1/tmux/sessions",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1502,7 +1502,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/tmux-client/v1/tmux/windows",
+            resource_path="/v1/tmux/windows",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1720,7 +1720,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/tmux/panes/read",
+            resource_path="/v1/tmux/panes/read",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1927,7 +1927,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/tmux/sessions/{sessionId}/release",
+            resource_path="/v1/tmux/sessions/{sessionId}/release",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2148,7 +2148,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/tmux/panes/send-keys",
+            resource_path="/v1/tmux/panes/send-keys",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2366,7 +2366,7 @@ class TmuxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/tmux/panes/switch",
+            resource_path="/v1/tmux/panes/switch",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

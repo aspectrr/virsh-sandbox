@@ -33,7 +33,9 @@ jobs:
           npm install -g openapi-merge-cli
 
       - name: Generate SDK
-        run: bash scripts/generate.sh
+        run: |
+          cd sdk
+          bash scripts/generate.sh
 
       - name: Build package
         run: |

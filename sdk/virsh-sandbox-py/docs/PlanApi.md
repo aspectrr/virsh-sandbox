@@ -1,16 +1,16 @@
 # virsh_sandbox.PlanApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**abort_plan**](PlanApi.md#abort_plan) | **POST** /tmux-client/v1/plan/{planID}/abort | Abort plan
-[**advance_plan_step**](PlanApi.md#advance_plan_step) | **POST** /tmux-client/v1/plan/{planID}/advance | Advance plan step
-[**create_plan**](PlanApi.md#create_plan) | **POST** /tmux-client/v1/plan/create | Create plan
-[**delete_plan**](PlanApi.md#delete_plan) | **DELETE** /tmux-client/v1/plan/{planID} | Delete plan
-[**get_plan**](PlanApi.md#get_plan) | **GET** /tmux-client/v1/plan/{planID} | Get plan
-[**list_plans**](PlanApi.md#list_plans) | **GET** /tmux-client/v1/plan/ | List plans
-[**update_plan**](PlanApi.md#update_plan) | **POST** /tmux-client/v1/plan/update | Update plan
+[**abort_plan**](PlanApi.md#abort_plan) | **POST** /v1/plan/{planID}/abort | Abort plan
+[**advance_plan_step**](PlanApi.md#advance_plan_step) | **POST** /v1/plan/{planID}/advance | Advance plan step
+[**create_plan**](PlanApi.md#create_plan) | **POST** /v1/plan/create | Create plan
+[**delete_plan**](PlanApi.md#delete_plan) | **DELETE** /v1/plan/{planID} | Delete plan
+[**get_plan**](PlanApi.md#get_plan) | **GET** /v1/plan/{planID} | Get plan
+[**list_plans**](PlanApi.md#list_plans) | **GET** /v1/plan/ | List plans
+[**update_plan**](PlanApi.md#update_plan) | **POST** /v1/plan/update | Update plan
 
 
 # **abort_plan**
@@ -28,10 +28,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -100,10 +100,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -174,10 +174,10 @@ from virsh_sandbox.models.tmux_client_internal_types_create_plan_response import
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -243,10 +243,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -313,10 +313,10 @@ from virsh_sandbox.models.tmux_client_internal_types_get_plan_response import Tm
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -383,10 +383,10 @@ from virsh_sandbox.models.tmux_client_internal_types_list_plans_response import 
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -449,10 +449,10 @@ from virsh_sandbox.models.tmux_client_internal_types_update_plan_response import
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 

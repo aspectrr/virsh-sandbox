@@ -21,6 +21,7 @@ import (
 	"tmux-client/internal/tools/file"
 	"tmux-client/internal/tools/human"
 	"tmux-client/internal/tools/plan"
+	"tmux-client/internal/tools/sandbox"
 	"tmux-client/internal/tools/tmux"
 )
 
@@ -30,7 +31,6 @@ var Version = "0.0.1-beta"
 // @title tmux-client API
 // @version 0.0.1-beta
 // @description API for managing tmux sessions and windows
-// @host localhost:8081
 // @BasePath /
 func main() {
 	// Parse command line flags
@@ -73,6 +73,29 @@ func main() {
 	if err != nil {
 		logger.Warn().Err(err).Msg("Failed to initialize tmux tool (tmux may not be installed)")
 		tmuxTool = nil
+	}
+
+	// Initialize sandbox tool if enabled
+	if cfg.Sandbox.Enabled {
+		sandboxCfg := &sandbox.Config{
+			APIBaseURL:        cfg.Sandbox.APIBaseURL,
+			KeyDir:            cfg.Sandbox.KeyDir,
+			DefaultTTLMinutes: cfg.Sandbox.DefaultTTLMinutes,
+			UserID:            cfg.Sandbox.UserID,
+			HTTPTimeout:       cfg.Sandbox.HTTPTimeout,
+		}
+		sandboxTool, err := sandbox.NewTool(sandboxCfg)
+		if err != nil {
+			logger.Warn().Err(err).Msg("Failed to initialize sandbox tool")
+		} else if tmuxTool != nil {
+			tmuxTool.SetSandboxTool(sandboxTool)
+			logger.Info().
+				Str("api_url", cfg.Sandbox.APIBaseURL).
+				Int("default_ttl", cfg.Sandbox.DefaultTTLMinutes).
+				Msg("Sandbox tool initialized for SSH certificate-based VM access")
+		}
+	} else {
+		logger.Debug().Msg("Sandbox tool disabled")
 	}
 
 	fileTool, err := file.NewTool(&cfg.File)

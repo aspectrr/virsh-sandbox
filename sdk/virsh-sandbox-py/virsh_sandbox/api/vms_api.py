@@ -202,7 +202,7 @@ class VMsApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/virsh-sandbox/v1/vms",
+            resource_path="/v1/vms",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

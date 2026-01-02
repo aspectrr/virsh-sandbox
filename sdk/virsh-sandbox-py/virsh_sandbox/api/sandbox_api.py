@@ -14,6 +14,14 @@ from typing_extensions import Annotated
 from virsh_sandbox.api_client import ApiClient, RequestSerialized
 from virsh_sandbox.api_response import ApiResponse
 from virsh_sandbox.exceptions import ApiException
+from virsh_sandbox.models.internal_api_create_sandbox_session_request import \
+    InternalApiCreateSandboxSessionRequest
+from virsh_sandbox.models.internal_api_create_sandbox_session_response import \
+    InternalApiCreateSandboxSessionResponse
+from virsh_sandbox.models.internal_api_list_sandbox_sessions_response import \
+    InternalApiListSandboxSessionsResponse
+from virsh_sandbox.models.internal_api_sandbox_session_info import \
+    InternalApiSandboxSessionInfo
 from virsh_sandbox.models.internal_rest_create_sandbox_request import \
     InternalRestCreateSandboxRequest
 from virsh_sandbox.models.internal_rest_create_sandbox_response import \
@@ -253,7 +261,225 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/sandbox/create",
+            resource_path="/v1/sandbox/create",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    async def create_sandbox_session(
+        self,
+        request: InternalApiCreateSandboxSessionRequest,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> InternalApiCreateSandboxSessionResponse:
+        """Create sandbox session
+
+        Creates a new tmux session connected to a sandbox VM via SSH certificate
+
+        :param request: Create sandbox session request (required)
+        :type request: InternalApiCreateSandboxSessionRequest
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+
+        _param = self._create_sandbox_session_serialize(
+            request=request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiCreateSandboxSessionResponse",
+            "400": "TmuxClientInternalTypesAPIError",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    async def create_sandbox_session_with_http_info(
+        self,
+        request: InternalApiCreateSandboxSessionRequest,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> ApiResponse[InternalApiCreateSandboxSessionResponse]:
+        """Create sandbox session
+
+        Creates a new tmux session connected to a sandbox VM via SSH certificate
+
+        :param request: Create sandbox session request (required)
+        :type request: InternalApiCreateSandboxSessionRequest
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object with HTTP info.
+        """
+
+        _param = self._create_sandbox_session_serialize(
+            request=request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiCreateSandboxSessionResponse",
+            "400": "TmuxClientInternalTypesAPIError",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    async def create_sandbox_session_without_preload_content(
+        self,
+        request: InternalApiCreateSandboxSessionRequest,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> Any:
+        """Create sandbox session
+
+        Creates a new tmux session connected to a sandbox VM via SSH certificate
+
+        :param request: Create sandbox session request (required)
+        :type request: InternalApiCreateSandboxSessionRequest
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object without preloading content.
+        """
+
+        _param = self._create_sandbox_session_serialize(
+            request=request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiCreateSandboxSessionResponse",
+            "400": "TmuxClientInternalTypesAPIError",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _create_sandbox_session_serialize(
+        self,
+        request: InternalApiCreateSandboxSessionRequest,
+        _request_auth: Optional[Dict[str, Any]],
+        _content_type: Optional[str],
+        _headers: Optional[Dict[str, Any]],
+        _host_index: int,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Any = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if request is not None:
+            _body_params = request
+
+        # set the HTTP header `Accept`
+        if "Sandbox" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json"]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params["Content-Type"] = _content_type
+        else:
+            _default_content_type = self.api_client.select_header_content_type(
+                ["application/json"]
+            )
+            if _default_content_type is not None:
+                _header_params["Content-Type"] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = []
+
+        return self.api_client.param_serialize(
+            method="POST",
+            resource_path="/v1/sandbox/sessions/create",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -486,7 +712,7 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/sandbox/{id}/snapshot",
+            resource_path="/v1/sandbox/{id}/snapshot",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -696,7 +922,7 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="DELETE",
-            resource_path="/virsh-sandbox/v1/sandbox/{id}",
+            resource_path="/v1/sandbox/{id}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -929,7 +1155,7 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/sandbox/{id}/diff",
+            resource_path="/v1/sandbox/{id}/diff",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1151,7 +1377,214 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/sandbox/{id}/generate/{tool}",
+            resource_path="/v1/sandbox/{id}/generate/{tool}",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    async def get_sandbox_session(
+        self,
+        session_name: str,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> InternalApiSandboxSessionInfo:
+        """Get sandbox session
+
+        Gets details of a specific sandbox session
+
+        :param session_name: Session name (required)
+        :type session_name: str
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+
+        _param = self._get_sandbox_session_serialize(
+            session_name=session_name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiSandboxSessionInfo",
+            "404": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    async def get_sandbox_session_with_http_info(
+        self,
+        session_name: str,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> ApiResponse[InternalApiSandboxSessionInfo]:
+        """Get sandbox session
+
+        Gets details of a specific sandbox session
+
+        :param session_name: Session name (required)
+        :type session_name: str
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object with HTTP info.
+        """
+
+        _param = self._get_sandbox_session_serialize(
+            session_name=session_name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiSandboxSessionInfo",
+            "404": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    async def get_sandbox_session_without_preload_content(
+        self,
+        session_name: str,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> Any:
+        """Get sandbox session
+
+        Gets details of a specific sandbox session
+
+        :param session_name: Session name (required)
+        :type session_name: str
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object without preloading content.
+        """
+
+        _param = self._get_sandbox_session_serialize(
+            session_name=session_name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiSandboxSessionInfo",
+            "404": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _get_sandbox_session_serialize(
+        self,
+        session_name: str,
+        _request_auth: Optional[Dict[str, Any]],
+        _content_type: Optional[str],
+        _headers: Optional[Dict[str, Any]],
+        _host_index: int,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Any = None
+
+        # process the path parameters
+        if session_name is not None:
+            _path_params["sessionName"] = session_name
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Sandbox" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json"]
+            )
+
+        # set the HTTP header `Content-Type`
+
+        # authentication setting
+        _auth_settings: List[str] = []
+
+        return self.api_client.param_serialize(
+            method="GET",
+            resource_path="/v1/sandbox/sessions/{sessionName}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1384,7 +1817,412 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/sandbox/{id}/sshkey",
+            resource_path="/v1/sandbox/{id}/sshkey",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    async def kill_sandbox_session(
+        self,
+        session_name: str,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> Dict[str, object]:
+        """Kill sandbox session
+
+        Kills a sandbox session and cleans up its credentials
+
+        :param session_name: Session name (required)
+        :type session_name: str
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+
+        _param = self._kill_sandbox_session_serialize(
+            session_name=session_name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "Dict[str, object]",
+            "400": "TmuxClientInternalTypesAPIError",
+            "404": "TmuxClientInternalTypesAPIError",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    async def kill_sandbox_session_with_http_info(
+        self,
+        session_name: str,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> ApiResponse[Dict[str, object]]:
+        """Kill sandbox session
+
+        Kills a sandbox session and cleans up its credentials
+
+        :param session_name: Session name (required)
+        :type session_name: str
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object with HTTP info.
+        """
+
+        _param = self._kill_sandbox_session_serialize(
+            session_name=session_name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "Dict[str, object]",
+            "400": "TmuxClientInternalTypesAPIError",
+            "404": "TmuxClientInternalTypesAPIError",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    async def kill_sandbox_session_without_preload_content(
+        self,
+        session_name: str,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> Any:
+        """Kill sandbox session
+
+        Kills a sandbox session and cleans up its credentials
+
+        :param session_name: Session name (required)
+        :type session_name: str
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object without preloading content.
+        """
+
+        _param = self._kill_sandbox_session_serialize(
+            session_name=session_name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "Dict[str, object]",
+            "400": "TmuxClientInternalTypesAPIError",
+            "404": "TmuxClientInternalTypesAPIError",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _kill_sandbox_session_serialize(
+        self,
+        session_name: str,
+        _request_auth: Optional[Dict[str, Any]],
+        _content_type: Optional[str],
+        _headers: Optional[Dict[str, Any]],
+        _host_index: int,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Any = None
+
+        # process the path parameters
+        if session_name is not None:
+            _path_params["sessionName"] = session_name
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Sandbox" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json"]
+            )
+
+        # set the HTTP header `Content-Type`
+
+        # authentication setting
+        _auth_settings: List[str] = []
+
+        return self.api_client.param_serialize(
+            method="DELETE",
+            resource_path="/v1/sandbox/sessions/{sessionName}",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    async def list_sandbox_sessions(
+        self,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> InternalApiListSandboxSessionsResponse:
+        """List sandbox sessions
+
+        Lists all active sandbox sessions
+
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+
+        _param = self._list_sandbox_sessions_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiListSandboxSessionsResponse",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    async def list_sandbox_sessions_with_http_info(
+        self,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> ApiResponse[InternalApiListSandboxSessionsResponse]:
+        """List sandbox sessions
+
+        Lists all active sandbox sessions
+
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object with HTTP info.
+        """
+
+        _param = self._list_sandbox_sessions_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiListSandboxSessionsResponse",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    async def list_sandbox_sessions_without_preload_content(
+        self,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> Any:
+        """List sandbox sessions
+
+        Lists all active sandbox sessions
+
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object without preloading content.
+        """
+
+        _param = self._list_sandbox_sessions_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "InternalApiListSandboxSessionsResponse",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _list_sandbox_sessions_serialize(
+        self,
+        _request_auth: Optional[Dict[str, Any]],
+        _content_type: Optional[str],
+        _headers: Optional[Dict[str, Any]],
+        _host_index: int,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Any = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Sandbox" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json"]
+            )
+
+        # set the HTTP header `Content-Type`
+
+        # authentication setting
+        _auth_settings: List[str] = []
+
+        return self.api_client.param_serialize(
+            method="GET",
+            resource_path="/v1/sandbox/sessions",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1614,7 +2452,7 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/sandbox/{id}/publish",
+            resource_path="/v1/sandbox/{id}/publish",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1847,7 +2685,199 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/sandbox/{id}/run",
+            resource_path="/v1/sandbox/{id}/run",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    async def sandbox_api_health(
+        self,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> Dict[str, object]:
+        """Check sandbox API health
+
+        Checks if the virsh-sandbox API is reachable
+
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+
+        _param = self._sandbox_api_health_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "Dict[str, object]",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    async def sandbox_api_health_with_http_info(
+        self,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> ApiResponse[Dict[str, object]]:
+        """Check sandbox API health
+
+        Checks if the virsh-sandbox API is reachable
+
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object with HTTP info.
+        """
+
+        _param = self._sandbox_api_health_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "Dict[str, object]",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    async def sandbox_api_health_without_preload_content(
+        self,
+        _request_timeout: Union[None, float, Tuple[float, float]] = None,
+        _request_auth: Optional[Dict[str, Any]] = None,
+        _content_type: Optional[str] = None,
+        _headers: Optional[Dict[str, Any]] = None,
+        _host_index: int = 0,
+    ) -> Any:
+        """Check sandbox API health
+
+        Checks if the virsh-sandbox API is reachable
+
+        :param _request_timeout: Timeout setting for this request. If one
+                                 number is provided, it will be the total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: Override the auth_settings for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: Force content-type for the request.
+        :type _content_type: str, optional
+        :param _headers: Override headers for a single request.
+        :type _headers: dict, optional
+        :param _host_index: Override host index for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object without preloading content.
+        """
+
+        _param = self._sandbox_api_health_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "Dict[str, object]",
+            "500": "TmuxClientInternalTypesAPIError",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _sandbox_api_health_serialize(
+        self,
+        _request_auth: Optional[Dict[str, Any]],
+        _content_type: Optional[str],
+        _headers: Optional[Dict[str, Any]],
+        _host_index: int,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Any = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Sandbox" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json"]
+            )
+
+        # set the HTTP header `Content-Type`
+
+        # authentication setting
+        _auth_settings: List[str] = []
+
+        return self.api_client.param_serialize(
+            method="GET",
+            resource_path="/v1/sandbox/health",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2080,7 +3110,7 @@ class SandboxApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/sandbox/{id}/start",
+            resource_path="/v1/sandbox/{id}/start",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

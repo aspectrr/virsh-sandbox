@@ -18,6 +18,7 @@ Example:
 
 from typing import Any, Dict, List, Optional, Tuple, Union
 
+from virsh_sandbox.api.access_api import AccessApi
 from virsh_sandbox.api.ansible_api import AnsibleApi
 from virsh_sandbox.api.audit_api import AuditApi
 from virsh_sandbox.api.command_api import CommandApi
@@ -35,6 +36,14 @@ from virsh_sandbox.models.internal_ansible_job_request import \
     InternalAnsibleJobRequest
 from virsh_sandbox.models.internal_ansible_job_response import \
     InternalAnsibleJobResponse
+from virsh_sandbox.models.internal_api_create_sandbox_session_request import \
+    InternalApiCreateSandboxSessionRequest
+from virsh_sandbox.models.internal_api_create_sandbox_session_response import \
+    InternalApiCreateSandboxSessionResponse
+from virsh_sandbox.models.internal_api_list_sandbox_sessions_response import \
+    InternalApiListSandboxSessionsResponse
+from virsh_sandbox.models.internal_api_sandbox_session_info import \
+    InternalApiSandboxSessionInfo
 from virsh_sandbox.models.internal_rest_create_sandbox_request import \
     InternalRestCreateSandboxRequest
 from virsh_sandbox.models.internal_rest_create_sandbox_response import \
@@ -143,6 +152,181 @@ from virsh_sandbox.models.tmux_client_internal_types_write_file_request import \
     TmuxClientInternalTypesWriteFileRequest
 from virsh_sandbox.models.tmux_client_internal_types_write_file_response import \
     TmuxClientInternalTypesWriteFileResponse
+from virsh_sandbox.models.virsh_sandbox_internal_rest_ca_public_key_response import \
+    VirshSandboxInternalRestCaPublicKeyResponse
+from virsh_sandbox.models.virsh_sandbox_internal_rest_certificate_response import \
+    VirshSandboxInternalRestCertificateResponse
+from virsh_sandbox.models.virsh_sandbox_internal_rest_list_certificates_response import \
+    VirshSandboxInternalRestListCertificatesResponse
+from virsh_sandbox.models.virsh_sandbox_internal_rest_list_sessions_response import \
+    VirshSandboxInternalRestListSessionsResponse
+from virsh_sandbox.models.virsh_sandbox_internal_rest_request_access_request import \
+    VirshSandboxInternalRestRequestAccessRequest
+from virsh_sandbox.models.virsh_sandbox_internal_rest_request_access_response import \
+    VirshSandboxInternalRestRequestAccessResponse
+from virsh_sandbox.models.virsh_sandbox_internal_rest_revoke_certificate_request import \
+    VirshSandboxInternalRestRevokeCertificateRequest
+from virsh_sandbox.models.virsh_sandbox_internal_rest_session_end_request import \
+    VirshSandboxInternalRestSessionEndRequest
+from virsh_sandbox.models.virsh_sandbox_internal_rest_session_start_request import \
+    VirshSandboxInternalRestSessionStartRequest
+from virsh_sandbox.models.virsh_sandbox_internal_rest_session_start_response import \
+    VirshSandboxInternalRestSessionStartResponse
+
+
+class AccessOperations:
+    """Wrapper for AccessApi with simplified method signatures."""
+
+    def __init__(self, api: AccessApi):
+        self._api = api
+
+    async def v1_access_ca_pubkey_get(
+        self,
+    ) -> VirshSandboxInternalRestCaPublicKeyResponse:
+        """Get the SSH CA public key"""
+        return await self._api.v1_access_ca_pubkey_get()
+
+    async def v1_access_certificate_cert_id_delete(
+        self,
+        cert_id: str,
+        reason: Optional[str] = None,
+    ) -> Dict[str, str]:
+        """Revoke a certificate
+
+        Args:
+            cert_id: str
+            reason: reason
+        """
+        request = VirshSandboxInternalRestRevokeCertificateRequest(
+            reason=reason,
+        )
+        return await self._api.v1_access_certificate_cert_id_delete(
+            cert_id=cert_id, request=request
+        )
+
+    async def v1_access_certificate_cert_id_get(
+        self,
+        cert_id: str,
+    ) -> VirshSandboxInternalRestCertificateResponse:
+        """Get certificate details
+
+        Args:
+            cert_id: str
+        """
+        return await self._api.v1_access_certificate_cert_id_get(cert_id=cert_id)
+
+    async def v1_access_certificates_get(
+        self,
+        sandbox_id: Optional[str] = None,
+        user_id: Optional[str] = None,
+        status: Optional[str] = None,
+        active_only: Optional[bool] = None,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+    ) -> VirshSandboxInternalRestListCertificatesResponse:
+        """List certificates
+
+        Args:
+            sandbox_id: Optional[str]
+            user_id: Optional[str]
+            status: Optional[str]
+            active_only: Optional[bool]
+            limit: Optional[int]
+            offset: Optional[int]
+        """
+        return await self._api.v1_access_certificates_get(
+            sandbox_id=sandbox_id,
+            user_id=user_id,
+            status=status,
+            active_only=active_only,
+            limit=limit,
+            offset=offset,
+        )
+
+    async def v1_access_request_post(
+        self,
+        public_key: Optional[str] = None,
+        sandbox_id: Optional[str] = None,
+        ttl_minutes: Optional[int] = None,
+        user_id: Optional[str] = None,
+    ) -> VirshSandboxInternalRestRequestAccessResponse:
+        """Request SSH access to a sandbox
+
+        Args:
+            public_key: PublicKey is the user
+            sandbox_id: SandboxID is the target sandbox.
+            ttl_minutes: TTLMinutes is the requested access duration (1-10 minutes).
+            user_id: UserID identifies the requesting user.
+        """
+        request = VirshSandboxInternalRestRequestAccessRequest(
+            public_key=public_key,
+            sandbox_id=sandbox_id,
+            ttl_minutes=ttl_minutes,
+            user_id=user_id,
+        )
+        return await self._api.v1_access_request_post(request=request)
+
+    async def v1_access_session_end_post(
+        self,
+        reason: Optional[str] = None,
+        session_id: Optional[str] = None,
+    ) -> Dict[str, str]:
+        """Record session end
+
+        Args:
+            reason: reason
+            session_id: session_id
+        """
+        request = VirshSandboxInternalRestSessionEndRequest(
+            reason=reason,
+            session_id=session_id,
+        )
+        return await self._api.v1_access_session_end_post(request=request)
+
+    async def v1_access_session_start_post(
+        self,
+        certificate_id: Optional[str] = None,
+        source_ip: Optional[str] = None,
+    ) -> VirshSandboxInternalRestSessionStartResponse:
+        """Record session start
+
+        Args:
+            certificate_id: certificate_id
+            source_ip: source_ip
+        """
+        request = VirshSandboxInternalRestSessionStartRequest(
+            certificate_id=certificate_id,
+            source_ip=source_ip,
+        )
+        return await self._api.v1_access_session_start_post(request=request)
+
+    async def v1_access_sessions_get(
+        self,
+        sandbox_id: Optional[str] = None,
+        certificate_id: Optional[str] = None,
+        user_id: Optional[str] = None,
+        active_only: Optional[bool] = None,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+    ) -> VirshSandboxInternalRestListSessionsResponse:
+        """List sessions
+
+        Args:
+            sandbox_id: Optional[str]
+            certificate_id: Optional[str]
+            user_id: Optional[str]
+            active_only: Optional[bool]
+            limit: Optional[int]
+            offset: Optional[int]
+        """
+        return await self._api.v1_access_sessions_get(
+            sandbox_id=sandbox_id,
+            certificate_id=certificate_id,
+            user_id=user_id,
+            active_only=active_only,
+            limit=limit,
+            offset=offset,
+        )
 
 
 class AnsibleOperations:
@@ -400,13 +584,9 @@ class HealthOperations:
     def __init__(self, api: HealthApi):
         self._api = api
 
-    async def get_health(self) -> Dict[str, object]:
-        """Health check"""
-        return await self._api.get_health()
-
-    async def get_health1(self) -> TmuxClientInternalTypesHealthResponse:
+    async def get_health(self) -> TmuxClientInternalTypesHealthResponse:
         """Get health status"""
-        return await self._api.get_health1()
+        return await self._api.get_health()
 
 
 class HumanOperations:
@@ -662,6 +842,26 @@ class SandboxOperations:
         )
         return await self._api.create_sandbox(request=request)
 
+    async def create_sandbox_session(
+        self,
+        sandbox_id: Optional[str] = None,
+        session_name: Optional[str] = None,
+        ttl_minutes: Optional[int] = None,
+    ) -> InternalApiCreateSandboxSessionResponse:
+        """Create sandbox session
+
+        Args:
+            sandbox_id: SandboxID is the ID of the sandbox to connect to
+            session_name: SessionName is the optional tmux session name (auto-generated if empty)
+            ttl_minutes: TTLMinutes is the certificate TTL in minutes (1-10, default 5)
+        """
+        request = InternalApiCreateSandboxSessionRequest(
+            sandbox_id=sandbox_id,
+            session_name=session_name,
+            ttl_minutes=ttl_minutes,
+        )
+        return await self._api.create_sandbox_session(request=request)
+
     async def create_snapshot(
         self,
         id: str,
@@ -724,6 +924,17 @@ class SandboxOperations:
         """
         return await self._api.generate_configuration(id=id, tool=tool)
 
+    async def get_sandbox_session(
+        self,
+        session_name: str,
+    ) -> InternalApiSandboxSessionInfo:
+        """Get sandbox session
+
+        Args:
+            session_name: str
+        """
+        return await self._api.get_sandbox_session(session_name=session_name)
+
     async def inject_ssh_key(
         self,
         id: str,
@@ -742,6 +953,21 @@ class SandboxOperations:
             username=username,
         )
         return await self._api.inject_ssh_key(id=id, request=request)
+
+    async def kill_sandbox_session(
+        self,
+        session_name: str,
+    ) -> Dict[str, object]:
+        """Kill sandbox session
+
+        Args:
+            session_name: str
+        """
+        return await self._api.kill_sandbox_session(session_name=session_name)
+
+    async def list_sandbox_sessions(self) -> InternalApiListSandboxSessionsResponse:
+        """List sandbox sessions"""
+        return await self._api.list_sandbox_sessions()
 
     async def publish_changes(
         self,
@@ -792,6 +1018,10 @@ class SandboxOperations:
             username=username,
         )
         return await self._api.run_sandbox_command(id=id, request=request)
+
+    async def sandbox_api_health(self) -> Dict[str, object]:
+        """Check sandbox API health"""
+        return await self._api.sandbox_api_health()
 
     async def start_sandbox(
         self,
@@ -1026,6 +1256,7 @@ class VirshSandbox:
             self._tmux_config = self._main_config
             self._tmux_api_client = self._main_api_client
 
+        self._access: Optional[AccessOperations] = None
         self._ansible: Optional[AnsibleOperations] = None
         self._audit: Optional[AuditOperations] = None
         self._command: Optional[CommandOperations] = None
@@ -1036,6 +1267,14 @@ class VirshSandbox:
         self._sandbox: Optional[SandboxOperations] = None
         self._tmux: Optional[TmuxOperations] = None
         self._vms: Optional[VMsOperations] = None
+
+    @property
+    def access(self) -> AccessOperations:
+        """Access AccessApi operations."""
+        if self._access is None:
+            api = AccessApi(api_client=self._main_api_client)
+            self._access = AccessOperations(api)
+        return self._access
 
     @property
     def ansible(self) -> AnsibleOperations:

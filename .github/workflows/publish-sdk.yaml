@@ -65,7 +65,9 @@ jobs:
           sed -i "s/packageVersion: .*/packageVersion: ${{ steps.version.outputs.version }}/" .openapi-generator/config.yaml
 
       - name: Generate SDK
-        run: bash scripts/generate.sh
+        run: |
+          cd sdk
+          bash scripts/generate.sh
 
       - name: Build package
         run: |

@@ -1,12 +1,12 @@
 # virsh_sandbox.AnsibleApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_ansible_job**](AnsibleApi.md#create_ansible_job) | **POST** /virsh-sandbox/v1/ansible/jobs | Create Ansible job
-[**get_ansible_job**](AnsibleApi.md#get_ansible_job) | **GET** /virsh-sandbox/v1/ansible/jobs/{job_id} | Get Ansible job
-[**stream_ansible_job_output**](AnsibleApi.md#stream_ansible_job_output) | **GET** /virsh-sandbox/v1/ansible/jobs/{job_id}/stream | Stream Ansible job output
+[**create_ansible_job**](AnsibleApi.md#create_ansible_job) | **POST** /v1/ansible/jobs | Create Ansible job
+[**get_ansible_job**](AnsibleApi.md#get_ansible_job) | **GET** /v1/ansible/jobs/{job_id} | Get Ansible job
+[**stream_ansible_job_output**](AnsibleApi.md#stream_ansible_job_output) | **GET** /v1/ansible/jobs/{job_id}/stream | Stream Ansible job output
 
 
 # **create_ansible_job**
@@ -26,10 +26,10 @@ from virsh_sandbox.models.internal_ansible_job_response import InternalAnsibleJo
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -95,10 +95,10 @@ from virsh_sandbox.models.internal_ansible_job import InternalAnsibleJob
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -163,10 +163,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 

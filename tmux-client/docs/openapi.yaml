@@ -5,7 +5,7 @@ info:
   title: tmux-client API
   version: 0.0.1-beta
 servers:
-- url: //localhost:8081/
+- url: /
 paths:
   /v1/audit/query:
     post:
@@ -424,7 +424,8 @@ paths:
       x-codegen-request-body-name: request
   /v1/health:
     get:
-      description: Retrieves the health status of the API server and its components
+      description: "Retrieves the health status of the API server and its components,\
+        \ including the virsh-sandbox API if configured"
       operationId: getHealth
       responses:
         "200":
@@ -876,6 +877,147 @@ paths:
       tags:
       - Plan
       x-codegen-request-body-name: request
+  /v1/sandbox/health:
+    get:
+      description: Checks if the virsh-sandbox API is reachable
+      operationId: sandboxAPIHealth
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tmux-client_internal_types.APIError"
+          description: Internal Server Error
+      summary: Check sandbox API health
+      tags:
+      - Sandbox
+  /v1/sandbox/sessions:
+    get:
+      description: Lists all active sandbox sessions
+      operationId: listSandboxSessions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internal_api.ListSandboxSessionsResponse"
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tmux-client_internal_types.APIError"
+          description: Internal Server Error
+      summary: List sandbox sessions
+      tags:
+      - Sandbox
+  /v1/sandbox/sessions/{sessionName}:
+    delete:
+      description: Kills a sandbox session and cleans up its credentials
+      operationId: killSandboxSession
+      parameters:
+      - description: Session name
+        in: path
+        name: sessionName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tmux-client_internal_types.APIError"
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tmux-client_internal_types.APIError"
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tmux-client_internal_types.APIError"
+          description: Internal Server Error
+      summary: Kill sandbox session
+      tags:
+      - Sandbox
+    get:
+      description: Gets details of a specific sandbox session
+      operationId: getSandboxSession
+      parameters:
+      - description: Session name
+        in: path
+        name: sessionName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internal_api.SandboxSessionInfo"
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tmux-client_internal_types.APIError"
+          description: Not Found
+      summary: Get sandbox session
+      tags:
+      - Sandbox
+  /v1/sandbox/sessions/create:
+    post:
+      description: Creates a new tmux session connected to a sandbox VM via SSH certificate
+      operationId: createSandboxSession
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/internal_api.CreateSandboxSessionRequest"
+        description: Create sandbox session request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internal_api.CreateSandboxSessionResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tmux-client_internal_types.APIError"
+          description: Bad Request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tmux-client_internal_types.APIError"
+          description: Internal Server Error
+      summary: Create sandbox session
+      tags:
+      - Sandbox
+      x-codegen-request-body-name: request
   /v1/tmux/panes:
     get:
       description: Get a list of panes in a tmux session
@@ -1233,6 +1375,181 @@ paths:
       - Tmux
 components:
   schemas:
+    internal_api.CreateSandboxSessionRequest:
+      properties:
+        sandbox_id:
+          description: SandboxID is the ID of the sandbox to connect to
+          type: string
+        session_name:
+          description: SessionName is the optional tmux session name (auto-generated
+            if empty)
+          type: string
+        ttl_minutes:
+          description: "TTLMinutes is the certificate TTL in minutes (1-10, default\
+            \ 5)"
+          type: integer
+      type: object
+    internal_api.CreateSandboxSessionResponse:
+      example:
+        session_name: session_name
+        valid_until: valid_until
+        sandbox_id: sandbox_id
+        ttl_seconds: 0
+        session_id: session_id
+        vm_ip_address: vm_ip_address
+        message: message
+        username: username
+      properties:
+        message:
+          description: Message provides additional information
+          type: string
+        sandbox_id:
+          description: SandboxID is the sandbox being accessed
+          type: string
+        session_id:
+          description: SessionID is the tmux session ID
+          type: string
+        session_name:
+          description: SessionName is the tmux session name
+          type: string
+        ttl_seconds:
+          description: TTLSeconds is the remaining certificate validity in seconds
+          type: integer
+        username:
+          description: Username is the SSH username
+          type: string
+        valid_until:
+          description: ValidUntil is when the certificate expires (RFC3339)
+          type: string
+        vm_ip_address:
+          description: VMIPAddress is the IP of the sandbox VM
+          type: string
+      type: object
+    internal_api.ListSandboxSessionsResponse:
+      example:
+        sessions:
+        - session_name: session_name
+          is_expired: true
+          valid_until: valid_until
+          sandbox_id: sandbox_id
+          ttl_seconds: 0
+          session_id: session_id
+          vm_ip_address: vm_ip_address
+          username: username
+        - session_name: session_name
+          is_expired: true
+          valid_until: valid_until
+          sandbox_id: sandbox_id
+          ttl_seconds: 0
+          session_id: session_id
+          vm_ip_address: vm_ip_address
+          username: username
+        total: 6
+      properties:
+        sessions:
+          items:
+            $ref: "#/components/schemas/internal_api.SandboxSessionInfo"
+          type: array
+        total:
+          type: integer
+      type: object
+    internal_api.SandboxSessionInfo:
+      example:
+        session_name: session_name
+        is_expired: true
+        valid_until: valid_until
+        sandbox_id: sandbox_id
+        ttl_seconds: 0
+        session_id: session_id
+        vm_ip_address: vm_ip_address
+        username: username
+      properties:
+        is_expired:
+          type: boolean
+        sandbox_id:
+          type: string
+        session_id:
+          type: string
+        session_name:
+          type: string
+        ttl_seconds:
+          type: integer
+        username:
+          type: string
+        valid_until:
+          type: string
+        vm_ip_address:
+          type: string
+      type: object
+    tmux-client_internal_api.CreateSandboxSessionRequest:
+      properties:
+        sandbox_id:
+          description: SandboxID is the ID of the sandbox to connect to
+          type: string
+        session_name:
+          description: SessionName is the optional tmux session name (auto-generated
+            if empty)
+          type: string
+        ttl_minutes:
+          description: "TTLMinutes is the certificate TTL in minutes (1-10, default\
+            \ 5)"
+          type: integer
+      type: object
+    tmux-client_internal_api.CreateSandboxSessionResponse:
+      properties:
+        message:
+          description: Message provides additional information
+          type: string
+        sandbox_id:
+          description: SandboxID is the sandbox being accessed
+          type: string
+        session_id:
+          description: SessionID is the tmux session ID
+          type: string
+        session_name:
+          description: SessionName is the tmux session name
+          type: string
+        ttl_seconds:
+          description: TTLSeconds is the remaining certificate validity in seconds
+          type: integer
+        username:
+          description: Username is the SSH username
+          type: string
+        valid_until:
+          description: ValidUntil is when the certificate expires (RFC3339)
+          type: string
+        vm_ip_address:
+          description: VMIPAddress is the IP of the sandbox VM
+          type: string
+      type: object
+    tmux-client_internal_api.ListSandboxSessionsResponse:
+      properties:
+        sessions:
+          items:
+            $ref: "#/components/schemas/tmux-client_internal_api.SandboxSessionInfo"
+          type: array
+        total:
+          type: integer
+      type: object
+    tmux-client_internal_api.SandboxSessionInfo:
+      properties:
+        is_expired:
+          type: boolean
+        sandbox_id:
+          type: string
+        session_id:
+          type: string
+        session_name:
+          type: string
+        ttl_seconds:
+          type: integer
+        username:
+          type: string
+        valid_until:
+          type: string
+        vm_ip_address:
+          type: string
+      type: object
     tmux-client_internal_types.APIError:
       example:
         code: code

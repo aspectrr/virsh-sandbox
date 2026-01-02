@@ -1,6 +1,7 @@
 # flake8: noqa
 
 # import apis into api package
+from virsh_sandbox.api.access_api import AccessApi
 from virsh_sandbox.api.ansible_api import AnsibleApi
 from virsh_sandbox.api.audit_api import AuditApi
 from virsh_sandbox.api.command_api import CommandApi

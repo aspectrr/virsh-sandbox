@@ -30,9 +30,258 @@ The virsh-sandbox API runs on your host machine (or in a container) and connects
 
 ## Scripts Overview
 
+| Script | Description |
+|--------|-------------|
+| `setup-lima-libvirt.sh` | Sets up a Lima VM with libvirt/KVM support |
+| `create-test-vm.sh` | Creates lightweight test VMs for development |
+| `setup-ssh-ca.sh` | Initializes the SSH Certificate Authority |
+| `sandbox-init.sh` | Prepares VM images for certificate-based SSH access |
+| `tmux-login.sh` | Forced tmux login script for sandbox VMs |
+
+---
+
+## SSH Certificate-Based Access
+
+The virsh-sandbox system uses **ephemeral SSH certificates** instead of static SSH keys for secure, auditable access to sandbox VMs. This provides several security benefits:
+
+- **No persistent credentials** on VMs
+- **Automatic expiration** (1-10 minutes)
+- **Audit trail** of all certificate issuances
+- **No `authorized_keys` management**
+- **Forced tmux sessions** (no shell escape)
+
+### How It Works
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                       SSH Certificate Access Flow                             │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  1. User requests access         2. Control plane issues certificate         │
+│     ┌──────┐                        ┌─────────────────┐                      │
+│     │ User │ ──────────────────────►│ Control Plane   │                      │
+│     │      │   POST /v1/access/     │                 │                      │
+│     │      │   request              │  ┌───────────┐  │                      │
+│     └──────┘   {public_key: ...}    │  │ SSH CA    │  │                      │
+│        │                            │  │ (ed25519) │  │                      │
+│        │                            │  └───────────┘  │                      │
+│        │                            └─────────────────┘                      │
+│        │                                   │                                 │
+│        │  3. Receives short-lived cert     │                                 │
+│        │◄──────────────────────────────────┘                                 │
+│        │     {certificate: ...,                                              │
+│        │      valid_until: +5m,                                              │
+│        │      vm_ip: 192.168.122.x}                                          │
+│        │                                                                     │
+│        │  4. SSH with certificate                                            │
+│        │     ssh -i key -o CertificateFile=key-cert.pub sandbox@vm           │
+│        ▼                                                                     │
+│     ┌──────────────────────────┐                                             │
+│     │     Sandbox VM           │                                             │
+│     │  ┌────────────────────┐  │                                             │
+│     │  │ sshd               │  │  Trusts CA public key                       │
+│     │  │ TrustedUserCAKeys  │  │  (baked into image)                         │
+│     │  │ ForceCommand tmux  │  │                                             │
+│     │  └────────────────────┘  │                                             │
+│     │           │              │                                             │
+│     │           ▼              │                                             │
+│     │  ┌────────────────────┐  │                                             │
+│     │  │ tmux-login         │  │  5. User lands in tmux session              │
+│     │  │ (no shell escape)  │  │                                             │
+│     │  └────────────────────┘  │                                             │
+│     └──────────────────────────┘                                             │
+│                                                                              │
+│  6. Certificate expires → access revoked automatically                       │
+│  7. VM destroyed → all session state removed                                 │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Quick Start: SSH Certificate Setup
+
+### 1. Initialize the SSH CA
+
+```bash
+# Run on the control plane host
+sudo ./scripts/setup-ssh-ca.sh
+
+# Or with custom options
+./scripts/setup-ssh-ca.sh --dir ~/.virsh-sandbox --name my_ca
+```
+
+This creates:
+- `/etc/virsh-sandbox/ssh_ca` - CA private key (KEEP SECURE!)
+- `/etc/virsh-sandbox/ssh_ca.pub` - CA public key (distribute to VMs)
+
+### 2. Prepare the Base VM Image
+
+Option A: Run the setup script inside the VM:
+```bash
+# Copy the CA public key to the VM
+scp /etc/virsh-sandbox/ssh_ca.pub user@vm:/tmp/
+
+# SSH into the VM and run the setup
+ssh user@vm
+sudo SSH_CA_PUB_KEY="$(cat /tmp/ssh_ca.pub)" /path/to/sandbox-init.sh
+```
+
+Option B: Use cloud-init when creating VMs:
+```yaml
+#cloud-config
+write_files:
+  - path: /etc/ssh/ssh_ca.pub
+    content: |
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... virsh-sandbox-ssh-ca
+    permissions: '0644'
+
+  - path: /usr/local/bin/tmux-login
+    content: |
+      #!/bin/bash
+      exec tmux new-session -A -s sandbox
+    permissions: '0755'
+
+runcmd:
+  - |
+    cat >> /etc/ssh/sshd_config << 'EOF'
+    TrustedUserCAKeys /etc/ssh/ssh_ca.pub
+    ForceCommand /usr/local/bin/tmux-login
+    PasswordAuthentication no
+    PermitRootLogin no
+    EOF
+  - systemctl restart sshd
+```
+
+### 3. Configure the Control Plane
+
+Set environment variables:
+```bash
+export SSH_CA_KEY_PATH=/etc/virsh-sandbox/ssh_ca
+export SSH_CA_PUB_PATH=/etc/virsh-sandbox/ssh_ca.pub
+```
+
+### 4. Request Access via API
+
+```bash
+# Generate a temporary SSH key pair
+ssh-keygen -t ed25519 -f /tmp/sandbox_key -N ""
+
+# Request access
+curl -X POST http://localhost:8080/v1/access/request \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sandbox_id": "SBX-abc123",
+    "user_id": "user@example.com",
+    "public_key": "'"$(cat /tmp/sandbox_key.pub)"'",
+    "ttl_minutes": 5
+  }'
+
+# Response includes the certificate
+# Save the certificate
+echo "<certificate_from_response>" > /tmp/sandbox_key-cert.pub
+
+# Connect!
+ssh -i /tmp/sandbox_key \
+    -o CertificateFile=/tmp/sandbox_key-cert.pub \
+    -o StrictHostKeyChecking=no \
+    sandbox@192.168.122.x
+```
+
+---
+
+## Script Reference
+
+### `setup-ssh-ca.sh`
+
+Initializes the SSH Certificate Authority for the control plane.
+
+**Usage:**
+```bash
+./setup-ssh-ca.sh [OPTIONS]
+```
+
+**Options:**
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-d, --dir DIR` | CA directory | `/etc/virsh-sandbox` |
+| `-n, --name NAME` | CA key name | `ssh_ca` |
+| `-c, --comment TEXT` | Key comment | `virsh-sandbox-ssh-ca` |
+| `-f, --force` | Overwrite existing CA | `false` |
+| `-h, --help` | Show help | - |
+
+**Examples:**
+```bash
+# Initialize with defaults (requires root)
+sudo ./setup-ssh-ca.sh
+
+# Custom directory (for development)
+./setup-ssh-ca.sh --dir ~/.virsh-sandbox
+
+# Force regeneration
+sudo ./setup-ssh-ca.sh --force
+```
+
+**Security Notes:**
+- The CA private key (`ssh_ca`) must be kept secure
+- Never commit it to version control
+- Consider using a secrets manager for production
+- Back up the private key securely
+
+---
+
+### `sandbox-init.sh`
+
+Prepares a VM image for certificate-based SSH access. Run this once when creating the base VM image that will be cloned for sandboxes.
+
+**Usage:**
+```bash
+./sandbox-init.sh [CA_PUBLIC_KEY_PATH]
+
+# Or with environment variable
+SSH_CA_PUB_KEY="ssh-ed25519 AAAA..." ./sandbox-init.sh
+```
+
+**What It Does:**
+1. Installs required packages (`openssh-server`, `tmux`)
+2. Creates the `sandbox` user
+3. Installs the CA public key
+4. Configures sshd for certificate authentication
+5. Installs the `tmux-login` script
+6. Regenerates SSH host keys
+
+**Configuration Applied:**
+```
+# /etc/ssh/sshd_config (key settings)
+TrustedUserCAKeys /etc/ssh/ssh_ca.pub
+PasswordAuthentication no
+PermitRootLogin no
+ForceCommand /usr/local/bin/tmux-login
+AllowTcpForwarding no
+AllowAgentForwarding no
+X11Forwarding no
+```
+
+---
+
+### `tmux-login.sh`
+
+The forced login script that runs for every SSH connection. Ensures users can only access the sandbox via tmux.
+
+**Features:**
+- Creates or attaches to a tmux session
+- Logs session start/end to syslog
+- Blocks command injection attempts
+- Displays session information
+
+**Installation:**
+This script is automatically installed by `sandbox-init.sh` to `/usr/local/bin/tmux-login`.
+
+---
+
 ### `setup-lima-libvirt.sh`
 
-Sets up a Lima VM with libvirt/KVM support on macOS (or Linux). The VM exposes libvirt via TCP and SSH for remote connections from the host.
+Sets up a Lima VM with libvirt/KVM support on macOS (or Linux).
 
 **Prerequisites:**
 - macOS: Lima installed (`brew install lima`)
@@ -41,7 +290,7 @@ Sets up a Lima VM with libvirt/KVM support on macOS (or Linux). The VM exposes l
 
 **Usage:**
 ```bash
-./scripts/setup-lima-libvirt.sh [options]
+./setup-lima-libvirt.sh [OPTIONS]
 ```
 
 **Options:**
@@ -51,28 +300,19 @@ Sets up a Lima VM with libvirt/KVM support on macOS (or Linux). The VM exposes l
 | `--cpus N` | Number of CPUs | `4` |
 | `--memory N` | Memory in GB | `8` |
 | `--disk N` | Disk size in GB | `50` |
-| `--create-test-vm` | Also create a test VM inside Lima | `false` |
-| `--help` | Show help message | - |
-
-**Examples:**
-```bash
-# Basic setup
-./scripts/setup-lima-libvirt.sh
-
-# Custom configuration with a test VM
-./scripts/setup-lima-libvirt.sh --name my-dev --cpus 8 --memory 16 --create-test-vm
-```
+| `--create-test-vm` | Create a test VM | `false` |
+| `--help` | Show help | - |
 
 ---
 
 ### `create-test-vm.sh`
 
-Creates lightweight test VMs inside the Lima libvirt environment. Uses Ubuntu cloud images with cloud-init for automatic configuration.
+Creates lightweight test VMs inside the Lima libvirt environment.
 
-**Usage (run inside Lima VM):**
+**Usage (inside Lima VM):**
 ```bash
 limactl shell virsh-sandbox-dev
-./create-test-vm.sh [options]
+./create-test-vm.sh [OPTIONS]
 ```
 
 **Options:**
@@ -82,243 +322,159 @@ limactl shell virsh-sandbox-dev
 | `--memory MB` | Memory in MB | `1024` |
 | `--vcpus N` | Number of vCPUs | `1` |
 | `--disk SIZE` | Disk size | `5G` |
-| `--image URL` | Cloud image URL | Ubuntu 22.04 minimal |
-| `--network NET` | Libvirt network | `default` |
-| `--start` | Start the VM and wait for IP | `false` |
+| `--start` | Start and wait for IP | `false` |
 | `--delete` | Delete existing VM first | `false` |
-| `--help` | Show help message | - |
-
-**Default VM Credentials:**
-- Username: `testuser`
-- Password: `testpassword`
-- Root password: `rootpassword`
 
 ---
 
-## Quick Start
+## API Endpoints for SSH Access
 
-### 1. Set Up the Lima VM
+### Request Access
+```http
+POST /v1/access/request
+Content-Type: application/json
 
-```bash
-# Install Lima (macOS)
-brew install lima
-
-# Also install libvirt client tools for host-side virsh commands
-brew install libvirt
-
-# Run the setup script
-./scripts/setup-lima-libvirt.sh --create-test-vm
+{
+  "sandbox_id": "SBX-abc123",
+  "user_id": "user@example.com",
+  "public_key": "ssh-ed25519 AAAA...",
+  "ttl_minutes": 5
+}
 ```
 
-### 2. Connect to Libvirt from Host
-
-The script creates a `.env.lima` file with connection details. You have two options:
-
-**Option 1 - TCP (simpler, for local development only):**
-```bash
-export LIBVIRT_URI="qemu+tcp://localhost:16509/system"
-virsh list --all
+**Response:**
+```json
+{
+  "certificate_id": "abc123def456",
+  "certificate": "ssh-ed25519-cert-v01@openssh.com AAAA...",
+  "vm_ip_address": "192.168.122.10",
+  "ssh_port": 22,
+  "username": "sandbox",
+  "valid_until": "2024-01-15T10:05:00Z",
+  "ttl_seconds": 300,
+  "connect_command": "ssh -i key -o CertificateFile=key-cert.pub sandbox@192.168.122.10"
+}
 ```
 
-**Option 2 - SSH (more secure, recommended):**
-```bash
-# The exact URI is in .env.lima, but generally:
-export LIBVIRT_URI="qemu+ssh://${USER}@localhost:60022/system?keyfile=${HOME}/.lima/virsh-sandbox-dev/identityfile"
-virsh list --all
+### Get CA Public Key
+```http
+GET /v1/access/ca-pubkey
 ```
 
-### 3. Run the API
-
-```bash
-# Source the environment file
-source .env.lima
-
-# Or set manually
-export LIBVIRT_URI="qemu+tcp://localhost:16509/system"
-export DATABASE_URL="postgresql://virsh_sandbox:virsh_sandbox@localhost:5432/virsh_sandbox"
-
-# Start PostgreSQL (if using Docker)
-docker compose -f deploy/docker/docker-compose.yml up -d postgres
-
-# Run the API
-go run ./cmd/api
+### List Certificates
+```http
+GET /v1/access/certificates?sandbox_id=SBX-abc123&active_only=true
 ```
 
-### 4. Test the API
+### Revoke Certificate
+```http
+DELETE /v1/access/certificate/{certID}
+Content-Type: application/json
 
-```bash
-# Health check
-curl http://localhost:8080/healthz
-
-# List VMs (should show test-vm)
-curl http://localhost:8080/api/v1/vms
-
-# Clone VM to container (example)
-curl -X POST http://localhost:8080/api/v1/vms/test-vm/clone-to-container \
-  -H "Content-Type: application/json" \
-  -d '{"containerName": "test-container"}'
+{
+  "reason": "User session terminated"
+}
 ```
 
----
-
-## Managing the Environment
-
-### Lima VM Commands
-
-```bash
-# SSH into the Lima VM
-limactl shell virsh-sandbox-dev
-
-# Check Lima VM status
-limactl list
-
-# Stop the VM
-limactl stop virsh-sandbox-dev
-
-# Start the VM
-limactl start virsh-sandbox-dev
-
-# Delete the VM (removes all data!)
-limactl delete virsh-sandbox-dev
-```
-
-### Managing Test VMs (from host)
-
-```bash
-# Set the libvirt URI
-export LIBVIRT_URI="qemu+tcp://localhost:16509/system"
-
-# List all VMs
-virsh list --all
-
-# Start a VM
-virsh start test-vm
-
-# Stop a VM gracefully
-virsh shutdown test-vm
-
-# Force stop a VM
-virsh destroy test-vm
-
-# Get VM IP address
-virsh domifaddr test-vm
-
-# Connect to VM console
-virsh console test-vm
-
-# Delete a VM
-virsh undefine test-vm --remove-all-storage
-```
-
-### Creating Additional Test VMs
-
-```bash
-# From inside Lima
-limactl shell virsh-sandbox-dev -- bash /tmp/create-test-vm.sh --name test-vm-2 --start
-
-# Or interactively
-limactl shell virsh-sandbox-dev
-cd /tmp
-./create-test-vm.sh --name test-vm-2 --memory 2048 --vcpus 2 --start
-```
-
----
-
-## Troubleshooting
-
-### Cannot connect to libvirt from host
-
-```bash
-# Check if Lima VM is running
-limactl list
-
-# Check if libvirtd is running inside Lima
-limactl shell virsh-sandbox-dev -- systemctl status libvirtd
-
-# Check if TCP listener is active
-limactl shell virsh-sandbox-dev -- ss -tlnp | grep 16509
-
-# Restart libvirtd
-limactl shell virsh-sandbox-dev -- sudo systemctl restart libvirtd
-```
-
-### TCP connection refused
-
-```bash
-# Verify port forwarding
-limactl show-ssh virsh-sandbox-dev
-
-# Check firewall inside Lima VM
-limactl shell virsh-sandbox-dev -- sudo iptables -L
-
-# Test from inside Lima first
-limactl shell virsh-sandbox-dev -- virsh -c qemu:///system list --all
-```
-
-### SSH connection issues
-
-```bash
-# Check SSH key path
-ls -la ~/.lima/virsh-sandbox-dev/identityfile
-
-# Test SSH manually
-ssh -i ~/.lima/virsh-sandbox-dev/identityfile -p 60022 ${USER}@localhost
-
-# Verify SSH port
-limactl show-ssh --format=args virsh-sandbox-dev
-```
-
-### Test VM has no IP address
-
-```bash
-export LIBVIRT_URI="qemu+tcp://localhost:16509/system"
-
-# Check if default network is active
-virsh net-list
-
-# Start default network if needed
-virsh net-start default
-
-# Check DHCP leases
-virsh net-dhcp-leases default
-
-# Verify VM is running
-virsh domstate test-vm
-```
-
-### KVM not available (slow VMs)
-
-On macOS, nested virtualization may not be fully supported. VMs will run in emulation mode, which is slower but functional for testing.
-
-```bash
-# Check inside Lima
-limactl shell virsh-sandbox-dev -- kvm-ok
+### Record Session Start/End
+```http
+POST /v1/access/session/start
+POST /v1/access/session/end
 ```
 
 ---
 
 ## Environment Variables
 
-The setup script creates `.env.lima` with these variables:
+### SSH CA Configuration
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `SSH_CA_KEY_PATH` | Path to CA private key | `/etc/virsh-sandbox/ssh_ca` |
+| `SSH_CA_PUB_PATH` | Path to CA public key | `/etc/virsh-sandbox/ssh_ca.pub` |
+| `SSH_CA_WORK_DIR` | Temp directory for certs | `/tmp/sshca` |
+| `SSH_CERT_DEFAULT_TTL` | Default cert lifetime | `5m` |
+| `SSH_CERT_MAX_TTL` | Maximum cert lifetime | `10m` |
 
+### Libvirt Connection
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `LIBVIRT_URI` | Libvirt connection URI | `qemu+tcp://localhost:16509/system` |
 | `LIBVIRT_URI_TCP` | TCP variant | `qemu+tcp://localhost:16509/system` |
-| `LIBVIRT_URI_SSH` | SSH variant | `qemu+ssh://user@localhost:60022/system?keyfile=...` |
-| `LIMA_VM_NAME` | Lima VM name | `virsh-sandbox-dev` |
-| `LIMA_SSH_PORT` | SSH port for Lima | `60022` |
-| `LIMA_SSH_KEY` | Path to SSH identity file | `~/.lima/virsh-sandbox-dev/identityfile` |
-| `BASE_IMAGE_DIR` | Base images directory (inside VM) | `/var/lib/libvirt/images/base` |
-| `SANDBOX_WORKDIR` | Working directory (inside VM) | `/var/lib/libvirt/images/jobs` |
+| `LIBVIRT_URI_SSH` | SSH variant | `qemu+ssh://user@localhost/system` |
 
 ---
 
-## Security Notes
+## Troubleshooting
 
-- **TCP without authentication** (`auth_tcp = "none"`) is configured for ease of local development. Do not expose port 16509 to untrusted networks.
-- For production or shared environments, use SSH connections (`qemu+ssh://`) or configure TLS/SASL authentication.
-- The Lima VM is only accessible from localhost by default.
+### Certificate Authentication Failed
+
+```bash
+# Check if CA public key is installed in VM
+ssh user@vm cat /etc/ssh/ssh_ca.pub
+
+# Verify sshd configuration
+ssh user@vm grep TrustedUserCAKeys /etc/ssh/sshd_config
+
+# Check certificate validity
+ssh-keygen -L -f /tmp/sandbox_key-cert.pub
+
+# Test with verbose SSH
+ssh -vvv -i /tmp/sandbox_key \
+    -o CertificateFile=/tmp/sandbox_key-cert.pub \
+    sandbox@vm
+```
+
+### Certificate Expired
+
+Certificates have short lifetimes by design (1-10 minutes). Request a new certificate:
+```bash
+curl -X POST http://localhost:8080/v1/access/request ...
+```
+
+### tmux Session Issues
+
+```bash
+# Check if tmux is installed in VM
+ssh user@vm which tmux
+
+# Check tmux-login script
+ssh user@vm cat /usr/local/bin/tmux-login
+
+# Verify ForceCommand in sshd_config
+ssh user@vm grep ForceCommand /etc/ssh/sshd_config
+```
+
+### CA Key Permissions
+
+```bash
+# CA private key should be readable only by owner
+ls -la /etc/virsh-sandbox/ssh_ca
+# Expected: -rw------- (600)
+
+# Fix permissions if needed
+sudo chmod 600 /etc/virsh-sandbox/ssh_ca
+```
+
+---
+
+## Security Best Practices
+
+1. **Short Certificate Lifetimes**: Use the shortest practical TTL (1-5 minutes)
+
+2. **Audit Logging**: All certificate issuances are logged for audit
+
+3. **No Shell Escape**: The `ForceCommand` ensures users can't bypass tmux
+
+4. **Disable Forwarding**: All port/agent/X11 forwarding is disabled
+
+5. **Unique Certificates**: Each access request generates a new certificate
+
+6. **CA Key Protection**: 
+   - Store CA private key securely
+   - Use a secrets manager in production
+   - Rotate CA keys periodically
+
+7. **VM Lifecycle**: Destroying the VM removes all session state
 
 ---
 
@@ -326,5 +482,5 @@ The setup script creates `.env.lima` with these variables:
 
 - [Lima](https://lima-vm.io/) - Linux virtual machines on macOS
 - [libvirt](https://libvirt.org/) - Virtualization API
-- [libvirt Remote URIs](https://libvirt.org/uri.html) - Connection URI formats
-- [cloud-init](https://cloud-init.io/) - Cloud instance initialization
+- [OpenSSH Certificates](https://man.openbsd.org/ssh-keygen#CERTIFICATES) - SSH certificate documentation
+- [tmux](https://github.com/tmux/tmux/wiki) - Terminal multiplexer
