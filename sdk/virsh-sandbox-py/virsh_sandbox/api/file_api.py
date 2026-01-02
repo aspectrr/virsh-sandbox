@@ -253,7 +253,7 @@ class FileApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/file/exists",
+            resource_path="/v1/file/exists",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -471,7 +471,7 @@ class FileApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/file/copy",
+            resource_path="/v1/file/copy",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -692,7 +692,7 @@ class FileApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/file/delete",
+            resource_path="/v1/file/delete",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -913,7 +913,7 @@ class FileApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/file/edit",
+            resource_path="/v1/file/edit",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1131,7 +1131,7 @@ class FileApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/file/hash",
+            resource_path="/v1/file/hash",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1352,7 +1352,7 @@ class FileApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/file/list",
+            resource_path="/v1/file/list",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1576,7 +1576,7 @@ class FileApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/file/read",
+            resource_path="/v1/file/read",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1797,7 +1797,7 @@ class FileApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/tmux-client/v1/file/write",
+            resource_path="/v1/file/write",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

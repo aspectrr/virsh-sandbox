@@ -22,6 +22,7 @@ type Config struct {
 	Plan     PlanConfig     `yaml:"plan"`
 	Audit    AuditConfig    `yaml:"audit"`
 	Security SecurityConfig `yaml:"security"`
+	Sandbox  SandboxConfig  `yaml:"sandbox"`
 }
 
 // ServerConfig contains HTTP server configuration.
@@ -111,6 +112,30 @@ type SecurityConfig struct {
 	AllowedIPs      []string `yaml:"allowed_ips"`
 	RateLimitPerMin int      `yaml:"rate_limit_per_min"`
 	MaxRequestSize  int64    `yaml:"max_request_size"`
+}
+
+// SandboxConfig contains configuration for virsh-sandbox integration.
+type SandboxConfig struct {
+	// Enabled enables sandbox VM access features
+	Enabled bool `yaml:"enabled"`
+
+	// APIBaseURL is the base URL of the virsh-sandbox API
+	APIBaseURL string `yaml:"api_base_url"`
+
+	// KeyDir is the directory to store ephemeral SSH keys and certificates
+	KeyDir string `yaml:"key_dir"`
+
+	// DefaultTTLMinutes is the default certificate TTL to request (1-10)
+	DefaultTTLMinutes int `yaml:"default_ttl_minutes"`
+
+	// UserID is the user identifier for certificate requests (defaults to $USER)
+	UserID string `yaml:"user_id"`
+
+	// HTTPTimeout is the timeout for API requests
+	HTTPTimeout time.Duration `yaml:"http_timeout"`
+
+	// CleanupOnExit removes ephemeral keys when session ends
+	CleanupOnExit bool `yaml:"cleanup_on_exit"`
 }
 
 // DefaultConfig returns a configuration with sensible defaults.
@@ -239,6 +264,15 @@ func DefaultConfig() *Config {
 			RateLimitPerMin: 60,
 			MaxRequestSize:  10 * 1024 * 1024, // 10MB
 		},
+		Sandbox: SandboxConfig{
+			Enabled:           false,
+			APIBaseURL:        "http://localhost:8080",
+			KeyDir:            "/tmp/sandbox-keys",
+			DefaultTTLMinutes: 5,
+			UserID:            "",
+			HTTPTimeout:       30 * time.Second,
+			CleanupOnExit:     true,
+		},
 	}
 }
 
@@ -331,6 +365,21 @@ func (c *Config) applyEnvOverrides() {
 	if v := os.Getenv("TMUX_AGENT_PLAN_DIR"); v != "" {
 		c.Plan.PlanDirectory = v
 	}
+
+	// Sandbox
+	if v := os.Getenv("SANDBOX_API_URL"); v != "" {
+		c.Sandbox.APIBaseURL = v
+		c.Sandbox.Enabled = true
+	}
+	if v := os.Getenv("SANDBOX_KEY_DIR"); v != "" {
+		c.Sandbox.KeyDir = v
+	}
+	if v := os.Getenv("SANDBOX_USER_ID"); v != "" {
+		c.Sandbox.UserID = v
+	}
+	if v := os.Getenv("SANDBOX_ENABLED"); v == "true" || v == "1" || v == "yes" {
+		c.Sandbox.Enabled = true
+	}
 }
 
 // expandPaths expands ~ and environment variables in paths.
@@ -342,6 +391,7 @@ func (c *Config) expandPaths() {
 	c.Plan.PlanDirectory = expandPath(c.Plan.PlanDirectory)
 	c.Server.TLSCertFile = expandPath(c.Server.TLSCertFile)
 	c.Server.TLSKeyFile = expandPath(c.Server.TLSKeyFile)
+	c.Sandbox.KeyDir = expandPath(c.Sandbox.KeyDir)
 
 	for i, p := range c.File.AllowedPaths {
 		c.File.AllowedPaths[i] = expandPath(p)
@@ -442,6 +492,16 @@ func (c *Config) Validate() error {
 	}
 	if c.Security.RateLimitPerMin < 0 {
 		errs = append(errs, "security.rate_limit_per_min must be non-negative")
+	}
+
+	// Sandbox validation
+	if c.Sandbox.Enabled {
+		if c.Sandbox.APIBaseURL == "" {
+			errs = append(errs, "sandbox.api_base_url is required when sandbox is enabled")
+		}
+		if c.Sandbox.DefaultTTLMinutes < 1 || c.Sandbox.DefaultTTLMinutes > 10 {
+			errs = append(errs, "sandbox.default_ttl_minutes must be between 1 and 10")
+		}
 	}
 
 	if len(errs) > 0 {

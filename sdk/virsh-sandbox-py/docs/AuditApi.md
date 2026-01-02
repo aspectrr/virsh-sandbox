@@ -1,11 +1,11 @@
 # virsh_sandbox.AuditApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_audit_stats**](AuditApi.md#get_audit_stats) | **GET** /tmux-client/v1/audit/stats | Get audit stats
-[**query_audit_log**](AuditApi.md#query_audit_log) | **POST** /tmux-client/v1/audit/query | Query audit log
+[**get_audit_stats**](AuditApi.md#get_audit_stats) | **GET** /v1/audit/stats | Get audit stats
+[**query_audit_log**](AuditApi.md#query_audit_log) | **POST** /v1/audit/query | Query audit log
 
 
 # **get_audit_stats**
@@ -23,10 +23,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -88,10 +88,10 @@ from virsh_sandbox.models.tmux_client_internal_types_audit_query_response import
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 

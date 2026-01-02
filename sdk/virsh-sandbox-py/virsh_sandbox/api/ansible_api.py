@@ -231,7 +231,7 @@ class AnsibleApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/virsh-sandbox/v1/ansible/jobs",
+            resource_path="/v1/ansible/jobs",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -438,7 +438,7 @@ class AnsibleApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/virsh-sandbox/v1/ansible/jobs/{job_id}",
+            resource_path="/v1/ansible/jobs/{job_id}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -646,7 +646,7 @@ class AnsibleApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/virsh-sandbox/v1/ansible/jobs/{job_id}/stream",
+            resource_path="/v1/ansible/jobs/{job_id}/stream",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

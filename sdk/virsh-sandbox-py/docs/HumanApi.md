@@ -1,15 +1,15 @@
 # virsh_sandbox.HumanApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ask_human**](HumanApi.md#ask_human) | **POST** /tmux-client/v1/human/ask | Request human approval
-[**ask_human_async**](HumanApi.md#ask_human_async) | **POST** /tmux-client/v1/human/ask-async | Request human approval asynchronously
-[**cancel_approval**](HumanApi.md#cancel_approval) | **DELETE** /tmux-client/v1/human/pending/{requestID} | Cancel approval
-[**get_pending_approval**](HumanApi.md#get_pending_approval) | **GET** /tmux-client/v1/human/pending/{requestID} | Get pending approval
-[**list_pending_approvals**](HumanApi.md#list_pending_approvals) | **GET** /tmux-client/v1/human/pending | List pending approvals
-[**respond_to_approval**](HumanApi.md#respond_to_approval) | **POST** /tmux-client/v1/human/respond | Respond to approval
+[**ask_human**](HumanApi.md#ask_human) | **POST** /v1/human/ask | Request human approval
+[**ask_human_async**](HumanApi.md#ask_human_async) | **POST** /v1/human/ask-async | Request human approval asynchronously
+[**cancel_approval**](HumanApi.md#cancel_approval) | **DELETE** /v1/human/pending/{requestID} | Cancel approval
+[**get_pending_approval**](HumanApi.md#get_pending_approval) | **GET** /v1/human/pending/{requestID} | Get pending approval
+[**list_pending_approvals**](HumanApi.md#list_pending_approvals) | **GET** /v1/human/pending | List pending approvals
+[**respond_to_approval**](HumanApi.md#respond_to_approval) | **POST** /v1/human/respond | Respond to approval
 
 
 # **ask_human**
@@ -29,10 +29,10 @@ from virsh_sandbox.models.tmux_client_internal_types_ask_human_response import T
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -99,10 +99,10 @@ from virsh_sandbox.models.tmux_client_internal_types_ask_human_request import Tm
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -168,10 +168,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -238,10 +238,10 @@ from virsh_sandbox.models.tmux_client_internal_types_pending_approval import Tmu
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -308,10 +308,10 @@ from virsh_sandbox.models.tmux_client_internal_types_list_approvals_response imp
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -373,10 +373,10 @@ from virsh_sandbox.models.tmux_client_internal_types_ask_human_response import T
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 

@@ -5,7 +5,7 @@ info:
   title: virsh-sandbox API
   version: 0.0.1-beta
 servers:
-- url: //localhost:8080/
+- url: /
 tags:
 - description: "Sandbox lifecycle management - create, start, run commands, snapshot,\
     \ and destroy sandboxes"
@@ -17,6 +17,312 @@ tags:
 - description: Health check endpoints
   name: Health
 paths:
+  /v1/access/ca-pubkey:
+    get:
+      description: Returns the CA public key that should be trusted by VMs
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.caPublicKeyResponse"
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Internal Server Error
+      summary: Get the SSH CA public key
+      tags:
+      - Access
+  /v1/access/certificate/{certID}:
+    delete:
+      description: "Immediately revokes a certificate, terminating any active sessions"
+      parameters:
+      - description: Certificate ID
+        in: path
+        name: certID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/virsh-sandbox_internal_rest.revokeCertificateRequest"
+        description: Revocation reason
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Internal Server Error
+      summary: Revoke a certificate
+      tags:
+      - Access
+      x-codegen-request-body-name: request
+    get:
+      description: Returns details about an issued certificate
+      parameters:
+      - description: Certificate ID
+        in: path
+        name: certID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.certificateResponse"
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Internal Server Error
+      summary: Get certificate details
+      tags:
+      - Access
+  /v1/access/certificates:
+    get:
+      description: Lists issued certificates with optional filtering
+      parameters:
+      - description: Filter by sandbox ID
+        in: query
+        name: sandbox_id
+        schema:
+          type: string
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        schema:
+          type: string
+      - description: "Filter by status (ACTIVE, EXPIRED, REVOKED)"
+        in: query
+        name: status
+        schema:
+          type: string
+      - description: "Only show active, non-expired certificates"
+        in: query
+        name: active_only
+        schema:
+          type: boolean
+      - description: Maximum results to return
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Offset for pagination
+        in: query
+        name: offset
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.listCertificatesResponse"
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Internal Server Error
+      summary: List certificates
+      tags:
+      - Access
+  /v1/access/request:
+    post:
+      description: Issues a short-lived SSH certificate for accessing a sandbox via
+        tmux
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/virsh-sandbox_internal_rest.requestAccessRequest"
+        description: Access request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.requestAccessResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Internal Server Error
+      summary: Request SSH access to a sandbox
+      tags:
+      - Access
+      x-codegen-request-body-name: request
+  /v1/access/session/end:
+    post:
+      description: Records the end of an SSH session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/virsh-sandbox_internal_rest.sessionEndRequest"
+        description: Session end request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Bad Request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Internal Server Error
+      summary: Record session end
+      tags:
+      - Access
+      x-codegen-request-body-name: request
+  /v1/access/session/start:
+    post:
+      description: Records the start of an SSH session (called by VM or auth service)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/virsh-sandbox_internal_rest.sessionStartRequest"
+        description: Session start request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.sessionStartResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Bad Request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Internal Server Error
+      summary: Record session start
+      tags:
+      - Access
+      x-codegen-request-body-name: request
+  /v1/access/sessions:
+    get:
+      description: Lists access sessions with optional filtering
+      parameters:
+      - description: Filter by sandbox ID
+        in: query
+        name: sandbox_id
+        schema:
+          type: string
+      - description: Filter by certificate ID
+        in: query
+        name: certificate_id
+        schema:
+          type: string
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        schema:
+          type: string
+      - description: Only show active sessions
+        in: query
+        name: active_only
+        schema:
+          type: boolean
+      - description: Maximum results to return
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Offset for pagination
+        in: query
+        name: offset
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.listSessionsResponse"
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse"
+          description: Internal Server Error
+      summary: List sessions
+      tags:
+      - Access
   /v1/ansible/jobs:
     post:
       description: Creates a new Ansible playbook execution job
@@ -540,6 +846,55 @@ components:
         error:
           type: string
       type: object
+    internal_rest.accessErrorResponse:
+      properties:
+        code:
+          type: integer
+        details:
+          type: string
+        error:
+          type: string
+      type: object
+    internal_rest.caPublicKeyResponse:
+      properties:
+        public_key:
+          description: PublicKey is the CA public key in OpenSSH format.
+          type: string
+        usage:
+          description: Usage explains how to use this key.
+          type: string
+      type: object
+    internal_rest.certificateResponse:
+      properties:
+        id:
+          type: string
+        identity:
+          type: string
+        is_expired:
+          type: boolean
+        issued_at:
+          type: string
+        principals:
+          items:
+            type: string
+          type: array
+        sandbox_id:
+          type: string
+        serial_number:
+          type: integer
+        status:
+          type: string
+        ttl_seconds:
+          type: integer
+        user_id:
+          type: string
+        valid_after:
+          type: string
+        valid_before:
+          type: string
+        vm_id:
+          type: string
+      type: object
     internal_rest.createSandboxRequest:
       properties:
         agent_id:
@@ -618,6 +973,24 @@ components:
           description: "required (explicit); typical: \"ubuntu\" or \"centos\""
           type: string
       type: object
+    internal_rest.listCertificatesResponse:
+      properties:
+        certificates:
+          items:
+            $ref: "#/components/schemas/internal_rest.certificateResponse"
+          type: array
+        total:
+          type: integer
+      type: object
+    internal_rest.listSessionsResponse:
+      properties:
+        sessions:
+          items:
+            $ref: "#/components/schemas/internal_rest.sessionResponse"
+          type: array
+        total:
+          type: integer
+      type: object
     internal_rest.listVMsResponse:
       example:
         vms:
@@ -661,6 +1034,56 @@ components:
         note:
           type: string
       type: object
+    internal_rest.requestAccessRequest:
+      properties:
+        public_key:
+          description: PublicKey is the user's SSH public key in OpenSSH format.
+          type: string
+        sandbox_id:
+          description: SandboxID is the target sandbox.
+          type: string
+        ttl_minutes:
+          description: TTLMinutes is the requested access duration (1-10 minutes).
+          type: integer
+        user_id:
+          description: UserID identifies the requesting user.
+          type: string
+      type: object
+    internal_rest.requestAccessResponse:
+      properties:
+        certificate:
+          description: Certificate is the SSH certificate content (save as key-cert.pub).
+          type: string
+        certificate_id:
+          description: CertificateID is the ID of the issued certificate.
+          type: string
+        connect_command:
+          description: ConnectCommand is an example SSH command for connecting.
+          type: string
+        instructions:
+          description: Instructions provides usage instructions.
+          type: string
+        ssh_port:
+          description: SSHPort is the SSH port (usually 22).
+          type: integer
+        ttl_seconds:
+          description: TTLSeconds is the remaining validity in seconds.
+          type: integer
+        username:
+          description: Username is the SSH username to use.
+          type: string
+        valid_until:
+          description: ValidUntil is when the certificate expires (RFC3339).
+          type: string
+        vm_ip_address:
+          description: VMIPAddress is the IP address of the sandbox VM.
+          type: string
+      type: object
+    internal_rest.revokeCertificateRequest:
+      properties:
+        reason:
+          type: string
+      type: object
     internal_rest.runCommandRequest:
       properties:
         command:
@@ -702,6 +1125,50 @@ components:
       properties:
         command:
           $ref: "#/components/schemas/virsh-sandbox_internal_store.Command"
+      type: object
+    internal_rest.sessionEndRequest:
+      properties:
+        reason:
+          type: string
+        session_id:
+          type: string
+      type: object
+    internal_rest.sessionResponse:
+      properties:
+        certificate_id:
+          type: string
+        duration_seconds:
+          type: integer
+        ended_at:
+          type: string
+        id:
+          type: string
+        sandbox_id:
+          type: string
+        source_ip:
+          type: string
+        started_at:
+          type: string
+        status:
+          type: string
+        user_id:
+          type: string
+        vm_id:
+          type: string
+        vm_ip_address:
+          type: string
+      type: object
+    internal_rest.sessionStartRequest:
+      properties:
+        certificate_id:
+          type: string
+        source_ip:
+          type: string
+      type: object
+    internal_rest.sessionStartResponse:
+      properties:
+        session_id:
+          type: string
       type: object
     internal_rest.snapshotRequest:
       properties:
@@ -842,6 +1309,78 @@ components:
         error:
           type: string
       type: object
+    virsh-sandbox_internal_rest.accessErrorResponse:
+      example:
+        code: 0
+        details: details
+        error: error
+      properties:
+        code:
+          type: integer
+        details:
+          type: string
+        error:
+          type: string
+      type: object
+    virsh-sandbox_internal_rest.caPublicKeyResponse:
+      example:
+        public_key: public_key
+        usage: usage
+      properties:
+        public_key:
+          description: PublicKey is the CA public key in OpenSSH format.
+          type: string
+        usage:
+          description: Usage explains how to use this key.
+          type: string
+      type: object
+    virsh-sandbox_internal_rest.certificateResponse:
+      example:
+        ttl_seconds: 6
+        principals:
+        - principals
+        - principals
+        serial_number: 0
+        issued_at: issued_at
+        valid_after: valid_after
+        vm_id: vm_id
+        is_expired: true
+        valid_before: valid_before
+        user_id: user_id
+        identity: identity
+        sandbox_id: sandbox_id
+        id: id
+        status: status
+      properties:
+        id:
+          type: string
+        identity:
+          type: string
+        is_expired:
+          type: boolean
+        issued_at:
+          type: string
+        principals:
+          items:
+            type: string
+          type: array
+        sandbox_id:
+          type: string
+        serial_number:
+          type: integer
+        status:
+          type: string
+        ttl_seconds:
+          type: integer
+        user_id:
+          type: string
+        valid_after:
+          type: string
+        valid_before:
+          type: string
+        vm_id:
+          type: string
+      type: object
     virsh-sandbox_internal_rest.createSandboxRequest:
       properties:
         agent_id:
@@ -895,6 +1434,82 @@ components:
           description: "required (explicit); typical: \"ubuntu\" or \"centos\""
           type: string
       type: object
+    virsh-sandbox_internal_rest.listCertificatesResponse:
+      example:
+        total: 0
+        certificates:
+        - ttl_seconds: 6
+          principals:
+          - principals
+          - principals
+          serial_number: 0
+          issued_at: issued_at
+          valid_after: valid_after
+          vm_id: vm_id
+          is_expired: true
+          valid_before: valid_before
+          user_id: user_id
+          identity: identity
+          sandbox_id: sandbox_id
+          id: id
+          status: status
+        - ttl_seconds: 6
+          principals:
+          - principals
+          - principals
+          serial_number: 0
+          issued_at: issued_at
+          valid_after: valid_after
+          vm_id: vm_id
+          is_expired: true
+          valid_before: valid_before
+          user_id: user_id
+          identity: identity
+          sandbox_id: sandbox_id
+          id: id
+          status: status
+      properties:
+        certificates:
+          items:
+            $ref: "#/components/schemas/virsh-sandbox_internal_rest.certificateResponse"
+          type: array
+        total:
+          type: integer
+      type: object
+    virsh-sandbox_internal_rest.listSessionsResponse:
+      example:
+        sessions:
+        - certificate_id: certificate_id
+          duration_seconds: 0
+          vm_id: vm_id
+          user_id: user_id
+          sandbox_id: sandbox_id
+          started_at: started_at
+          vm_ip_address: vm_ip_address
+          id: id
+          ended_at: ended_at
+          source_ip: source_ip
+          status: status
+        - certificate_id: certificate_id
+          duration_seconds: 0
+          vm_id: vm_id
+          user_id: user_id
+          sandbox_id: sandbox_id
+          started_at: started_at
+          vm_ip_address: vm_ip_address
+          id: id
+          ended_at: ended_at
+          source_ip: source_ip
+          status: status
+        total: 6
+      properties:
+        sessions:
+          items:
+            $ref: "#/components/schemas/virsh-sandbox_internal_rest.sessionResponse"
+          type: array
+        total:
+          type: integer
+      type: object
     virsh-sandbox_internal_rest.listVMsResponse:
       properties:
         vms:
@@ -923,6 +1538,66 @@ components:
         note:
           type: string
       type: object
+    virsh-sandbox_internal_rest.requestAccessRequest:
+      properties:
+        public_key:
+          description: PublicKey is the user's SSH public key in OpenSSH format.
+          type: string
+        sandbox_id:
+          description: SandboxID is the target sandbox.
+          type: string
+        ttl_minutes:
+          description: TTLMinutes is the requested access duration (1-10 minutes).
+          type: integer
+        user_id:
+          description: UserID identifies the requesting user.
+          type: string
+      type: object
+    virsh-sandbox_internal_rest.requestAccessResponse:
+      example:
+        certificate_id: certificate_id
+        instructions: instructions
+        ssh_port: 0
+        valid_until: valid_until
+        certificate: certificate
+        ttl_seconds: 6
+        connect_command: connect_command
+        vm_ip_address: vm_ip_address
+        username: username
+      properties:
+        certificate:
+          description: Certificate is the SSH certificate content (save as key-cert.pub).
+          type: string
+        certificate_id:
+          description: CertificateID is the ID of the issued certificate.
+          type: string
+        connect_command:
+          description: ConnectCommand is an example SSH command for connecting.
+          type: string
+        instructions:
+          description: Instructions provides usage instructions.
+          type: string
+        ssh_port:
+          description: SSHPort is the SSH port (usually 22).
+          type: integer
+        ttl_seconds:
+          description: TTLSeconds is the remaining validity in seconds.
+          type: integer
+        username:
+          description: Username is the SSH username to use.
+          type: string
+        valid_until:
+          description: ValidUntil is when the certificate expires (RFC3339).
+          type: string
+        vm_ip_address:
+          description: VMIPAddress is the IP address of the sandbox VM.
+          type: string
+      type: object
+    virsh-sandbox_internal_rest.revokeCertificateRequest:
+      properties:
+        reason:
+          type: string
+      type: object
     virsh-sandbox_internal_rest.runCommandRequest:
       properties:
         command:
@@ -947,6 +1622,64 @@ components:
       properties:
         command:
           $ref: "#/components/schemas/virsh-sandbox_internal_store.Command"
+      type: object
+    virsh-sandbox_internal_rest.sessionEndRequest:
+      properties:
+        reason:
+          type: string
+        session_id:
+          type: string
+      type: object
+    virsh-sandbox_internal_rest.sessionResponse:
+      example:
+        certificate_id: certificate_id
+        duration_seconds: 0
+        vm_id: vm_id
+        user_id: user_id
+        sandbox_id: sandbox_id
+        started_at: started_at
+        vm_ip_address: vm_ip_address
+        id: id
+        ended_at: ended_at
+        source_ip: source_ip
+        status: status
+      properties:
+        certificate_id:
+          type: string
+        duration_seconds:
+          type: integer
+        ended_at:
+          type: string
+        id:
+          type: string
+        sandbox_id:
+          type: string
+        source_ip:
+          type: string
+        started_at:
+          type: string
+        status:
+          type: string
+        user_id:
+          type: string
+        vm_id:
+          type: string
+        vm_ip_address:
+          type: string
+      type: object
+    virsh-sandbox_internal_rest.sessionStartRequest:
+      properties:
+        certificate_id:
+          type: string
+        source_ip:
+          type: string
+      type: object
+    virsh-sandbox_internal_rest.sessionStartResponse:
+      example:
+        session_id: session_id
+      properties:
+        session_id:
+          type: string
       type: object
     virsh-sandbox_internal_rest.snapshotRequest:
       properties:

@@ -5,7 +5,7 @@ info:
   title: virsh-sandbox API
   version: 0.0.1-beta
 servers:
-  - url: '//localhost:8080/'
+  - url: /
 tags:
   - description: >-
       Sandbox lifecycle management - create, start, run commands, snapshot, and
@@ -18,7 +18,337 @@ tags:
   - description: Health check endpoints
     name: Health
 paths:
-  /virsh-sandbox/v1/ansible/jobs:
+  /v1/access/ca-pubkey:
+    get:
+      description: Returns the CA public key that should be trusted by VMs
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.caPublicKeyResponse
+          description: OK
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Internal Server Error
+      summary: Get the SSH CA public key
+      tags:
+        - Access
+  '/v1/access/certificate/{certID}':
+    delete:
+      description: 'Immediately revokes a certificate, terminating any active sessions'
+      parameters:
+        - description: Certificate ID
+          in: path
+          name: certID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/virsh-sandbox_internal_rest.revokeCertificateRequest
+        description: Revocation reason
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Internal Server Error
+      summary: Revoke a certificate
+      tags:
+        - Access
+      x-codegen-request-body-name: request
+    get:
+      description: Returns details about an issued certificate
+      parameters:
+        - description: Certificate ID
+          in: path
+          name: certID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.certificateResponse
+          description: OK
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Internal Server Error
+      summary: Get certificate details
+      tags:
+        - Access
+  /v1/access/certificates:
+    get:
+      description: Lists issued certificates with optional filtering
+      parameters:
+        - description: Filter by sandbox ID
+          in: query
+          name: sandbox_id
+          schema:
+            type: string
+        - description: Filter by user ID
+          in: query
+          name: user_id
+          schema:
+            type: string
+        - description: 'Filter by status (ACTIVE, EXPIRED, REVOKED)'
+          in: query
+          name: status
+          schema:
+            type: string
+        - description: 'Only show active, non-expired certificates'
+          in: query
+          name: active_only
+          schema:
+            type: boolean
+        - description: Maximum results to return
+          in: query
+          name: limit
+          schema:
+            type: integer
+        - description: Offset for pagination
+          in: query
+          name: offset
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.listCertificatesResponse
+          description: OK
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Internal Server Error
+      summary: List certificates
+      tags:
+        - Access
+  /v1/access/request:
+    post:
+      description: Issues a short-lived SSH certificate for accessing a sandbox via tmux
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/virsh-sandbox_internal_rest.requestAccessRequest
+        description: Access request
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.requestAccessResponse
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Internal Server Error
+      summary: Request SSH access to a sandbox
+      tags:
+        - Access
+      x-codegen-request-body-name: request
+  /v1/access/session/end:
+    post:
+      description: Records the end of an SSH session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/virsh-sandbox_internal_rest.sessionEndRequest
+        description: Session end request
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Internal Server Error
+      summary: Record session end
+      tags:
+        - Access
+      x-codegen-request-body-name: request
+  /v1/access/session/start:
+    post:
+      description: Records the start of an SSH session (called by VM or auth service)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/virsh-sandbox_internal_rest.sessionStartRequest
+        description: Session start request
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.sessionStartResponse
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Internal Server Error
+      summary: Record session start
+      tags:
+        - Access
+      x-codegen-request-body-name: request
+  /v1/access/sessions:
+    get:
+      description: Lists access sessions with optional filtering
+      parameters:
+        - description: Filter by sandbox ID
+          in: query
+          name: sandbox_id
+          schema:
+            type: string
+        - description: Filter by certificate ID
+          in: query
+          name: certificate_id
+          schema:
+            type: string
+        - description: Filter by user ID
+          in: query
+          name: user_id
+          schema:
+            type: string
+        - description: Only show active sessions
+          in: query
+          name: active_only
+          schema:
+            type: boolean
+        - description: Maximum results to return
+          in: query
+          name: limit
+          schema:
+            type: integer
+        - description: Offset for pagination
+          in: query
+          name: offset
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.listSessionsResponse
+          description: OK
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/virsh-sandbox_internal_rest.accessErrorResponse
+          description: Internal Server Error
+      summary: List sessions
+      tags:
+        - Access
+  /v1/ansible/jobs:
     post:
       description: Creates a new Ansible playbook execution job
       operationId: createAnsibleJob
@@ -47,7 +377,7 @@ paths:
       tags:
         - Ansible
       x-codegen-request-body-name: request
-  '/virsh-sandbox/v1/ansible/jobs/{job_id}':
+  '/v1/ansible/jobs/{job_id}':
     get:
       description: Gets the status of an Ansible job
       operationId: getAnsibleJob
@@ -75,7 +405,7 @@ paths:
       summary: Get Ansible job
       tags:
         - Ansible
-  '/virsh-sandbox/v1/ansible/jobs/{job_id}/stream':
+  '/v1/ansible/jobs/{job_id}/stream':
     get:
       description: Connects via WebSocket to run an Ansible job and stream output
       operationId: streamAnsibleJobOutput
@@ -108,22 +438,7 @@ paths:
       summary: Stream Ansible job output
       tags:
         - Ansible
-  /virsh-sandbox/v1/health:
-    get:
-      description: Returns service health status
-      operationId: getHealth
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                additionalProperties: true
-                type: object
-          description: OK
-      summary: Health check
-      tags:
-        - Health
-  '/virsh-sandbox/v1/sandbox/{id}':
+  '/v1/sandbox/{id}':
     delete:
       description: Destroys the sandbox and cleans up resources
       operationId: destroySandbox
@@ -153,7 +468,7 @@ paths:
       summary: Destroy sandbox
       tags:
         - Sandbox
-  '/virsh-sandbox/v1/sandbox/{id}/diff':
+  '/v1/sandbox/{id}/diff':
     post:
       description: Computes differences between two snapshots
       operationId: diffSnapshots
@@ -194,7 +509,7 @@ paths:
       tags:
         - Sandbox
       x-codegen-request-body-name: request
-  '/virsh-sandbox/v1/sandbox/{id}/generate/{tool}':
+  '/v1/sandbox/{id}/generate/{tool}':
     post:
       description: Generates Ansible or Puppet configuration from sandbox changes
       operationId: generateConfiguration
@@ -227,7 +542,7 @@ paths:
       summary: Generate configuration
       tags:
         - Sandbox
-  '/virsh-sandbox/v1/sandbox/{id}/publish':
+  '/v1/sandbox/{id}/publish':
     post:
       description: Publishes sandbox changes to GitOps repository
       operationId: publishChanges
@@ -262,7 +577,7 @@ paths:
       tags:
         - Sandbox
       x-codegen-request-body-name: request
-  '/virsh-sandbox/v1/sandbox/{id}/run':
+  '/v1/sandbox/{id}/run':
     post:
       description: Executes a command inside the sandbox via SSH
       operationId: runSandboxCommand
@@ -303,7 +618,7 @@ paths:
       tags:
         - Sandbox
       x-codegen-request-body-name: request
-  '/virsh-sandbox/v1/sandbox/{id}/snapshot':
+  '/v1/sandbox/{id}/snapshot':
     post:
       description: Creates a snapshot of the sandbox
       operationId: createSnapshot
@@ -344,7 +659,7 @@ paths:
       tags:
         - Sandbox
       x-codegen-request-body-name: request
-  '/virsh-sandbox/v1/sandbox/{id}/sshkey':
+  '/v1/sandbox/{id}/sshkey':
     post:
       description: Injects a public SSH key for a user in the sandbox
       operationId: injectSshKey
@@ -382,7 +697,7 @@ paths:
       tags:
         - Sandbox
       x-codegen-request-body-name: request
-  '/virsh-sandbox/v1/sandbox/{id}/start':
+  '/v1/sandbox/{id}/start':
     post:
       description: Starts the virtual machine sandbox
       operationId: startSandbox
@@ -423,7 +738,7 @@ paths:
       tags:
         - Sandbox
       x-codegen-request-body-name: request
-  /virsh-sandbox/v1/sandbox/create:
+  /v1/sandbox/create:
     post:
       description: Creates a new virtual machine sandbox by cloning from an existing VM
       operationId: createSandbox
@@ -457,7 +772,7 @@ paths:
       tags:
         - Sandbox
       x-codegen-request-body-name: request
-  /virsh-sandbox/v1/vms:
+  /v1/vms:
     get:
       description: Returns a list of all virtual machines from the libvirt instance
       operationId: listVirtualMachines
@@ -477,7 +792,7 @@ paths:
       summary: List all VMs
       tags:
         - VMs
-  /tmux-client/v1/audit/query:
+  /v1/audit/query:
     post:
       description: Queries the audit log for entries
       operationId: queryAuditLog
@@ -512,7 +827,7 @@ paths:
       tags:
         - Audit
       x-codegen-request-body-name: request
-  /tmux-client/v1/audit/stats:
+  /v1/audit/stats:
     get:
       description: Retrieves audit log statistics
       operationId: getAuditStats
@@ -527,7 +842,7 @@ paths:
       summary: Get audit stats
       tags:
         - Audit
-  /tmux-client/v1/command/allowed:
+  /v1/command/allowed:
     get:
       description: Retrieves the list of allowed and denied commands
       operationId: getAllowedCommands
@@ -542,7 +857,7 @@ paths:
       summary: Get allowed commands
       tags:
         - Command
-  /tmux-client/v1/command/run:
+  /v1/command/run:
     post:
       description: Executes a shell command
       operationId: runCommand
@@ -584,7 +899,7 @@ paths:
       tags:
         - Command
       x-codegen-request-body-name: request
-  /tmux-client/v1/file/copy:
+  /v1/file/copy:
     post:
       description: Copies a file from source to destination
       operationId: copyFile
@@ -619,7 +934,7 @@ paths:
       tags:
         - File
       x-codegen-request-body-name: request
-  /tmux-client/v1/file/delete:
+  /v1/file/delete:
     post:
       description: Deletes a file or directory
       operationId: deleteFile
@@ -661,7 +976,7 @@ paths:
       tags:
         - File
       x-codegen-request-body-name: request
-  /tmux-client/v1/file/edit:
+  /v1/file/edit:
     post:
       description: Edits the content of a file
       operationId: editFile
@@ -702,7 +1017,7 @@ paths:
       tags:
         - File
       x-codegen-request-body-name: request
-  /tmux-client/v1/file/exists:
+  /v1/file/exists:
     post:
       description: Checks if a file or directory exists
       operationId: checkFileExists
@@ -737,7 +1052,7 @@ paths:
       tags:
         - File
       x-codegen-request-body-name: request
-  /tmux-client/v1/file/hash:
+  /v1/file/hash:
     post:
       description: Computes the SHA256 hash of a file
       operationId: getFileHash
@@ -773,7 +1088,7 @@ paths:
       tags:
         - File
       x-codegen-request-body-name: request
-  /tmux-client/v1/file/list:
+  /v1/file/list:
     post:
       description: Lists the contents of a directory
       operationId: listDirectory
@@ -814,7 +1129,7 @@ paths:
       tags:
         - File
       x-codegen-request-body-name: request
-  /tmux-client/v1/file/read:
+  /v1/file/read:
     post:
       description: Reads the content of a file
       operationId: readFile
@@ -861,7 +1176,7 @@ paths:
       tags:
         - File
       x-codegen-request-body-name: request
-  /tmux-client/v1/file/write:
+  /v1/file/write:
     post:
       description: Writes content to a file
       operationId: writeFile
@@ -902,10 +1217,12 @@ paths:
       tags:
         - File
       x-codegen-request-body-name: request
-  /tmux-client/v1/health:
+  /v1/health:
     get:
-      description: Retrieves the health status of the API server and its components
-      operationId: getHealth1
+      description: >-
+        Retrieves the health status of the API server and its components,
+        including the virsh-sandbox API if configured
+      operationId: getHealth
       responses:
         '200':
           content:
@@ -916,7 +1233,7 @@ paths:
       summary: Get health status
       tags:
         - Health
-  /tmux-client/v1/human/ask:
+  /v1/human/ask:
     post:
       description: Requests approval from a human for an action
       operationId: askHuman
@@ -951,7 +1268,7 @@ paths:
       tags:
         - Human
       x-codegen-request-body-name: request
-  /tmux-client/v1/human/ask-async:
+  /v1/human/ask-async:
     post:
       description: Requests approval from a human asynchronously
       operationId: askHumanAsync
@@ -987,7 +1304,7 @@ paths:
       tags:
         - Human
       x-codegen-request-body-name: request
-  /tmux-client/v1/human/pending:
+  /v1/human/pending:
     get:
       description: Lists all pending human approval requests
       operationId: listPendingApprovals
@@ -1002,7 +1319,7 @@ paths:
       summary: List pending approvals
       tags:
         - Human
-  '/tmux-client/v1/human/pending/{requestID}':
+  '/v1/human/pending/{requestID}':
     delete:
       description: Cancels a pending approval request
       operationId: cancelApproval
@@ -1069,7 +1386,7 @@ paths:
       summary: Get pending approval
       tags:
         - Human
-  /tmux-client/v1/human/respond:
+  /v1/human/respond:
     post:
       description: Responds to a pending approval request
       operationId: respondToApproval
@@ -1104,7 +1421,7 @@ paths:
       tags:
         - Human
       x-codegen-request-body-name: request
-  /tmux-client/v1/plan/:
+  /v1/plan/:
     get:
       description: Lists all execution plans
       operationId: listPlans
@@ -1125,7 +1442,7 @@ paths:
       summary: List plans
       tags:
         - Plan
-  '/tmux-client/v1/plan/{planID}':
+  '/v1/plan/{planID}':
     delete:
       description: Deletes an execution plan
       operationId: deletePlan
@@ -1192,7 +1509,7 @@ paths:
       summary: Get plan
       tags:
         - Plan
-  '/tmux-client/v1/plan/{planID}/abort':
+  '/v1/plan/{planID}/abort':
     post:
       description: Aborts an execution plan
       operationId: abortPlan
@@ -1240,7 +1557,7 @@ paths:
       tags:
         - Plan
       x-codegen-request-body-name: request
-  '/tmux-client/v1/plan/{planID}/advance':
+  '/v1/plan/{planID}/advance':
     post:
       description: Advances to the next step in a plan
       operationId: advancePlanStep
@@ -1288,7 +1605,7 @@ paths:
       tags:
         - Plan
       x-codegen-request-body-name: request
-  /tmux-client/v1/plan/create:
+  /v1/plan/create:
     post:
       description: Creates a new execution plan
       operationId: createPlan
@@ -1324,7 +1641,7 @@ paths:
       tags:
         - Plan
       x-codegen-request-body-name: request
-  /tmux-client/v1/plan/update:
+  /v1/plan/update:
     post:
       description: Updates an execution plan
       operationId: updatePlan
@@ -1366,7 +1683,148 @@ paths:
       tags:
         - Plan
       x-codegen-request-body-name: request
-  /tmux-client/v1/tmux/panes:
+  /v1/sandbox/health:
+    get:
+      description: Checks if the virsh-sandbox API is reachable
+      operationId: sandboxAPIHealth
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+          description: OK
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tmux-client_internal_types.APIError'
+          description: Internal Server Error
+      summary: Check sandbox API health
+      tags:
+        - Sandbox
+  /v1/sandbox/sessions:
+    get:
+      description: Lists all active sandbox sessions
+      operationId: listSandboxSessions
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal_api.ListSandboxSessionsResponse'
+          description: OK
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tmux-client_internal_types.APIError'
+          description: Internal Server Error
+      summary: List sandbox sessions
+      tags:
+        - Sandbox
+  '/v1/sandbox/sessions/{sessionName}':
+    delete:
+      description: Kills a sandbox session and cleans up its credentials
+      operationId: killSandboxSession
+      parameters:
+        - description: Session name
+          in: path
+          name: sessionName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tmux-client_internal_types.APIError'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tmux-client_internal_types.APIError'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tmux-client_internal_types.APIError'
+          description: Internal Server Error
+      summary: Kill sandbox session
+      tags:
+        - Sandbox
+    get:
+      description: Gets details of a specific sandbox session
+      operationId: getSandboxSession
+      parameters:
+        - description: Session name
+          in: path
+          name: sessionName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal_api.SandboxSessionInfo'
+          description: OK
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tmux-client_internal_types.APIError'
+          description: Not Found
+      summary: Get sandbox session
+      tags:
+        - Sandbox
+  /v1/sandbox/sessions/create:
+    post:
+      description: Creates a new tmux session connected to a sandbox VM via SSH certificate
+      operationId: createSandboxSession
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/internal_api.CreateSandboxSessionRequest'
+        description: Create sandbox session request
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal_api.CreateSandboxSessionResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tmux-client_internal_types.APIError'
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tmux-client_internal_types.APIError'
+          description: Internal Server Error
+      summary: Create sandbox session
+      tags:
+        - Sandbox
+      x-codegen-request-body-name: request
+  /v1/tmux/panes:
     get:
       description: Get a list of panes in a tmux session
       operationId: listTmuxPanes
@@ -1399,7 +1857,7 @@ paths:
       summary: List tmux panes
       tags:
         - Tmux
-  '/tmux-client/v1/tmux/panes/{paneID}':
+  '/v1/tmux/panes/{paneID}':
     delete:
       description: Kills a tmux pane
       operationId: killTmuxPane
@@ -1433,7 +1891,7 @@ paths:
       summary: Kill tmux pane
       tags:
         - Tmux
-  /tmux-client/v1/tmux/panes/create:
+  /v1/tmux/panes/create:
     post:
       description: Creates a new tmux pane
       operationId: createTmuxPane
@@ -1469,7 +1927,7 @@ paths:
       tags:
         - Tmux
       x-codegen-request-body-name: request
-  /tmux-client/v1/tmux/panes/read:
+  /v1/tmux/panes/read:
     post:
       description: Reads the content of a tmux pane
       operationId: readTmuxPane
@@ -1504,7 +1962,7 @@ paths:
       tags:
         - Tmux
       x-codegen-request-body-name: request
-  /tmux-client/v1/tmux/panes/send-keys:
+  /v1/tmux/panes/send-keys:
     post:
       description: Sends keystrokes to a tmux pane
       operationId: sendKeysToPane
@@ -1545,7 +2003,7 @@ paths:
       tags:
         - Tmux
       x-codegen-request-body-name: request
-  /tmux-client/v1/tmux/panes/switch:
+  /v1/tmux/panes/switch:
     post:
       description: Switches to a specific tmux pane
       operationId: switchTmuxPane
@@ -1581,7 +2039,7 @@ paths:
       tags:
         - Tmux
       x-codegen-request-body-name: request
-  /tmux-client/v1/tmux/sessions:
+  /v1/tmux/sessions:
     get:
       description: Get a list of all active tmux sessions
       operationId: listTmuxSessions
@@ -1603,7 +2061,7 @@ paths:
       summary: List tmux sessions
       tags:
         - Tmux
-  '/tmux-client/v1/tmux/sessions/{sessionId}/release':
+  '/v1/tmux/sessions/{sessionId}/release':
     post:
       description: Releases (kills) a tmux session by ID
       operationId: releaseTmuxSession
@@ -1631,7 +2089,7 @@ paths:
       summary: Release tmux session
       tags:
         - Tmux
-  '/tmux-client/v1/tmux/sessions/{sessionName}':
+  '/v1/tmux/sessions/{sessionName}':
     delete:
       description: Kills a tmux session
       operationId: killTmuxSession
@@ -1665,7 +2123,7 @@ paths:
       summary: Kill tmux session
       tags:
         - Tmux
-  /tmux-client/v1/tmux/sessions/create:
+  /v1/tmux/sessions/create:
     post:
       description: Creates a new tmux session
       operationId: createTmuxSession
@@ -1701,7 +2159,7 @@ paths:
       tags:
         - Tmux
       x-codegen-request-body-name: request
-  /tmux-client/v1/tmux/windows:
+  /v1/tmux/windows:
     get:
       description: Get a list of windows in a tmux session
       operationId: listTmuxWindows
@@ -1792,6 +2250,37 @@ components:
         details:
           type: string
         error:
+          type: string
+      type: object
+    internal_rest.certificateResponse:
+      properties:
+        id:
+          type: string
+        identity:
+          type: string
+        is_expired:
+          type: boolean
+        issued_at:
+          type: string
+        principals:
+          items:
+            type: string
+          type: array
+        sandbox_id:
+          type: string
+        serial_number:
+          type: integer
+        status:
+          type: string
+        ttl_seconds:
+          type: integer
+        user_id:
+          type: string
+        valid_after:
+          type: string
+        valid_before:
+          type: string
+        vm_id:
           type: string
       type: object
     internal_rest.createSandboxRequest:
@@ -1957,6 +2446,31 @@ components:
         command:
           $ref: '#/components/schemas/virsh-sandbox_internal_store.Command'
       type: object
+    internal_rest.sessionResponse:
+      properties:
+        certificate_id:
+          type: string
+        duration_seconds:
+          type: integer
+        ended_at:
+          type: string
+        id:
+          type: string
+        sandbox_id:
+          type: string
+        source_ip:
+          type: string
+        started_at:
+          type: string
+        status:
+          type: string
+        user_id:
+          type: string
+        vm_id:
+          type: string
+        vm_ip_address:
+          type: string
+      type: object
     internal_rest.snapshotRequest:
       properties:
         external:
@@ -2033,35 +2547,6 @@ components:
         - Second
         - Minute
         - Hour
-    virsh-sandbox_internal_ansible.Job:
-      properties:
-        check:
-          type: boolean
-        id:
-          type: string
-        playbook:
-          type: string
-        status:
-          $ref: '#/components/schemas/virsh-sandbox_internal_ansible.JobStatus'
-        vm_name:
-          type: string
-      type: object
-    virsh-sandbox_internal_ansible.JobRequest:
-      properties:
-        check:
-          type: boolean
-        playbook:
-          type: string
-        vm_name:
-          type: string
-      type: object
-    virsh-sandbox_internal_ansible.JobResponse:
-      properties:
-        job_id:
-          type: string
-        ws_url:
-          type: string
-      type: object
     virsh-sandbox_internal_ansible.JobStatus:
       enum:
         - pending
@@ -2087,7 +2572,11 @@ components:
         error:
           type: string
       type: object
-    virsh-sandbox_internal_rest.ErrorResponse:
+    virsh-sandbox_internal_rest.accessErrorResponse:
+      example:
+        code: 0
+        details: details
+        error: error
       properties:
         code:
           type: integer
@@ -2096,135 +2585,258 @@ components:
         error:
           type: string
       type: object
-    virsh-sandbox_internal_rest.createSandboxRequest:
-      properties:
-        agent_id:
-          description: required
-          type: string
-        cpu:
-          description: optional; default from service config if <=0
-          type: integer
-        memory_mb:
-          description: optional; default from service config if <=0
-          type: integer
-        source_vm_name:
-          description: required; name of existing VM in libvirt to clone from
-          type: string
-        vm_name:
-          description: optional; generated if empty
-          type: string
-      type: object
-    virsh-sandbox_internal_rest.createSandboxResponse:
-      properties:
-        sandbox:
-          $ref: '#/components/schemas/virsh-sandbox_internal_store.Sandbox'
-      type: object
-    virsh-sandbox_internal_rest.diffRequest:
-      properties:
-        from_snapshot:
-          description: required
-          type: string
-        to_snapshot:
-          description: required
-          type: string
-      type: object
-    virsh-sandbox_internal_rest.diffResponse:
-      properties:
-        diff:
-          $ref: '#/components/schemas/virsh-sandbox_internal_store.Diff'
-      type: object
-    virsh-sandbox_internal_rest.generateResponse:
-      properties:
-        message:
-          type: string
-        note:
-          type: string
-      type: object
-    virsh-sandbox_internal_rest.injectSSHKeyRequest:
+    virsh-sandbox_internal_rest.caPublicKeyResponse:
+      example:
+        public_key: public_key
+        usage: usage
       properties:
         public_key:
-          description: required
+          description: PublicKey is the CA public key in OpenSSH format.
           type: string
-        username:
-          description: 'required (explicit); typical: "ubuntu" or "centos"'
+        usage:
+          description: Usage explains how to use this key.
           type: string
       type: object
-    virsh-sandbox_internal_rest.listVMsResponse:
+    virsh-sandbox_internal_rest.certificateResponse:
+      example:
+        ttl_seconds: 6
+        principals:
+          - principals
+          - principals
+        serial_number: 0
+        issued_at: issued_at
+        valid_after: valid_after
+        vm_id: vm_id
+        is_expired: true
+        valid_before: valid_before
+        user_id: user_id
+        identity: identity
+        sandbox_id: sandbox_id
+        id: id
+        status: status
       properties:
-        vms:
-          items:
-            $ref: '#/components/schemas/virsh-sandbox_internal_rest.vmInfo'
-          type: array
-      type: object
-    virsh-sandbox_internal_rest.publishRequest:
-      properties:
-        job_id:
-          description: required
+        id:
           type: string
-        message:
-          description: optional commit/PR message
+        identity:
           type: string
-        reviewers:
-          description: optional
+        is_expired:
+          type: boolean
+        issued_at:
+          type: string
+        principals:
           items:
             type: string
           type: array
+        sandbox_id:
+          type: string
+        serial_number:
+          type: integer
+        status:
+          type: string
+        ttl_seconds:
+          type: integer
+        user_id:
+          type: string
+        valid_after:
+          type: string
+        valid_before:
+          type: string
+        vm_id:
+          type: string
       type: object
-    virsh-sandbox_internal_rest.publishResponse:
+    virsh-sandbox_internal_rest.listCertificatesResponse:
+      example:
+        total: 0
+        certificates:
+          - ttl_seconds: 6
+            principals:
+              - principals
+              - principals
+            serial_number: 0
+            issued_at: issued_at
+            valid_after: valid_after
+            vm_id: vm_id
+            is_expired: true
+            valid_before: valid_before
+            user_id: user_id
+            identity: identity
+            sandbox_id: sandbox_id
+            id: id
+            status: status
+          - ttl_seconds: 6
+            principals:
+              - principals
+              - principals
+            serial_number: 0
+            issued_at: issued_at
+            valid_after: valid_after
+            vm_id: vm_id
+            is_expired: true
+            valid_before: valid_before
+            user_id: user_id
+            identity: identity
+            sandbox_id: sandbox_id
+            id: id
+            status: status
       properties:
-        message:
+        certificates:
+          items:
+            $ref: >-
+              #/components/schemas/virsh-sandbox_internal_rest.certificateResponse
+          type: array
+        total:
+          type: integer
+      type: object
+    virsh-sandbox_internal_rest.listSessionsResponse:
+      example:
+        sessions:
+          - certificate_id: certificate_id
+            duration_seconds: 0
+            vm_id: vm_id
+            user_id: user_id
+            sandbox_id: sandbox_id
+            started_at: started_at
+            vm_ip_address: vm_ip_address
+            id: id
+            ended_at: ended_at
+            source_ip: source_ip
+            status: status
+          - certificate_id: certificate_id
+            duration_seconds: 0
+            vm_id: vm_id
+            user_id: user_id
+            sandbox_id: sandbox_id
+            started_at: started_at
+            vm_ip_address: vm_ip_address
+            id: id
+            ended_at: ended_at
+            source_ip: source_ip
+            status: status
+        total: 6
+      properties:
+        sessions:
+          items:
+            $ref: '#/components/schemas/virsh-sandbox_internal_rest.sessionResponse'
+          type: array
+        total:
+          type: integer
+      type: object
+    virsh-sandbox_internal_rest.requestAccessRequest:
+      properties:
+        public_key:
+          description: PublicKey is the user's SSH public key in OpenSSH format.
           type: string
-        note:
+        sandbox_id:
+          description: SandboxID is the target sandbox.
+          type: string
+        ttl_minutes:
+          description: TTLMinutes is the requested access duration (1-10 minutes).
+          type: integer
+        user_id:
+          description: UserID identifies the requesting user.
           type: string
       type: object
-    virsh-sandbox_internal_rest.runCommandRequest:
+    virsh-sandbox_internal_rest.requestAccessResponse:
+      example:
+        certificate_id: certificate_id
+        instructions: instructions
+        ssh_port: 0
+        valid_until: valid_until
+        certificate: certificate
+        ttl_seconds: 6
+        connect_command: connect_command
+        vm_ip_address: vm_ip_address
+        username: username
       properties:
-        command:
-          description: required
+        certificate:
+          description: Certificate is the SSH certificate content (save as key-cert.pub).
           type: string
-        env:
-          additionalProperties:
-            type: string
-          description: optional
-          type: object
-        private_key_path:
-          description: required; path on API host
+        certificate_id:
+          description: CertificateID is the ID of the issued certificate.
           type: string
-        timeout_sec:
-          description: optional; default from service config
+        connect_command:
+          description: ConnectCommand is an example SSH command for connecting.
+          type: string
+        instructions:
+          description: Instructions provides usage instructions.
+          type: string
+        ssh_port:
+          description: SSHPort is the SSH port (usually 22).
+          type: integer
+        ttl_seconds:
+          description: TTLSeconds is the remaining validity in seconds.
           type: integer
         username:
-          description: required
+          description: Username is the SSH username to use.
+          type: string
+        valid_until:
+          description: ValidUntil is when the certificate expires (RFC3339).
+          type: string
+        vm_ip_address:
+          description: VMIPAddress is the IP address of the sandbox VM.
           type: string
       type: object
-    virsh-sandbox_internal_rest.runCommandResponse:
+    virsh-sandbox_internal_rest.revokeCertificateRequest:
       properties:
-        command:
-          $ref: '#/components/schemas/virsh-sandbox_internal_store.Command'
-      type: object
-    virsh-sandbox_internal_rest.snapshotRequest:
-      properties:
-        external:
-          description: optional; default false (internal snapshot)
-          type: boolean
-        name:
-          description: required
+        reason:
           type: string
       type: object
-    virsh-sandbox_internal_rest.snapshotResponse:
+    virsh-sandbox_internal_rest.sessionEndRequest:
       properties:
-        snapshot:
-          $ref: '#/components/schemas/virsh-sandbox_internal_store.Snapshot'
+        reason:
+          type: string
+        session_id:
+          type: string
       type: object
-    virsh-sandbox_internal_rest.startSandboxRequest:
+    virsh-sandbox_internal_rest.sessionResponse:
+      example:
+        certificate_id: certificate_id
+        duration_seconds: 0
+        vm_id: vm_id
+        user_id: user_id
+        sandbox_id: sandbox_id
+        started_at: started_at
+        vm_ip_address: vm_ip_address
+        id: id
+        ended_at: ended_at
+        source_ip: source_ip
+        status: status
       properties:
-        wait_for_ip:
-          description: optional; default false
-          type: boolean
+        certificate_id:
+          type: string
+        duration_seconds:
+          type: integer
+        ended_at:
+          type: string
+        id:
+          type: string
+        sandbox_id:
+          type: string
+        source_ip:
+          type: string
+        started_at:
+          type: string
+        status:
+          type: string
+        user_id:
+          type: string
+        vm_id:
+          type: string
+        vm_ip_address:
+          type: string
       type: object
-    virsh-sandbox_internal_rest.startSandboxResponse:
+    virsh-sandbox_internal_rest.sessionStartRequest:
       properties:
-        ip_address:
+        certificate_id:
+          type: string
+        source_ip:
+          type: string
+      type: object
+    virsh-sandbox_internal_rest.sessionStartResponse:
+      example:
+        session_id: session_id
+      properties:
+        session_id:
           type: string
       type: object
     virsh-sandbox_internal_rest.vmInfo:
@@ -2487,6 +3099,131 @@ components:
       x-enum-varnames:
         - SnapshotKindInternal
         - SnapshotKindExternal
+    internal_api.CreateSandboxSessionRequest:
+      properties:
+        sandbox_id:
+          description: SandboxID is the ID of the sandbox to connect to
+          type: string
+        session_name:
+          description: >-
+            SessionName is the optional tmux session name (auto-generated if
+            empty)
+          type: string
+        ttl_minutes:
+          description: 'TTLMinutes is the certificate TTL in minutes (1-10, default 5)'
+          type: integer
+      type: object
+    internal_api.CreateSandboxSessionResponse:
+      example:
+        session_name: session_name
+        valid_until: valid_until
+        sandbox_id: sandbox_id
+        ttl_seconds: 0
+        session_id: session_id
+        vm_ip_address: vm_ip_address
+        message: message
+        username: username
+      properties:
+        message:
+          description: Message provides additional information
+          type: string
+        sandbox_id:
+          description: SandboxID is the sandbox being accessed
+          type: string
+        session_id:
+          description: SessionID is the tmux session ID
+          type: string
+        session_name:
+          description: SessionName is the tmux session name
+          type: string
+        ttl_seconds:
+          description: TTLSeconds is the remaining certificate validity in seconds
+          type: integer
+        username:
+          description: Username is the SSH username
+          type: string
+        valid_until:
+          description: ValidUntil is when the certificate expires (RFC3339)
+          type: string
+        vm_ip_address:
+          description: VMIPAddress is the IP of the sandbox VM
+          type: string
+      type: object
+    internal_api.ListSandboxSessionsResponse:
+      example:
+        sessions:
+          - session_name: session_name
+            is_expired: true
+            valid_until: valid_until
+            sandbox_id: sandbox_id
+            ttl_seconds: 0
+            session_id: session_id
+            vm_ip_address: vm_ip_address
+            username: username
+          - session_name: session_name
+            is_expired: true
+            valid_until: valid_until
+            sandbox_id: sandbox_id
+            ttl_seconds: 0
+            session_id: session_id
+            vm_ip_address: vm_ip_address
+            username: username
+        total: 6
+      properties:
+        sessions:
+          items:
+            $ref: '#/components/schemas/internal_api.SandboxSessionInfo'
+          type: array
+        total:
+          type: integer
+      type: object
+    internal_api.SandboxSessionInfo:
+      example:
+        session_name: session_name
+        is_expired: true
+        valid_until: valid_until
+        sandbox_id: sandbox_id
+        ttl_seconds: 0
+        session_id: session_id
+        vm_ip_address: vm_ip_address
+        username: username
+      properties:
+        is_expired:
+          type: boolean
+        sandbox_id:
+          type: string
+        session_id:
+          type: string
+        session_name:
+          type: string
+        ttl_seconds:
+          type: integer
+        username:
+          type: string
+        valid_until:
+          type: string
+        vm_ip_address:
+          type: string
+      type: object
+    tmux-client_internal_api.SandboxSessionInfo:
+      properties:
+        is_expired:
+          type: boolean
+        sandbox_id:
+          type: string
+        session_id:
+          type: string
+        session_name:
+          type: string
+        ttl_seconds:
+          type: integer
+        username:
+          type: string
+        valid_until:
+          type: string
+        vm_ip_address:
+          type: string
+      type: object
     tmux-client_internal_types.APIError:
       example:
         code: code

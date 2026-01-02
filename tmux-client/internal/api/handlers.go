@@ -2,6 +2,7 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -67,7 +68,7 @@ func (h *Handler) RegisterRoutes(r chi.Router) {
 	r.Get("/docs", func(w http.ResponseWriter, r *http.Request) {
 		htmlContent, err := scalar.ApiReferenceHTML(&scalar.Options{
 			// SpecURL: "https://generator3.swagger.io/openapi.json",// allow external URL or local path file
-			SpecURL: "./docs/swagger.json",
+			SpecURL: "./docs/openapi.yaml",
 			CustomOptions: scalar.CustomOptions{
 				PageTitle: "tmux-client API",
 			},
@@ -143,6 +144,9 @@ func (h *Handler) RegisterRoutes(r chi.Router) {
 			r.Post("/query", h.handleQueryAudit)
 			r.Get("/stats", h.handleAuditStats)
 		})
+
+		// Sandbox endpoints (SSH certificate-based VM access)
+		h.RegisterSandboxRoutes(r)
 	})
 }
 
@@ -214,7 +218,7 @@ func (h *Handler) logAndAudit(r *http.Request, tool, action string, args, result
 }
 
 // @Summary Get health status
-// @Description Retrieves the health status of the API server and its components
+// @Description Retrieves the health status of the API server and its components, including the virsh-sandbox API if configured
 // @Tags Health
 // @Accept json
 // @Produce json
@@ -224,7 +228,7 @@ func (h *Handler) logAndAudit(r *http.Request, tool, action string, args, result
 // Health check handler
 func (h *Handler) handleHealth(w http.ResponseWriter, r *http.Request) {
 	components := []types.ComponentHealth{
-		{Name: "api", Status: types.HealthStatusHealthy},
+		{Name: "tmux-client", Status: types.HealthStatusHealthy},
 	}
 
 	// Check tmux
@@ -240,6 +244,25 @@ func (h *Handler) handleHealth(w http.ResponseWriter, r *http.Request) {
 				Status:  types.HealthStatusDegraded,
 				Message: "tmux server not running",
 			})
+		}
+
+		// Check virsh-sandbox API if sandbox tool is configured
+		if h.tmuxTool.IsSandboxEnabled() {
+			ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
+			defer cancel()
+
+			if err := h.tmuxTool.CheckSandboxAPIHealth(ctx); err != nil {
+				components = append(components, types.ComponentHealth{
+					Name:    "virsh-sandbox",
+					Status:  types.HealthStatusUnhealthy,
+					Message: fmt.Sprintf("API unreachable: %v", err),
+				})
+			} else {
+				components = append(components, types.ComponentHealth{
+					Name:   "virsh-sandbox",
+					Status: types.HealthStatusHealthy,
+				})
+			}
 		}
 	}
 

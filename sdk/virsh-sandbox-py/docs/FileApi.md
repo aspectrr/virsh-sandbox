@@ -1,17 +1,17 @@
 # virsh_sandbox.FileApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**check_file_exists**](FileApi.md#check_file_exists) | **POST** /tmux-client/v1/file/exists | Check if file exists
-[**copy_file**](FileApi.md#copy_file) | **POST** /tmux-client/v1/file/copy | Copy file
-[**delete_file**](FileApi.md#delete_file) | **POST** /tmux-client/v1/file/delete | Delete file
-[**edit_file**](FileApi.md#edit_file) | **POST** /tmux-client/v1/file/edit | Edit file
-[**get_file_hash**](FileApi.md#get_file_hash) | **POST** /tmux-client/v1/file/hash | Get file hash
-[**list_directory**](FileApi.md#list_directory) | **POST** /tmux-client/v1/file/list | List directory contents
-[**read_file**](FileApi.md#read_file) | **POST** /tmux-client/v1/file/read | Read file
-[**write_file**](FileApi.md#write_file) | **POST** /tmux-client/v1/file/write | Write file
+[**check_file_exists**](FileApi.md#check_file_exists) | **POST** /v1/file/exists | Check if file exists
+[**copy_file**](FileApi.md#copy_file) | **POST** /v1/file/copy | Copy file
+[**delete_file**](FileApi.md#delete_file) | **POST** /v1/file/delete | Delete file
+[**edit_file**](FileApi.md#edit_file) | **POST** /v1/file/edit | Edit file
+[**get_file_hash**](FileApi.md#get_file_hash) | **POST** /v1/file/hash | Get file hash
+[**list_directory**](FileApi.md#list_directory) | **POST** /v1/file/list | List directory contents
+[**read_file**](FileApi.md#read_file) | **POST** /v1/file/read | Read file
+[**write_file**](FileApi.md#write_file) | **POST** /v1/file/write | Write file
 
 
 # **check_file_exists**
@@ -29,10 +29,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -100,10 +100,10 @@ from virsh_sandbox.models.tmux_client_internal_types_copy_file_response import T
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -171,10 +171,10 @@ from virsh_sandbox.models.tmux_client_internal_types_delete_file_response import
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -243,10 +243,10 @@ from virsh_sandbox.models.tmux_client_internal_types_edit_file_response import T
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -313,10 +313,10 @@ import virsh_sandbox
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -384,10 +384,10 @@ from virsh_sandbox.models.tmux_client_internal_types_list_dir_response import Tm
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -456,10 +456,10 @@ from virsh_sandbox.models.tmux_client_internal_types_read_file_response import T
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 
@@ -529,10 +529,10 @@ from virsh_sandbox.models.tmux_client_internal_types_write_file_response import 
 from virsh_sandbox.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost:8080
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = virsh_sandbox.Configuration(
-    host = "http://localhost:8080"
+    host = "http://localhost"
 )
 
 

@@ -60,7 +60,7 @@ class Configuration:
         ca_cert_data: Optional[Union[str, bytes]] = None,
     ) -> None:
         """Initialize configuration."""
-        self._base_path = "http://localhost:8080" if host is None else host
+        self._base_path = "http://localhost" if host is None else host
         """Default Base url.
         """
 
@@ -352,7 +352,7 @@ class Configuration:
             f"OS: {sys.platform}\n"
             f"Python Version: {sys.version}\n"
             f"Version of the API: 0.0.1-beta\n"
-            f"SDK Package Version: 0.0.5-beta"
+            f"SDK Package Version: 0.0.6-beta"
         )
 
     def get_host_settings(self) -> List[Dict[str, Any]]:
@@ -362,7 +362,7 @@ class Configuration:
         """
         return [
             {
-                "url": "//localhost:8080",
+                "url": "",
                 "description": "No description provided",
             }
         ]

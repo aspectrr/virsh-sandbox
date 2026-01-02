@@ -12,14 +12,16 @@ import (
 	"time"
 
 	"tmux-client/internal/config"
+	"tmux-client/internal/tools/sandbox"
 	"tmux-client/internal/types"
 )
 
 // Tool provides tmux operations with safety constraints.
 type Tool struct {
-	config     *config.TmuxConfig
-	tmuxPath   string
-	socketPath string
+	config      *config.TmuxConfig
+	tmuxPath    string
+	socketPath  string
+	sandboxTool *sandbox.Tool
 }
 
 // NewTool creates a new tmux tool.
@@ -37,6 +39,25 @@ func NewTool(cfg *config.TmuxConfig) (*Tool, error) {
 	}
 
 	return tool, nil
+}
+
+// SetSandboxTool sets the sandbox tool for SSH certificate-based access.
+func (t *Tool) SetSandboxTool(st *sandbox.Tool) {
+	t.sandboxTool = st
+}
+
+// CheckSandboxAPIHealth checks if the virsh-sandbox API is reachable.
+// Returns nil if healthy, error otherwise. Returns nil if sandbox tool is not configured.
+func (t *Tool) CheckSandboxAPIHealth(ctx context.Context) error {
+	if t.sandboxTool == nil {
+		return nil // Not configured, skip check
+	}
+	return t.sandboxTool.CheckAPIHealth(ctx)
+}
+
+// IsSandboxEnabled returns true if the sandbox tool is configured.
+func (t *Tool) IsSandboxEnabled() bool {
+	return t.sandboxTool != nil
 }
 
 // execTmux executes a tmux command and returns its output.
@@ -374,6 +395,102 @@ func (t *Tool) CreateSession(ctx context.Context, name string, command string) (
 	}
 
 	return strings.TrimSpace(stdout), nil
+}
+
+// SandboxSessionInfo contains information about a sandbox-connected session.
+type SandboxSessionInfo struct {
+	// SessionID is the tmux session ID
+	SessionID string
+
+	// SessionName is the tmux session name
+	SessionName string
+
+	// SandboxID is the sandbox being accessed
+	SandboxID string
+
+	// VMIPAddress is the IP of the sandbox VM
+	VMIPAddress string
+
+	// Username is the SSH username
+	Username string
+
+	// ValidUntil is when the certificate expires
+	ValidUntil time.Time
+
+	// ConnectionInfo contains the full connection details
+	ConnectionInfo *sandbox.ConnectionInfo
+}
+
+// CreateSandboxSession creates a new tmux session that SSHs into a sandbox VM.
+// It requests an SSH certificate from the virsh-sandbox API and creates a session
+// that automatically connects to the sandbox.
+func (t *Tool) CreateSandboxSession(ctx context.Context, sandboxID string, sessionName string, ttlMinutes int) (*SandboxSessionInfo, error) {
+	if t.sandboxTool == nil {
+		return nil, fmt.Errorf("sandbox tool not configured")
+	}
+
+	if sandboxID == "" {
+		return nil, fmt.Errorf("sandbox_id is required")
+	}
+
+	// Generate session name if not provided
+	if sessionName == "" {
+		sessionName = fmt.Sprintf("sandbox_%s", sandboxID)
+	}
+
+	// Validate session name
+	if !isValidSessionName(sessionName) {
+		return nil, fmt.Errorf("invalid session name: must be alphanumeric with underscores or hyphens")
+	}
+
+	// Request access to the sandbox (generates keys and gets certificate)
+	connInfo, err := t.sandboxTool.RequestAccess(ctx, sandboxID, ttlMinutes)
+	if err != nil {
+		return nil, fmt.Errorf("request sandbox access: %w", err)
+	}
+
+	// Build SSH command
+	sshCommand := connInfo.SSHCommand
+
+	// Create tmux session with SSH command
+	args := []string{"new-session", "-d", "-s", sessionName, "-P", "-F", "#{session_id}", sshCommand}
+
+	stdout, stderr, err := t.execTmux(ctx, args...)
+	if err != nil {
+		// Clean up keys on failure
+		connInfo.Cleanup()
+		return nil, fmt.Errorf("failed to create sandbox session: %s", stderr)
+	}
+
+	sessionID := strings.TrimSpace(stdout)
+
+	return &SandboxSessionInfo{
+		SessionID:      sessionID,
+		SessionName:    sessionName,
+		SandboxID:      sandboxID,
+		VMIPAddress:    connInfo.VMIPAddress,
+		Username:       connInfo.Username,
+		ValidUntil:     connInfo.ValidUntil,
+		ConnectionInfo: connInfo,
+	}, nil
+}
+
+// KillSandboxSession kills a sandbox session and cleans up its credentials.
+func (t *Tool) KillSandboxSession(ctx context.Context, sessionName string, connInfo *sandbox.ConnectionInfo) error {
+	// Kill the tmux session
+	if err := t.KillSession(ctx, sessionName); err != nil {
+		// Log but continue with cleanup
+		_ = err
+	}
+
+	// Clean up credentials
+	if connInfo != nil {
+		if err := connInfo.Cleanup(); err != nil {
+			return fmt.Errorf("cleanup credentials: %w", err)
+		}
+	}
+
+	return nil
 }
 
 // KillPane kills a specific pane.
