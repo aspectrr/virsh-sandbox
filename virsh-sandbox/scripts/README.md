@@ -182,10 +182,13 @@ curl -X POST http://localhost:8080/v1/access/request \
 echo "<certificate_from_response>" > /tmp/sandbox_key-cert.pub
 
 # First connection: verify and accept the host key
-# IMPORTANT: Verify the fingerprint before adding to known_hosts
-# See "Host Key Management" section below for secure verification methods
+# IMPORTANT: Verify the fingerprint matches your VM's actual fingerprint
+# Obtain the expected fingerprint through a secure out-of-band channel
+# (e.g., from VM console logs, control plane API, or secure configuration management)
+# See "Host Key Management" section below for detailed verification methods
 ssh-keyscan 192.168.122.x > /tmp/vm_host_key
-ssh-keygen -lf /tmp/vm_host_key  # Verify this matches your VM's fingerprint
+ssh-keygen -lf /tmp/vm_host_key  # Compare this with the trusted fingerprint
+# Only proceed if fingerprints match!
 cat /tmp/vm_host_key >> ~/.ssh/known_hosts
 
 # Connect!
@@ -200,19 +203,22 @@ For secure host key verification, use one of these approaches:
 
 1. **Pre-distribute known host keys** - Deploy known host keys to users via a secure channel:
    ```bash
-   # On control plane, export host keys for all sandbox VMs
+   # On control plane (with direct VM access), export host keys for all sandbox VMs
+   # Run this from a trusted network location with direct VM access
    ssh-keyscan 192.168.122.x > sandbox_known_hosts
    
-   # Distribute to users securely, then:
+   # Distribute to users via secure channel (encrypted email, secure file share, etc.)
+   # Users then add to their known_hosts:
    cat sandbox_known_hosts >> ~/.ssh/known_hosts
    ```
 
 2. **Verify fingerprints manually** - On first connection, verify the fingerprint matches the VM's actual key:
    ```bash
-   # On the VM, get the fingerprint:
+   # On the VM (via console or secure admin access), get the trusted fingerprint:
    ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
    
-   # Compare with the fingerprint shown during first SSH connection
+   # Share this fingerprint with users through a secure out-of-band channel
+   # Users compare this trusted value with the fingerprint shown during first SSH connection
    ```
 
 3. **Use ssh-keyscan with verification** - Fetch and verify host keys before connecting:
@@ -220,8 +226,12 @@ For secure host key verification, use one of these approaches:
    # Fetch host key
    ssh-keyscan 192.168.122.x > /tmp/vm_host_key
    
-   # Verify fingerprint matches expected value
+   # Display fingerprint
    ssh-keygen -lf /tmp/vm_host_key
+   
+   # Compare with the trusted fingerprint obtained through secure out-of-band channel
+   # (e.g., from VM console logs, control plane API, or configuration management)
+   # Only proceed if they match!
    
    # If verified, add to known_hosts
    cat /tmp/vm_host_key >> ~/.ssh/known_hosts
