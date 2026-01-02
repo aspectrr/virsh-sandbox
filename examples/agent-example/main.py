@@ -13,6 +13,7 @@ from uuid import uuid4
 from typing import Any
 from virsh_sandbox import VirshSandbox, ApiException
 from openai import OpenAI
+from pprint import pprint
 import configuration
 from tools import TOOLS
 
@@ -218,9 +219,10 @@ if __name__ == "__main__":
 
     try:
 
-        sandbox = client.sandbox.create_sandbox(source_vm_name="test-vm-1")
+        sandbox = client.sandbox.create_sandbox(source_vm_name="test-vm")
+        pprint(sandbox)
 
-        session = client.tmux.create_tmux_session()
+        session = client.tmux.create_tmux_session(sandbox_id=sandbox.id)
 
         run_agent(
             "Install an httpd server, create a basic html page and configure it to serve the page."
@@ -230,4 +232,5 @@ if __name__ == "__main__":
         print(f"Error: {e}")
     finally:
         if(sandbox):
-            client.sandbox.destroy_sandbox(id=sandbox.id)
+            print("Cleaning up sandbox...")
+            # client.sandbox.destroy_sandbox(id=sandbox.id)
