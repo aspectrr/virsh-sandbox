@@ -1,0 +1,12 @@
+Host host.docker.internal
+    Port 63255
+    User collinpfeifer
+    IdentityFile /root/.ssh/id_lima
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    LogLevel ERROR
+
+Host *
+    IdentityFile /root/.ssh/id_lima
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null

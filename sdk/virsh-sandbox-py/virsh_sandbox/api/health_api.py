@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from virsh_sandbox.api_client import ApiClient, RequestSerialized
@@ -23,7 +22,7 @@ class HealthApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def get_health(
+    def get_health(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -61,16 +60,16 @@ class HealthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "TmuxClientInternalTypesHealthResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def get_health_with_http_info(
+    def get_health_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -108,16 +107,16 @@ class HealthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "TmuxClientInternalTypesHealthResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def get_health_without_preload_content(
+    def get_health_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -155,7 +154,7 @@ class HealthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "TmuxClientInternalTypesHealthResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

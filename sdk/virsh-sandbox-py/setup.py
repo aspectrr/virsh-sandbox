@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="virsh_sandbox",
-    version="0.0.6-beta",
+    version="0.0.9-beta",
     author="Collin Pfeifer",
     author_email="cpfeifer@madcactus.org",
     description="API for managing virtual machine sandboxes using libvirt",

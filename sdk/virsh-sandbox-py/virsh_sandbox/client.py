@@ -9,11 +9,11 @@ offering a cleaner interface with flattened parameters instead of request object
 Example:
     from virsh_sandbox import VirshSandbox
 
-    async with VirshSandbox(host="http://localhost:8080") as client:
-        # Create a sandbox with simple parameters
-        await client.sandbox.create_sandbox(source_vm_name="ubuntu-base")
-        # Run a command
-        await client.command.run_command(command="ls", args=["-la"])
+    client = VirshSandbox(host="http://localhost:8080")
+    # Create a sandbox with simple parameters
+    client.sandbox.create_sandbox(source_vm_name="ubuntu-base")
+    # Run a command
+    client.command.run_command(command="ls", args=["-la"])
 """
 
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -180,13 +180,11 @@ class AccessOperations:
     def __init__(self, api: AccessApi):
         self._api = api
 
-    async def v1_access_ca_pubkey_get(
-        self,
-    ) -> VirshSandboxInternalRestCaPublicKeyResponse:
+    def v1_access_ca_pubkey_get(self) -> VirshSandboxInternalRestCaPublicKeyResponse:
         """Get the SSH CA public key"""
-        return await self._api.v1_access_ca_pubkey_get()
+        return self._api.v1_access_ca_pubkey_get()
 
-    async def v1_access_certificate_cert_id_delete(
+    def v1_access_certificate_cert_id_delete(
         self,
         cert_id: str,
         reason: Optional[str] = None,
@@ -200,11 +198,11 @@ class AccessOperations:
         request = VirshSandboxInternalRestRevokeCertificateRequest(
             reason=reason,
         )
-        return await self._api.v1_access_certificate_cert_id_delete(
+        return self._api.v1_access_certificate_cert_id_delete(
             cert_id=cert_id, request=request
         )
 
-    async def v1_access_certificate_cert_id_get(
+    def v1_access_certificate_cert_id_get(
         self,
         cert_id: str,
     ) -> VirshSandboxInternalRestCertificateResponse:
@@ -213,9 +211,9 @@ class AccessOperations:
         Args:
             cert_id: str
         """
-        return await self._api.v1_access_certificate_cert_id_get(cert_id=cert_id)
+        return self._api.v1_access_certificate_cert_id_get(cert_id=cert_id)
 
-    async def v1_access_certificates_get(
+    def v1_access_certificates_get(
         self,
         sandbox_id: Optional[str] = None,
         user_id: Optional[str] = None,
@@ -234,7 +232,7 @@ class AccessOperations:
             limit: Optional[int]
             offset: Optional[int]
         """
-        return await self._api.v1_access_certificates_get(
+        return self._api.v1_access_certificates_get(
             sandbox_id=sandbox_id,
             user_id=user_id,
             status=status,
@@ -243,7 +241,7 @@ class AccessOperations:
             offset=offset,
         )
 
-    async def v1_access_request_post(
+    def v1_access_request_post(
         self,
         public_key: Optional[str] = None,
         sandbox_id: Optional[str] = None,
@@ -264,9 +262,9 @@ class AccessOperations:
             ttl_minutes=ttl_minutes,
             user_id=user_id,
         )
-        return await self._api.v1_access_request_post(request=request)
+        return self._api.v1_access_request_post(request=request)
 
-    async def v1_access_session_end_post(
+    def v1_access_session_end_post(
         self,
         reason: Optional[str] = None,
         session_id: Optional[str] = None,
@@ -281,9 +279,9 @@ class AccessOperations:
             reason=reason,
             session_id=session_id,
         )
-        return await self._api.v1_access_session_end_post(request=request)
+        return self._api.v1_access_session_end_post(request=request)
 
-    async def v1_access_session_start_post(
+    def v1_access_session_start_post(
         self,
         certificate_id: Optional[str] = None,
         source_ip: Optional[str] = None,
@@ -298,9 +296,9 @@ class AccessOperations:
             certificate_id=certificate_id,
             source_ip=source_ip,
         )
-        return await self._api.v1_access_session_start_post(request=request)
+        return self._api.v1_access_session_start_post(request=request)
 
-    async def v1_access_sessions_get(
+    def v1_access_sessions_get(
         self,
         sandbox_id: Optional[str] = None,
         certificate_id: Optional[str] = None,
@@ -319,7 +317,7 @@ class AccessOperations:
             limit: Optional[int]
             offset: Optional[int]
         """
-        return await self._api.v1_access_sessions_get(
+        return self._api.v1_access_sessions_get(
             sandbox_id=sandbox_id,
             certificate_id=certificate_id,
             user_id=user_id,
@@ -335,7 +333,7 @@ class AnsibleOperations:
     def __init__(self, api: AnsibleApi):
         self._api = api
 
-    async def create_ansible_job(
+    def create_ansible_job(
         self,
         check: Optional[bool] = None,
         playbook: Optional[str] = None,
@@ -353,9 +351,9 @@ class AnsibleOperations:
             playbook=playbook,
             vm_name=vm_name,
         )
-        return await self._api.create_ansible_job(request=request)
+        return self._api.create_ansible_job(request=request)
 
-    async def get_ansible_job(
+    def get_ansible_job(
         self,
         job_id: str,
     ) -> InternalAnsibleJob:
@@ -364,9 +362,9 @@ class AnsibleOperations:
         Args:
             job_id: str
         """
-        return await self._api.get_ansible_job(job_id=job_id)
+        return self._api.get_ansible_job(job_id=job_id)
 
-    async def stream_ansible_job_output(
+    def stream_ansible_job_output(
         self,
         job_id: str,
     ) -> None:
@@ -375,7 +373,7 @@ class AnsibleOperations:
         Args:
             job_id: str
         """
-        return await self._api.stream_ansible_job_output(job_id=job_id)
+        return self._api.stream_ansible_job_output(job_id=job_id)
 
 
 class AuditOperations:
@@ -384,14 +382,14 @@ class AuditOperations:
     def __init__(self, api: AuditApi):
         self._api = api
 
-    async def get_audit_stats(self) -> Dict[str, object]:
+    def get_audit_stats(self) -> Dict[str, object]:
         """Get audit stats"""
-        return await self._api.get_audit_stats()
+        return self._api.get_audit_stats()
 
-    async def query_audit_log(self) -> TmuxClientInternalTypesAuditQueryResponse:
+    def query_audit_log(self) -> TmuxClientInternalTypesAuditQueryResponse:
         """Query audit log"""
         request = TmuxClientInternalTypesAuditQuery()
-        return await self._api.query_audit_log(request=request)
+        return self._api.query_audit_log(request=request)
 
 
 class CommandOperations:
@@ -400,11 +398,11 @@ class CommandOperations:
     def __init__(self, api: CommandApi):
         self._api = api
 
-    async def get_allowed_commands(self) -> Dict[str, object]:
+    def get_allowed_commands(self) -> Dict[str, object]:
         """Get allowed commands"""
-        return await self._api.get_allowed_commands()
+        return self._api.get_allowed_commands()
 
-    async def run_command(
+    def run_command(
         self,
         args: Optional[List[str]] = None,
         command: Optional[str] = None,
@@ -431,7 +429,7 @@ class CommandOperations:
             timeout=timeout,
             work_dir=work_dir,
         )
-        return await self._api.run_command(request=request)
+        return self._api.run_command(request=request)
 
 
 class FileOperations:
@@ -440,11 +438,11 @@ class FileOperations:
     def __init__(self, api: FileApi):
         self._api = api
 
-    async def check_file_exists(self) -> Dict[str, object]:
+    def check_file_exists(self) -> Dict[str, object]:
         """Check if file exists"""
-        return await self._api.check_file_exists(request={})
+        return self._api.check_file_exists(request={})
 
-    async def copy_file(
+    def copy_file(
         self,
         destination: Optional[str] = None,
         overwrite: Optional[bool] = None,
@@ -462,9 +460,9 @@ class FileOperations:
             overwrite=overwrite,
             source=source,
         )
-        return await self._api.copy_file(request=request)
+        return self._api.copy_file(request=request)
 
-    async def delete_file(
+    def delete_file(
         self,
         path: Optional[str] = None,
         recursive: Optional[bool] = None,
@@ -479,9 +477,9 @@ class FileOperations:
             path=path,
             recursive=recursive,
         )
-        return await self._api.delete_file(request=request)
+        return self._api.delete_file(request=request)
 
-    async def edit_file(
+    def edit_file(
         self,
         all: Optional[bool] = None,
         new_text: Optional[str] = None,
@@ -502,13 +500,13 @@ class FileOperations:
             old_text=old_text,
             path=path,
         )
-        return await self._api.edit_file(request=request)
+        return self._api.edit_file(request=request)
 
-    async def get_file_hash(self) -> Dict[str, str]:
+    def get_file_hash(self) -> Dict[str, str]:
         """Get file hash"""
-        return await self._api.get_file_hash(request={})
+        return self._api.get_file_hash(request={})
 
-    async def list_directory(
+    def list_directory(
         self,
         max_depth: Optional[int] = None,
         path: Optional[str] = None,
@@ -526,9 +524,9 @@ class FileOperations:
             path=path,
             recursive=recursive,
         )
-        return await self._api.list_directory(request=request)
+        return self._api.list_directory(request=request)
 
-    async def read_file(
+    def read_file(
         self,
         from_line: Optional[int] = None,
         max_lines: Optional[int] = None,
@@ -549,9 +547,9 @@ class FileOperations:
             path=path,
             to_line=to_line,
         )
-        return await self._api.read_file(request=request)
+        return self._api.read_file(request=request)
 
-    async def write_file(
+    def write_file(
         self,
         content: Optional[str] = None,
         create_dir: Optional[bool] = None,
@@ -575,7 +573,7 @@ class FileOperations:
             overwrite=overwrite,
             path=path,
         )
-        return await self._api.write_file(request=request)
+        return self._api.write_file(request=request)
 
 
 class HealthOperations:
@@ -584,9 +582,9 @@ class HealthOperations:
     def __init__(self, api: HealthApi):
         self._api = api
 
-    async def get_health(self) -> TmuxClientInternalTypesHealthResponse:
+    def get_health(self) -> TmuxClientInternalTypesHealthResponse:
         """Get health status"""
-        return await self._api.get_health()
+        return self._api.get_health()
 
 
 class HumanOperations:
@@ -595,7 +593,7 @@ class HumanOperations:
     def __init__(self, api: HumanApi):
         self._api = api
 
-    async def ask_human(
+    def ask_human(
         self,
         action_type: Optional[str] = None,
         alternatives: Optional[List[str]] = None,
@@ -622,9 +620,9 @@ class HumanOperations:
             timeout_secs=timeout_secs,
             urgency=urgency,
         )
-        return await self._api.ask_human(request=request)
+        return self._api.ask_human(request=request)
 
-    async def ask_human_async(
+    def ask_human_async(
         self,
         action_type: Optional[str] = None,
         alternatives: Optional[List[str]] = None,
@@ -651,9 +649,9 @@ class HumanOperations:
             timeout_secs=timeout_secs,
             urgency=urgency,
         )
-        return await self._api.ask_human_async(request=request)
+        return self._api.ask_human_async(request=request)
 
-    async def cancel_approval(
+    def cancel_approval(
         self,
         request_id: str,
     ) -> Dict[str, object]:
@@ -662,9 +660,9 @@ class HumanOperations:
         Args:
             request_id: str
         """
-        return await self._api.cancel_approval(request_id=request_id)
+        return self._api.cancel_approval(request_id=request_id)
 
-    async def get_pending_approval(
+    def get_pending_approval(
         self,
         request_id: str,
     ) -> TmuxClientInternalTypesPendingApproval:
@@ -673,15 +671,13 @@ class HumanOperations:
         Args:
             request_id: str
         """
-        return await self._api.get_pending_approval(request_id=request_id)
+        return self._api.get_pending_approval(request_id=request_id)
 
-    async def list_pending_approvals(
-        self,
-    ) -> TmuxClientInternalTypesListApprovalsResponse:
+    def list_pending_approvals(self) -> TmuxClientInternalTypesListApprovalsResponse:
         """List pending approvals"""
-        return await self._api.list_pending_approvals()
+        return self._api.list_pending_approvals()
 
-    async def respond_to_approval(
+    def respond_to_approval(
         self,
         approved: Optional[bool] = None,
         approved_by: Optional[str] = None,
@@ -702,7 +698,7 @@ class HumanOperations:
             comment=comment,
             request_id=request_id,
         )
-        return await self._api.respond_to_approval(request=request)
+        return self._api.respond_to_approval(request=request)
 
 
 class PlanOperations:
@@ -711,7 +707,7 @@ class PlanOperations:
     def __init__(self, api: PlanApi):
         self._api = api
 
-    async def abort_plan(
+    def abort_plan(
         self,
         plan_id: str,
         request: Optional[object] = None,
@@ -722,9 +718,9 @@ class PlanOperations:
             plan_id: str
             request: Optional[object]
         """
-        return await self._api.abort_plan(plan_id=plan_id, request=request)
+        return self._api.abort_plan(plan_id=plan_id, request=request)
 
-    async def advance_plan_step(
+    def advance_plan_step(
         self,
         plan_id: str,
         request: Optional[object] = None,
@@ -735,9 +731,9 @@ class PlanOperations:
             plan_id: str
             request: Optional[object]
         """
-        return await self._api.advance_plan_step(plan_id=plan_id, request=request)
+        return self._api.advance_plan_step(plan_id=plan_id, request=request)
 
-    async def create_plan(
+    def create_plan(
         self,
         description: Optional[str] = None,
         name: Optional[str] = None,
@@ -755,9 +751,9 @@ class PlanOperations:
             name=name,
             steps=steps,
         )
-        return await self._api.create_plan(request=request)
+        return self._api.create_plan(request=request)
 
-    async def delete_plan(
+    def delete_plan(
         self,
         plan_id: str,
     ) -> Dict[str, object]:
@@ -766,9 +762,9 @@ class PlanOperations:
         Args:
             plan_id: str
         """
-        return await self._api.delete_plan(plan_id=plan_id)
+        return self._api.delete_plan(plan_id=plan_id)
 
-    async def get_plan(
+    def get_plan(
         self,
         plan_id: str,
     ) -> TmuxClientInternalTypesGetPlanResponse:
@@ -777,13 +773,13 @@ class PlanOperations:
         Args:
             plan_id: str
         """
-        return await self._api.get_plan(plan_id=plan_id)
+        return self._api.get_plan(plan_id=plan_id)
 
-    async def list_plans(self) -> TmuxClientInternalTypesListPlansResponse:
+    def list_plans(self) -> TmuxClientInternalTypesListPlansResponse:
         """List plans"""
-        return await self._api.list_plans()
+        return self._api.list_plans()
 
-    async def update_plan(
+    def update_plan(
         self,
         error: Optional[str] = None,
         plan_id: Optional[str] = None,
@@ -807,7 +803,7 @@ class PlanOperations:
             status=status,
             step_index=step_index,
         )
-        return await self._api.update_plan(request=request)
+        return self._api.update_plan(request=request)
 
 
 class SandboxOperations:
@@ -816,7 +812,7 @@ class SandboxOperations:
     def __init__(self, api: SandboxApi):
         self._api = api
 
-    async def create_sandbox(
+    def create_sandbox(
         self,
         agent_id: Optional[str] = None,
         cpu: Optional[int] = None,
@@ -840,9 +836,9 @@ class SandboxOperations:
             source_vm_name=source_vm_name,
             vm_name=vm_name,
         )
-        return await self._api.create_sandbox(request=request)
+        return self._api.create_sandbox(request=request)
 
-    async def create_sandbox_session(
+    def create_sandbox_session(
         self,
         sandbox_id: Optional[str] = None,
         session_name: Optional[str] = None,
@@ -860,9 +856,9 @@ class SandboxOperations:
             session_name=session_name,
             ttl_minutes=ttl_minutes,
         )
-        return await self._api.create_sandbox_session(request=request)
+        return self._api.create_sandbox_session(request=request)
 
-    async def create_snapshot(
+    def create_snapshot(
         self,
         id: str,
         external: Optional[bool] = None,
@@ -879,9 +875,9 @@ class SandboxOperations:
             external=external,
             name=name,
         )
-        return await self._api.create_snapshot(id=id, request=request)
+        return self._api.create_snapshot(id=id, request=request)
 
-    async def destroy_sandbox(
+    def destroy_sandbox(
         self,
         id: str,
     ) -> None:
@@ -890,9 +886,9 @@ class SandboxOperations:
         Args:
             id: str
         """
-        return await self._api.destroy_sandbox(id=id)
+        return self._api.destroy_sandbox(id=id)
 
-    async def diff_snapshots(
+    def diff_snapshots(
         self,
         id: str,
         from_snapshot: Optional[str] = None,
@@ -909,9 +905,9 @@ class SandboxOperations:
             from_snapshot=from_snapshot,
             to_snapshot=to_snapshot,
         )
-        return await self._api.diff_snapshots(id=id, request=request)
+        return self._api.diff_snapshots(id=id, request=request)
 
-    async def generate_configuration(
+    def generate_configuration(
         self,
         id: str,
         tool: str,
@@ -922,9 +918,9 @@ class SandboxOperations:
             id: str
             tool: str
         """
-        return await self._api.generate_configuration(id=id, tool=tool)
+        return self._api.generate_configuration(id=id, tool=tool)
 
-    async def get_sandbox_session(
+    def get_sandbox_session(
         self,
         session_name: str,
     ) -> InternalApiSandboxSessionInfo:
@@ -933,9 +929,9 @@ class SandboxOperations:
         Args:
             session_name: str
         """
-        return await self._api.get_sandbox_session(session_name=session_name)
+        return self._api.get_sandbox_session(session_name=session_name)
 
-    async def inject_ssh_key(
+    def inject_ssh_key(
         self,
         id: str,
         public_key: Optional[str] = None,
@@ -952,9 +948,9 @@ class SandboxOperations:
             public_key=public_key,
             username=username,
         )
-        return await self._api.inject_ssh_key(id=id, request=request)
+        return self._api.inject_ssh_key(id=id, request=request)
 
-    async def kill_sandbox_session(
+    def kill_sandbox_session(
         self,
         session_name: str,
     ) -> Dict[str, object]:
@@ -963,13 +959,13 @@ class SandboxOperations:
         Args:
             session_name: str
         """
-        return await self._api.kill_sandbox_session(session_name=session_name)
+        return self._api.kill_sandbox_session(session_name=session_name)
 
-    async def list_sandbox_sessions(self) -> InternalApiListSandboxSessionsResponse:
+    def list_sandbox_sessions(self) -> InternalApiListSandboxSessionsResponse:
         """List sandbox sessions"""
-        return await self._api.list_sandbox_sessions()
+        return self._api.list_sandbox_sessions()
 
-    async def publish_changes(
+    def publish_changes(
         self,
         id: str,
         job_id: Optional[str] = None,
@@ -989,9 +985,9 @@ class SandboxOperations:
             message=message,
             reviewers=reviewers,
         )
-        return await self._api.publish_changes(id=id, request=request)
+        return self._api.publish_changes(id=id, request=request)
 
-    async def run_sandbox_command(
+    def run_sandbox_command(
         self,
         id: str,
         command: Optional[str] = None,
@@ -1017,13 +1013,13 @@ class SandboxOperations:
             timeout_sec=timeout_sec,
             username=username,
         )
-        return await self._api.run_sandbox_command(id=id, request=request)
+        return self._api.run_sandbox_command(id=id, request=request)
 
-    async def sandbox_api_health(self) -> Dict[str, object]:
+    def sandbox_api_health(self) -> Dict[str, object]:
         """Check sandbox API health"""
-        return await self._api.sandbox_api_health()
+        return self._api.sandbox_api_health()
 
-    async def start_sandbox(
+    def start_sandbox(
         self,
         id: str,
         wait_for_ip: Optional[bool] = None,
@@ -1037,7 +1033,7 @@ class SandboxOperations:
         request = InternalRestStartSandboxRequest(
             wait_for_ip=wait_for_ip,
         )
-        return await self._api.start_sandbox(id=id, request=request)
+        return self._api.start_sandbox(id=id, request=request)
 
 
 class TmuxOperations:
@@ -1046,7 +1042,7 @@ class TmuxOperations:
     def __init__(self, api: TmuxApi):
         self._api = api
 
-    async def create_tmux_pane(
+    def create_tmux_pane(
         self,
         command: Optional[str] = None,
         horizontal: Optional[bool] = None,
@@ -1070,23 +1066,13 @@ class TmuxOperations:
             session_name=session_name,
             window_name=window_name,
         )
-        return await self._api.create_tmux_pane(request=request)
+        return self._api.create_tmux_pane(request=request)
 
-    async def create_tmux_session(
-        self,
-        sandbox_id: Optional[str] = None,
-    ) -> Dict[str, str]:
-        """Create tmux session
+    def create_tmux_session(self) -> Dict[str, str]:
+        """Create tmux session"""
+        return self._api.create_tmux_session(request={})
 
-        Args:
-            sandbox_id: The ID of the sandbox to associate with the tmux session
-        """
-        request = {}
-        if sandbox_id is not None:
-            request["sandbox_id"] = sandbox_id
-        return await self._api.create_tmux_session(request=request)
-
-    async def kill_tmux_pane(
+    def kill_tmux_pane(
         self,
         pane_id: str,
     ) -> Dict[str, object]:
@@ -1095,9 +1081,9 @@ class TmuxOperations:
         Args:
             pane_id: str
         """
-        return await self._api.kill_tmux_pane(pane_id=pane_id)
+        return self._api.kill_tmux_pane(pane_id=pane_id)
 
-    async def kill_tmux_session(
+    def kill_tmux_session(
         self,
         session_name: str,
     ) -> Dict[str, object]:
@@ -1106,9 +1092,9 @@ class TmuxOperations:
         Args:
             session_name: str
         """
-        return await self._api.kill_tmux_session(session_name=session_name)
+        return self._api.kill_tmux_session(session_name=session_name)
 
-    async def list_tmux_panes(
+    def list_tmux_panes(
         self,
         session: Optional[str] = None,
     ) -> TmuxClientInternalTypesListPanesResponse:
@@ -1117,13 +1103,13 @@ class TmuxOperations:
         Args:
             session: Optional[str]
         """
-        return await self._api.list_tmux_panes(session=session)
+        return self._api.list_tmux_panes(session=session)
 
-    async def list_tmux_sessions(self) -> List[TmuxClientInternalTypesSessionInfo]:
+    def list_tmux_sessions(self) -> List[TmuxClientInternalTypesSessionInfo]:
         """List tmux sessions"""
-        return await self._api.list_tmux_sessions()
+        return self._api.list_tmux_sessions()
 
-    async def list_tmux_windows(
+    def list_tmux_windows(
         self,
         session: Optional[str] = None,
     ) -> List[TmuxClientInternalTypesWindowInfo]:
@@ -1132,9 +1118,9 @@ class TmuxOperations:
         Args:
             session: Optional[str]
         """
-        return await self._api.list_tmux_windows(session=session)
+        return self._api.list_tmux_windows(session=session)
 
-    async def read_tmux_pane(
+    def read_tmux_pane(
         self,
         last_n_lines: Optional[int] = None,
         pane_id: Optional[str] = None,
@@ -1149,9 +1135,9 @@ class TmuxOperations:
             last_n_lines=last_n_lines,
             pane_id=pane_id,
         )
-        return await self._api.read_tmux_pane(request=request)
+        return self._api.read_tmux_pane(request=request)
 
-    async def release_tmux_session(
+    def release_tmux_session(
         self,
         session_id: str,
     ) -> TmuxClientInternalTypesKillSessionResponse:
@@ -1160,9 +1146,9 @@ class TmuxOperations:
         Args:
             session_id: str
         """
-        return await self._api.release_tmux_session(session_id=session_id)
+        return self._api.release_tmux_session(session_id=session_id)
 
-    async def send_keys_to_pane(
+    def send_keys_to_pane(
         self,
         key: Optional[str] = None,
         pane_id: Optional[str] = None,
@@ -1177,9 +1163,9 @@ class TmuxOperations:
             key=key,
             pane_id=pane_id,
         )
-        return await self._api.send_keys_to_pane(request=request)
+        return self._api.send_keys_to_pane(request=request)
 
-    async def switch_tmux_pane(
+    def switch_tmux_pane(
         self,
         pane_id: Optional[str] = None,
     ) -> TmuxClientInternalTypesSwitchPaneResponse:
@@ -1191,7 +1177,7 @@ class TmuxOperations:
         request = TmuxClientInternalTypesSwitchPaneRequest(
             pane_id=pane_id,
         )
-        return await self._api.switch_tmux_pane(request=request)
+        return self._api.switch_tmux_pane(request=request)
 
 
 class VMsOperations:
@@ -1200,9 +1186,9 @@ class VMsOperations:
     def __init__(self, api: VMsApi):
         self._api = api
 
-    async def list_virtual_machines(self) -> InternalRestListVMsResponse:
+    def list_virtual_machines(self) -> InternalRestListVMsResponse:
         """List all VMs"""
-        return await self._api.list_virtual_machines()
+        return self._api.list_virtual_machines()
 
 
 class VirshSandbox:
@@ -1220,8 +1206,8 @@ class VirshSandbox:
 
     Example:
         >>> from virsh_sandbox import VirshSandbox
-        >>> async with VirshSandbox() as client:
-        ...     await client.sandbox.create_sandbox(source_vm_name="base-vm")
+        >>> client = VirshSandbox()
+        >>> client.sandbox.create_sandbox(source_vm_name="base-vm")
     """
 
     def __init__(
@@ -1382,18 +1368,18 @@ class VirshSandbox:
         if self._tmux_config is not self._main_config:
             self._tmux_config.debug = debug
 
-    async def close(self) -> None:
+    def close(self) -> None:
         """Close the API client connections."""
         if hasattr(self._main_api_client.rest_client, "close"):
-            await self._main_api_client.rest_client.close()
+            self._main_api_client.rest_client.close()
         if self._tmux_api_client is not self._main_api_client:
             if hasattr(self._tmux_api_client.rest_client, "close"):
-                await self._tmux_api_client.rest_client.close()
+                self._tmux_api_client.rest_client.close()
 
-    async def __aenter__(self) -> "VirshSandbox":
-        """Async context manager entry."""
+    def __enter__(self) -> "VirshSandbox":
+        """Context manager entry."""
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
-        """Async context manager exit."""
-        await self.close()
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        """Context manager exit."""
+        self.close()

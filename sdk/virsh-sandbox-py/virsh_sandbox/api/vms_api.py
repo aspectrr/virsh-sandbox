@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from virsh_sandbox.api_client import ApiClient, RequestSerialized
@@ -23,7 +22,7 @@ class VMsApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def list_virtual_machines(
+    def list_virtual_machines(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -62,16 +61,16 @@ class VMsApi:
             "200": "InternalRestListVMsResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def list_virtual_machines_with_http_info(
+    def list_virtual_machines_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -110,16 +109,16 @@ class VMsApi:
             "200": "InternalRestListVMsResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def list_virtual_machines_without_preload_content(
+    def list_virtual_machines_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -158,7 +157,7 @@ class VMsApi:
             "200": "InternalRestListVMsResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

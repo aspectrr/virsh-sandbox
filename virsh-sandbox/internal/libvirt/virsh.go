@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -181,6 +182,7 @@ func (m *VirshManager) CloneVM(ctx context.Context, baseImage, newVMName string,
 		Network:   network,
 		BootOrder: []string{"hd", "cdrom", "network"},
 	})
+	log.Println("Generated domain XML:", xml)
 	if err != nil {
 		return DomainRef{}, fmt.Errorf("render domain xml: %w", err)
 	}
@@ -250,6 +252,15 @@ func (m *VirshManager) CloneFromVM(ctx context.Context, sourceVMName, newVMName 
 		return DomainRef{}, fmt.Errorf("source VM disk not accessible: %s: %w", basePath, err)
 	}
 
+	// Get architecture info from source VM
+	archInfo, err := m.getVMArchitecture(ctx, sourceVMName)
+	if err != nil {
+		// Log warning but continue with defaults
+		log.Printf("WARNING: failed to get architecture from source VM %s: %v, using defaults", sourceVMName, err)
+		archInfo = vmArchInfo{}
+	}
+	log.Printf("CloneFromVM: source=%s arch=%s machine=%s", sourceVMName, archInfo.Arch, archInfo.Machine)
+
 	jobDir := filepath.Join(m.cfg.WorkDir, newVMName)
 	if err := os.MkdirAll(jobDir, 0o755); err != nil {
 		return DomainRef{}, fmt.Errorf("create job dir: %w", err)
@@ -264,16 +275,20 @@ func (m *VirshManager) CloneFromVM(ctx context.Context, sourceVMName, newVMName 
 	// Create minimal domain XML referencing overlay disk and network.
 	xmlPath := filepath.Join(jobDir, "domain.xml")
 	xml, err := renderDomainXML(domainXMLParams{
-		Name:      newVMName,
-		MemoryMB:  memoryMB,
-		VCPUs:     cpu,
-		DiskPath:  overlayPath,
-		Network:   network,
-		BootOrder: []string{"hd", "cdrom", "network"},
+		Name:       newVMName,
+		MemoryMB:   memoryMB,
+		VCPUs:      cpu,
+		DiskPath:   overlayPath,
+		Network:    network,
+		BootOrder:  []string{"hd", "cdrom", "network"},
+		Arch:       archInfo.Arch,
+		Machine:    archInfo.Machine,
+		DomainType: archInfo.DomainType,
 	})
 	if err != nil {
 		return DomainRef{}, fmt.Errorf("render domain xml: %w", err)
 	}
+	log.Printf("CloneFromVM: Generated domain XML:\n%s", xml)
 	if err := os.WriteFile(xmlPath, []byte(xml), 0o644); err != nil {
 		return DomainRef{}, fmt.Errorf("write domain xml: %w", err)
 	}
@@ -588,33 +603,135 @@ func parseDomIfAddrIPv4(s string) string {
 	return ""
 }
 
+// vmArchInfo holds architecture details extracted from a VM's XML.
+type vmArchInfo struct {
+	Arch       string // e.g., "x86_64" or "aarch64"
+	Machine    string // e.g., "pc-q35-6.2" or "virt"
+	DomainType string // e.g., "kvm" or "qemu"
+}
+
+// getVMArchitecture extracts the architecture and machine type from a VM's domain XML.
+func (m *VirshManager) getVMArchitecture(ctx context.Context, vmName string) (vmArchInfo, error) {
+	virsh := m.binPath("virsh", m.cfg.VirshPath)
+	out, err := m.run(ctx, virsh, "--connect", m.cfg.LibvirtURI, "dumpxml", vmName)
+	if err != nil {
+		return vmArchInfo{}, fmt.Errorf("dumpxml %s: %w", vmName, err)
+	}
+
+	log.Printf("getVMArchitecture: dumpxml output for %s:\n%s", vmName, out)
+
+	// Parse arch from: <type arch='aarch64' machine='virt-8.2'>hvm</type>
+	// Parse domain type from: <domain type='qemu' id='1'>
+	// Note: libvirt uses single quotes in XML output
+	// Simple string parsing to avoid XML dependency
+	info := vmArchInfo{}
+
+	// Find domain type (e.g., "qemu" or "kvm")
+	if idx := strings.Index(out, `<domain type='`); idx >= 0 {
+		start := idx + len(`<domain type='`)
+		end := strings.Index(out[start:], `'`)
+		if end > 0 {
+			info.DomainType = out[start : start+end]
+		}
+	} else if idx := strings.Index(out, `<domain type="`); idx >= 0 {
+		start := idx + len(`<domain type="`)
+		end := strings.Index(out[start:], `"`)
+		if end > 0 {
+			info.DomainType = out[start : start+end]
+		}
+	}
+
+	// Find arch attribute (try single quotes first, then double quotes)
+	if idx := strings.Index(out, `arch='`); idx >= 0 {
+		start := idx + len(`arch='`)
+		end := strings.Index(out[start:], `'`)
+		if end > 0 {
+			info.Arch = out[start : start+end]
+		}
+	} else if idx := strings.Index(out, `arch="`); idx >= 0 {
+		start := idx + len(`arch="`)
+		end := strings.Index(out[start:], `"`)
+		if end > 0 {
+			info.Arch = out[start : start+end]
+		}
+	}
+
+	// Find machine attribute (try single quotes first, then double quotes)
+	if idx := strings.Index(out, `machine='`); idx >= 0 {
+		start := idx + len(`machine='`)
+		end := strings.Index(out[start:], `'`)
+		if end > 0 {
+			info.Machine = out[start : start+end]
+		}
+	} else if idx := strings.Index(out, `machine="`); idx >= 0 {
+		start := idx + len(`machine="`)
+		end := strings.Index(out[start:], `"`)
+		if end > 0 {
+			info.Machine = out[start : start+end]
+		}
+	}
+
+	return info, nil
+}
+
 // --- Domain XML rendering ---
 
 type domainXMLParams struct {
-	Name      string
-	MemoryMB  int
-	VCPUs     int
-	DiskPath  string
-	Network   string
-	BootOrder []string
+	Name       string
+	MemoryMB   int
+	VCPUs      int
+	DiskPath   string
+	Network    string
+	BootOrder  []string
+	Arch       string // e.g., "x86_64" or "aarch64"
+	Machine    string // e.g., "pc-q35-6.2" or "virt"
+	DomainType string // e.g., "kvm" or "qemu"
 }
 
 func renderDomainXML(p domainXMLParams) (string, error) {
+	// Set defaults if not provided
+	if p.Arch == "" {
+		p.Arch = "x86_64"
+	}
+	if p.Machine == "" {
+		if p.Arch == "aarch64" {
+			p.Machine = "virt"
+		} else {
+			p.Machine = "pc-q35-6.2"
+		}
+	}
+	if p.DomainType == "" {
+		p.DomainType = "kvm"
+	}
+
 	// A minimal domain XML; adjust virtio model as needed by your environment.
+	// Use conditional sections for architecture-specific elements.
 	const tpl = `<?xml version="1.0" encoding="utf-8"?>
-<domain type="kvm">
+<domain type="{{ .DomainType }}">
   <name>{{ .Name }}</name>
   <memory unit="MiB">{{ .MemoryMB }}</memory>
   <vcpu placement="static">{{ .VCPUs }}</vcpu>
-  <os>
-    <type arch="x86_64" machine="pc-q35-6.2">hvm</type>
+{{- if eq .Arch "aarch64" }}
+  <os firmware="efi">
+    <type arch="{{ .Arch }}" machine="{{ .Machine }}">hvm</type>
     <boot dev="hd"/>
     <boot dev="cdrom"/>
   </os>
+{{- else }}
+  <os>
+    <type arch="{{ .Arch }}" machine="{{ .Machine }}">hvm</type>
+    <boot dev="hd"/>
+    <boot dev="cdrom"/>
+  </os>
+{{- end }}
   <features>
     <acpi/>
+{{- if eq .Arch "aarch64" }}
+    <gic version="2"/>
+{{- else }}
     <apic/>
     <pae/>
+{{- end }}
   </features>
   <cpu mode="host-passthrough"/>
   <devices>
@@ -624,13 +741,18 @@ func renderDomainXML(p domainXMLParams) (string, error) {
       <target dev="vda" bus="virtio"/>
     </disk>
     <controller type="pci" model="pcie-root"/>
+{{- if eq .Arch "aarch64" }}
+    <controller type="usb" model="qemu-xhci"/>
+{{- end }}
     <interface type="network">
       <source network="{{ .Network }}"/>
       <model type="virtio"/>
     </interface>
     <graphics type="vnc" autoport="yes" listen="0.0.0.0"/>
     <console type="pty"/>
+{{- if ne .Arch "aarch64" }}
     <input type="tablet" bus="usb"/>
+{{- end }}
     <rng model="virtio">
       <backend model="random">/dev/urandom</backend>
     </rng>

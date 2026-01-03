@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field
@@ -28,7 +27,7 @@ class CommandApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def get_allowed_commands(
+    def get_allowed_commands(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -66,16 +65,16 @@ class CommandApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "Dict[str, object]",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def get_allowed_commands_with_http_info(
+    def get_allowed_commands_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -113,16 +112,16 @@ class CommandApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "Dict[str, object]",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def get_allowed_commands_without_preload_content(
+    def get_allowed_commands_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -160,7 +159,7 @@ class CommandApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "Dict[str, object]",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -217,7 +216,7 @@ class CommandApi:
             _request_auth=_request_auth,
         )
 
-    async def run_command(
+    def run_command(
         self,
         request: TmuxClientInternalTypesRunCommandRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -262,16 +261,16 @@ class CommandApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def run_command_with_http_info(
+    def run_command_with_http_info(
         self,
         request: TmuxClientInternalTypesRunCommandRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -316,16 +315,16 @@ class CommandApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def run_command_without_preload_content(
+    def run_command_without_preload_content(
         self,
         request: TmuxClientInternalTypesRunCommandRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -370,7 +369,7 @@ class CommandApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

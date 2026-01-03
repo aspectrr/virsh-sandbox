@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictStr
@@ -29,7 +28,7 @@ class AnsibleApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def create_ansible_job(
+    def create_ansible_job(
         self,
         request: InternalAnsibleJobRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -72,16 +71,16 @@ class AnsibleApi:
             "200": "InternalAnsibleJobResponse",
             "400": "VirshSandboxInternalErrorErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def create_ansible_job_with_http_info(
+    def create_ansible_job_with_http_info(
         self,
         request: InternalAnsibleJobRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -124,16 +123,16 @@ class AnsibleApi:
             "200": "InternalAnsibleJobResponse",
             "400": "VirshSandboxInternalErrorErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def create_ansible_job_without_preload_content(
+    def create_ansible_job_without_preload_content(
         self,
         request: InternalAnsibleJobRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -176,7 +175,7 @@ class AnsibleApi:
             "200": "InternalAnsibleJobResponse",
             "400": "VirshSandboxInternalErrorErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -244,7 +243,7 @@ class AnsibleApi:
             _request_auth=_request_auth,
         )
 
-    async def get_ansible_job(
+    def get_ansible_job(
         self,
         job_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -287,16 +286,16 @@ class AnsibleApi:
             "200": "InternalAnsibleJob",
             "404": "VirshSandboxInternalErrorErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def get_ansible_job_with_http_info(
+    def get_ansible_job_with_http_info(
         self,
         job_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -339,16 +338,16 @@ class AnsibleApi:
             "200": "InternalAnsibleJob",
             "404": "VirshSandboxInternalErrorErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def get_ansible_job_without_preload_content(
+    def get_ansible_job_without_preload_content(
         self,
         job_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -391,7 +390,7 @@ class AnsibleApi:
             "200": "InternalAnsibleJob",
             "404": "VirshSandboxInternalErrorErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -451,7 +450,7 @@ class AnsibleApi:
             _request_auth=_request_auth,
         )
 
-    async def stream_ansible_job_output(
+    def stream_ansible_job_output(
         self,
         job_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -495,16 +494,16 @@ class AnsibleApi:
             "404": "str",
             "409": "str",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def stream_ansible_job_output_with_http_info(
+    def stream_ansible_job_output_with_http_info(
         self,
         job_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -548,16 +547,16 @@ class AnsibleApi:
             "404": "str",
             "409": "str",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def stream_ansible_job_output_without_preload_content(
+    def stream_ansible_job_output_without_preload_content(
         self,
         job_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -601,7 +600,7 @@ class AnsibleApi:
             "404": "str",
             "409": "str",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

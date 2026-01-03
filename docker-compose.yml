@@ -20,6 +20,8 @@ services:
       context: ./virsh-sandbox
       dockerfile: Dockerfile
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - postgres
     environment:
@@ -31,7 +33,7 @@ services:
       - API_HTTP_ADDR=${API_HTTP_ADDR:-:8080}
 
       # Libvirt/KVM
-      - LIBVIRT_URI=${LIBVIRT_URI:-qemu:///system}
+      - LIBVIRT_URI=${LIBVIRT_URI:-qemu+ssh://collinpfeifer@host.docker.internal:63255/system}
       - LIBVIRT_NETWORK=${LIBVIRT_NETWORK:-default}
       - BASE_IMAGE_DIR=/var/lib/libvirt/images/base
       - SANDBOX_WORKDIR=/var/lib/libvirt/images/jobs
@@ -60,6 +62,7 @@ services:
       # Bind base images (read-only) and job overlays (read-write)
       - ${BASE_IMAGES_DIR:-/var/lib/libvirt/images/base}:/var/lib/libvirt/images/base:ro
       - ${JOBS_DIR:-/var/lib/libvirt/images/jobs}:/var/lib/libvirt/images/jobs:rw
+      - ~/.lima/_config/user:/root/.ssh/id_lima:ro
 
       # Optionally mount SSH deploy key for GitOps (uncomment and set env GITOPS_SSH_KEY_PATH accordingly)
       # - ./secrets/gitops_key:/run/secrets/gitops_key:ro

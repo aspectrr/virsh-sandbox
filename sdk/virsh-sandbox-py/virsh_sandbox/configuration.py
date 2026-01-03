@@ -156,8 +156,7 @@ class Configuration:
         """
 
         self.connection_pool_maxsize = 100
-        """Connection pool maxsize.
-        This is used by aiohttp for connection pooling.
+        """urllib3 connection pool maxsize.
         """
 
         self.proxy: Optional[str] = None
@@ -352,7 +351,7 @@ class Configuration:
             f"OS: {sys.platform}\n"
             f"Python Version: {sys.version}\n"
             f"Version of the API: 0.0.1-beta\n"
-            f"SDK Package Version: 0.0.6-beta"
+            f"SDK Package Version: 0.0.9-beta"
         )
 
     def get_host_settings(self) -> List[Dict[str, Any]]:

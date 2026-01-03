@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictBool, StrictInt, StrictStr
@@ -44,7 +43,7 @@ class AccessApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def v1_access_ca_pubkey_get(
+    def v1_access_ca_pubkey_get(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -83,16 +82,16 @@ class AccessApi:
             "200": "VirshSandboxInternalRestCaPublicKeyResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def v1_access_ca_pubkey_get_with_http_info(
+    def v1_access_ca_pubkey_get_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -131,16 +130,16 @@ class AccessApi:
             "200": "VirshSandboxInternalRestCaPublicKeyResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def v1_access_ca_pubkey_get_without_preload_content(
+    def v1_access_ca_pubkey_get_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -179,7 +178,7 @@ class AccessApi:
             "200": "VirshSandboxInternalRestCaPublicKeyResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -236,7 +235,7 @@ class AccessApi:
             _request_auth=_request_auth,
         )
 
-    async def v1_access_certificate_cert_id_delete(
+    def v1_access_certificate_cert_id_delete(
         self,
         cert_id: str,
         request: Optional[VirshSandboxInternalRestRevokeCertificateRequest] = None,
@@ -285,16 +284,16 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def v1_access_certificate_cert_id_delete_with_http_info(
+    def v1_access_certificate_cert_id_delete_with_http_info(
         self,
         cert_id: str,
         request: Optional[VirshSandboxInternalRestRevokeCertificateRequest] = None,
@@ -343,16 +342,16 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def v1_access_certificate_cert_id_delete_without_preload_content(
+    def v1_access_certificate_cert_id_delete_without_preload_content(
         self,
         cert_id: str,
         request: Optional[VirshSandboxInternalRestRevokeCertificateRequest] = None,
@@ -401,7 +400,7 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -472,7 +471,7 @@ class AccessApi:
             _request_auth=_request_auth,
         )
 
-    async def v1_access_certificate_cert_id_get(
+    def v1_access_certificate_cert_id_get(
         self,
         cert_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -516,16 +515,16 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def v1_access_certificate_cert_id_get_with_http_info(
+    def v1_access_certificate_cert_id_get_with_http_info(
         self,
         cert_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -569,16 +568,16 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def v1_access_certificate_cert_id_get_without_preload_content(
+    def v1_access_certificate_cert_id_get_without_preload_content(
         self,
         cert_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -622,7 +621,7 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -682,7 +681,7 @@ class AccessApi:
             _request_auth=_request_auth,
         )
 
-    async def v1_access_certificates_get(
+    def v1_access_certificates_get(
         self,
         sandbox_id: Optional[str] = None,
         user_id: Optional[str] = None,
@@ -745,16 +744,16 @@ class AccessApi:
             "200": "VirshSandboxInternalRestListCertificatesResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def v1_access_certificates_get_with_http_info(
+    def v1_access_certificates_get_with_http_info(
         self,
         sandbox_id: Optional[str] = None,
         user_id: Optional[str] = None,
@@ -817,16 +816,16 @@ class AccessApi:
             "200": "VirshSandboxInternalRestListCertificatesResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def v1_access_certificates_get_without_preload_content(
+    def v1_access_certificates_get_without_preload_content(
         self,
         sandbox_id: Optional[str] = None,
         user_id: Optional[str] = None,
@@ -889,7 +888,7 @@ class AccessApi:
             "200": "VirshSandboxInternalRestListCertificatesResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -970,7 +969,7 @@ class AccessApi:
             _request_auth=_request_auth,
         )
 
-    async def v1_access_request_post(
+    def v1_access_request_post(
         self,
         request: VirshSandboxInternalRestRequestAccessRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1015,16 +1014,16 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def v1_access_request_post_with_http_info(
+    def v1_access_request_post_with_http_info(
         self,
         request: VirshSandboxInternalRestRequestAccessRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1069,16 +1068,16 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def v1_access_request_post_without_preload_content(
+    def v1_access_request_post_without_preload_content(
         self,
         request: VirshSandboxInternalRestRequestAccessRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1123,7 +1122,7 @@ class AccessApi:
             "404": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1191,7 +1190,7 @@ class AccessApi:
             _request_auth=_request_auth,
         )
 
-    async def v1_access_session_end_post(
+    def v1_access_session_end_post(
         self,
         request: VirshSandboxInternalRestSessionEndRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1235,16 +1234,16 @@ class AccessApi:
             "400": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def v1_access_session_end_post_with_http_info(
+    def v1_access_session_end_post_with_http_info(
         self,
         request: VirshSandboxInternalRestSessionEndRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1288,16 +1287,16 @@ class AccessApi:
             "400": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def v1_access_session_end_post_without_preload_content(
+    def v1_access_session_end_post_without_preload_content(
         self,
         request: VirshSandboxInternalRestSessionEndRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1341,7 +1340,7 @@ class AccessApi:
             "400": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1409,7 +1408,7 @@ class AccessApi:
             _request_auth=_request_auth,
         )
 
-    async def v1_access_session_start_post(
+    def v1_access_session_start_post(
         self,
         request: VirshSandboxInternalRestSessionStartRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1453,16 +1452,16 @@ class AccessApi:
             "400": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def v1_access_session_start_post_with_http_info(
+    def v1_access_session_start_post_with_http_info(
         self,
         request: VirshSandboxInternalRestSessionStartRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1506,16 +1505,16 @@ class AccessApi:
             "400": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def v1_access_session_start_post_without_preload_content(
+    def v1_access_session_start_post_without_preload_content(
         self,
         request: VirshSandboxInternalRestSessionStartRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1559,7 +1558,7 @@ class AccessApi:
             "400": "VirshSandboxInternalRestAccessErrorResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1627,7 +1626,7 @@ class AccessApi:
             _request_auth=_request_auth,
         )
 
-    async def v1_access_sessions_get(
+    def v1_access_sessions_get(
         self,
         sandbox_id: Optional[str] = None,
         certificate_id: Optional[str] = None,
@@ -1690,16 +1689,16 @@ class AccessApi:
             "200": "VirshSandboxInternalRestListSessionsResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def v1_access_sessions_get_with_http_info(
+    def v1_access_sessions_get_with_http_info(
         self,
         sandbox_id: Optional[str] = None,
         certificate_id: Optional[str] = None,
@@ -1762,16 +1761,16 @@ class AccessApi:
             "200": "VirshSandboxInternalRestListSessionsResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def v1_access_sessions_get_without_preload_content(
+    def v1_access_sessions_get_without_preload_content(
         self,
         sandbox_id: Optional[str] = None,
         certificate_id: Optional[str] = None,
@@ -1834,7 +1833,7 @@ class AccessApi:
             "200": "VirshSandboxInternalRestListSessionsResponse",
             "500": "VirshSandboxInternalRestAccessErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

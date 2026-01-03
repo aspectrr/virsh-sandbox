@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictStr
@@ -48,7 +47,7 @@ class FileApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def check_file_exists(
+    def check_file_exists(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -92,16 +91,16 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def check_file_exists_with_http_info(
+    def check_file_exists_with_http_info(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -145,16 +144,16 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def check_file_exists_without_preload_content(
+    def check_file_exists_without_preload_content(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -198,7 +197,7 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -266,7 +265,7 @@ class FileApi:
             _request_auth=_request_auth,
         )
 
-    async def copy_file(
+    def copy_file(
         self,
         request: TmuxClientInternalTypesCopyFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -310,16 +309,16 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def copy_file_with_http_info(
+    def copy_file_with_http_info(
         self,
         request: TmuxClientInternalTypesCopyFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -363,16 +362,16 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def copy_file_without_preload_content(
+    def copy_file_without_preload_content(
         self,
         request: TmuxClientInternalTypesCopyFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -416,7 +415,7 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -484,7 +483,7 @@ class FileApi:
             _request_auth=_request_auth,
         )
 
-    async def delete_file(
+    def delete_file(
         self,
         request: TmuxClientInternalTypesDeleteFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -529,16 +528,16 @@ class FileApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def delete_file_with_http_info(
+    def delete_file_with_http_info(
         self,
         request: TmuxClientInternalTypesDeleteFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -583,16 +582,16 @@ class FileApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def delete_file_without_preload_content(
+    def delete_file_without_preload_content(
         self,
         request: TmuxClientInternalTypesDeleteFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -637,7 +636,7 @@ class FileApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -705,7 +704,7 @@ class FileApi:
             _request_auth=_request_auth,
         )
 
-    async def edit_file(
+    def edit_file(
         self,
         request: TmuxClientInternalTypesEditFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -750,16 +749,16 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def edit_file_with_http_info(
+    def edit_file_with_http_info(
         self,
         request: TmuxClientInternalTypesEditFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -804,16 +803,16 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def edit_file_without_preload_content(
+    def edit_file_without_preload_content(
         self,
         request: TmuxClientInternalTypesEditFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -858,7 +857,7 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -926,7 +925,7 @@ class FileApi:
             _request_auth=_request_auth,
         )
 
-    async def get_file_hash(
+    def get_file_hash(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -970,16 +969,16 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def get_file_hash_with_http_info(
+    def get_file_hash_with_http_info(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1023,16 +1022,16 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def get_file_hash_without_preload_content(
+    def get_file_hash_without_preload_content(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1076,7 +1075,7 @@ class FileApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1144,7 +1143,7 @@ class FileApi:
             _request_auth=_request_auth,
         )
 
-    async def list_directory(
+    def list_directory(
         self,
         request: TmuxClientInternalTypesListDirRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1189,16 +1188,16 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def list_directory_with_http_info(
+    def list_directory_with_http_info(
         self,
         request: TmuxClientInternalTypesListDirRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1243,16 +1242,16 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def list_directory_without_preload_content(
+    def list_directory_without_preload_content(
         self,
         request: TmuxClientInternalTypesListDirRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1297,7 +1296,7 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1365,7 +1364,7 @@ class FileApi:
             _request_auth=_request_auth,
         )
 
-    async def read_file(
+    def read_file(
         self,
         request: TmuxClientInternalTypesReadFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1411,16 +1410,16 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def read_file_with_http_info(
+    def read_file_with_http_info(
         self,
         request: TmuxClientInternalTypesReadFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1466,16 +1465,16 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def read_file_without_preload_content(
+    def read_file_without_preload_content(
         self,
         request: TmuxClientInternalTypesReadFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1521,7 +1520,7 @@ class FileApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1589,7 +1588,7 @@ class FileApi:
             _request_auth=_request_auth,
         )
 
-    async def write_file(
+    def write_file(
         self,
         request: TmuxClientInternalTypesWriteFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1634,16 +1633,16 @@ class FileApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def write_file_with_http_info(
+    def write_file_with_http_info(
         self,
         request: TmuxClientInternalTypesWriteFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1688,16 +1687,16 @@ class FileApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def write_file_without_preload_content(
+    def write_file_without_preload_content(
         self,
         request: TmuxClientInternalTypesWriteFileRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1742,7 +1741,7 @@ class FileApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

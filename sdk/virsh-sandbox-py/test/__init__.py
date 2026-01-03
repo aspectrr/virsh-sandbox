@@ -13,7 +13,7 @@ Quick Start:
     >>> service_a.users.list()
 """
 
-__version__ = "0.0.6-beta"
+__version__ = "0.0.9-beta"
 
 # Import all API classes
 from virsh_sandbox.api.access_api import AccessApi

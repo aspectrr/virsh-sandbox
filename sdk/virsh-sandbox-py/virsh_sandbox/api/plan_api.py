@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictStr
@@ -36,7 +35,7 @@ class PlanApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def abort_plan(
+    def abort_plan(
         self,
         plan_id: str,
         request: Optional[object] = None,
@@ -85,16 +84,16 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def abort_plan_with_http_info(
+    def abort_plan_with_http_info(
         self,
         plan_id: str,
         request: Optional[object] = None,
@@ -143,16 +142,16 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def abort_plan_without_preload_content(
+    def abort_plan_without_preload_content(
         self,
         plan_id: str,
         request: Optional[object] = None,
@@ -201,7 +200,7 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -272,7 +271,7 @@ class PlanApi:
             _request_auth=_request_auth,
         )
 
-    async def advance_plan_step(
+    def advance_plan_step(
         self,
         plan_id: str,
         request: Optional[object] = None,
@@ -321,16 +320,16 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def advance_plan_step_with_http_info(
+    def advance_plan_step_with_http_info(
         self,
         plan_id: str,
         request: Optional[object] = None,
@@ -379,16 +378,16 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def advance_plan_step_without_preload_content(
+    def advance_plan_step_without_preload_content(
         self,
         plan_id: str,
         request: Optional[object] = None,
@@ -437,7 +436,7 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -508,7 +507,7 @@ class PlanApi:
             _request_auth=_request_auth,
         )
 
-    async def create_plan(
+    def create_plan(
         self,
         request: TmuxClientInternalTypesCreatePlanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -552,16 +551,16 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def create_plan_with_http_info(
+    def create_plan_with_http_info(
         self,
         request: TmuxClientInternalTypesCreatePlanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -605,16 +604,16 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def create_plan_without_preload_content(
+    def create_plan_without_preload_content(
         self,
         request: TmuxClientInternalTypesCreatePlanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -658,7 +657,7 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -726,7 +725,7 @@ class PlanApi:
             _request_auth=_request_auth,
         )
 
-    async def delete_plan(
+    def delete_plan(
         self,
         plan_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -770,16 +769,16 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def delete_plan_with_http_info(
+    def delete_plan_with_http_info(
         self,
         plan_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -823,16 +822,16 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def delete_plan_without_preload_content(
+    def delete_plan_without_preload_content(
         self,
         plan_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -876,7 +875,7 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -936,7 +935,7 @@ class PlanApi:
             _request_auth=_request_auth,
         )
 
-    async def get_plan(
+    def get_plan(
         self,
         plan_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -980,16 +979,16 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def get_plan_with_http_info(
+    def get_plan_with_http_info(
         self,
         plan_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1033,16 +1032,16 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def get_plan_without_preload_content(
+    def get_plan_without_preload_content(
         self,
         plan_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1086,7 +1085,7 @@ class PlanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1146,7 +1145,7 @@ class PlanApi:
             _request_auth=_request_auth,
         )
 
-    async def list_plans(
+    def list_plans(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -1185,16 +1184,16 @@ class PlanApi:
             "200": "TmuxClientInternalTypesListPlansResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def list_plans_with_http_info(
+    def list_plans_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -1233,16 +1232,16 @@ class PlanApi:
             "200": "TmuxClientInternalTypesListPlansResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def list_plans_without_preload_content(
+    def list_plans_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -1281,7 +1280,7 @@ class PlanApi:
             "200": "TmuxClientInternalTypesListPlansResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1338,7 +1337,7 @@ class PlanApi:
             _request_auth=_request_auth,
         )
 
-    async def update_plan(
+    def update_plan(
         self,
         request: TmuxClientInternalTypesUpdatePlanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1383,16 +1382,16 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def update_plan_with_http_info(
+    def update_plan_with_http_info(
         self,
         request: TmuxClientInternalTypesUpdatePlanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1437,16 +1436,16 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def update_plan_without_preload_content(
+    def update_plan_without_preload_content(
         self,
         request: TmuxClientInternalTypesUpdatePlanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1491,7 +1490,7 @@ class PlanApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

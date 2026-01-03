@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictStr
@@ -48,7 +47,7 @@ class TmuxApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def create_tmux_pane(
+    def create_tmux_pane(
         self,
         request: TmuxClientInternalTypesCreatePaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -92,16 +91,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def create_tmux_pane_with_http_info(
+    def create_tmux_pane_with_http_info(
         self,
         request: TmuxClientInternalTypesCreatePaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -145,16 +144,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def create_tmux_pane_without_preload_content(
+    def create_tmux_pane_without_preload_content(
         self,
         request: TmuxClientInternalTypesCreatePaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -198,7 +197,7 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -266,7 +265,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def create_tmux_session(
+    def create_tmux_session(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -310,16 +309,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def create_tmux_session_with_http_info(
+    def create_tmux_session_with_http_info(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -363,16 +362,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def create_tmux_session_without_preload_content(
+    def create_tmux_session_without_preload_content(
         self,
         request: object,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -416,7 +415,7 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -484,7 +483,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def kill_tmux_pane(
+    def kill_tmux_pane(
         self,
         pane_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -528,16 +527,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def kill_tmux_pane_with_http_info(
+    def kill_tmux_pane_with_http_info(
         self,
         pane_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -581,16 +580,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def kill_tmux_pane_without_preload_content(
+    def kill_tmux_pane_without_preload_content(
         self,
         pane_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -634,7 +633,7 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -694,7 +693,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def kill_tmux_session(
+    def kill_tmux_session(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -738,16 +737,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def kill_tmux_session_with_http_info(
+    def kill_tmux_session_with_http_info(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -791,16 +790,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def kill_tmux_session_without_preload_content(
+    def kill_tmux_session_without_preload_content(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -844,7 +843,7 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -904,7 +903,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def list_tmux_panes(
+    def list_tmux_panes(
         self,
         session: Optional[str] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -948,16 +947,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def list_tmux_panes_with_http_info(
+    def list_tmux_panes_with_http_info(
         self,
         session: Optional[str] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1001,16 +1000,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def list_tmux_panes_without_preload_content(
+    def list_tmux_panes_without_preload_content(
         self,
         session: Optional[str] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1054,7 +1053,7 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1115,7 +1114,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def list_tmux_sessions(
+    def list_tmux_sessions(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -1154,16 +1153,16 @@ class TmuxApi:
             "200": "List[TmuxClientInternalTypesSessionInfo]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def list_tmux_sessions_with_http_info(
+    def list_tmux_sessions_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -1202,16 +1201,16 @@ class TmuxApi:
             "200": "List[TmuxClientInternalTypesSessionInfo]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def list_tmux_sessions_without_preload_content(
+    def list_tmux_sessions_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -1250,7 +1249,7 @@ class TmuxApi:
             "200": "List[TmuxClientInternalTypesSessionInfo]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1307,7 +1306,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def list_tmux_windows(
+    def list_tmux_windows(
         self,
         session: Optional[str] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1350,16 +1349,16 @@ class TmuxApi:
             "200": "List[TmuxClientInternalTypesWindowInfo]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def list_tmux_windows_with_http_info(
+    def list_tmux_windows_with_http_info(
         self,
         session: Optional[str] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1402,16 +1401,16 @@ class TmuxApi:
             "200": "List[TmuxClientInternalTypesWindowInfo]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def list_tmux_windows_without_preload_content(
+    def list_tmux_windows_without_preload_content(
         self,
         session: Optional[str] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1454,7 +1453,7 @@ class TmuxApi:
             "200": "List[TmuxClientInternalTypesWindowInfo]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1515,7 +1514,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def read_tmux_pane(
+    def read_tmux_pane(
         self,
         request: TmuxClientInternalTypesReadPaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1559,16 +1558,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def read_tmux_pane_with_http_info(
+    def read_tmux_pane_with_http_info(
         self,
         request: TmuxClientInternalTypesReadPaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1612,16 +1611,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def read_tmux_pane_without_preload_content(
+    def read_tmux_pane_without_preload_content(
         self,
         request: TmuxClientInternalTypesReadPaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1665,7 +1664,7 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1733,7 +1732,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def release_tmux_session(
+    def release_tmux_session(
         self,
         session_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1776,16 +1775,16 @@ class TmuxApi:
             "200": "TmuxClientInternalTypesKillSessionResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def release_tmux_session_with_http_info(
+    def release_tmux_session_with_http_info(
         self,
         session_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1828,16 +1827,16 @@ class TmuxApi:
             "200": "TmuxClientInternalTypesKillSessionResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def release_tmux_session_without_preload_content(
+    def release_tmux_session_without_preload_content(
         self,
         session_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1880,7 +1879,7 @@ class TmuxApi:
             "200": "TmuxClientInternalTypesKillSessionResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1940,7 +1939,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def send_keys_to_pane(
+    def send_keys_to_pane(
         self,
         request: TmuxClientInternalTypesSendKeysRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1985,16 +1984,16 @@ class TmuxApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def send_keys_to_pane_with_http_info(
+    def send_keys_to_pane_with_http_info(
         self,
         request: TmuxClientInternalTypesSendKeysRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -2039,16 +2038,16 @@ class TmuxApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def send_keys_to_pane_without_preload_content(
+    def send_keys_to_pane_without_preload_content(
         self,
         request: TmuxClientInternalTypesSendKeysRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -2093,7 +2092,7 @@ class TmuxApi:
             "403": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -2161,7 +2160,7 @@ class TmuxApi:
             _request_auth=_request_auth,
         )
 
-    async def switch_tmux_pane(
+    def switch_tmux_pane(
         self,
         request: TmuxClientInternalTypesSwitchPaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -2205,16 +2204,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def switch_tmux_pane_with_http_info(
+    def switch_tmux_pane_with_http_info(
         self,
         request: TmuxClientInternalTypesSwitchPaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -2258,16 +2257,16 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def switch_tmux_pane_without_preload_content(
+    def switch_tmux_pane_without_preload_content(
         self,
         request: TmuxClientInternalTypesSwitchPaneRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -2311,7 +2310,7 @@ class TmuxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

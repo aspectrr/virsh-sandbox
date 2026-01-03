@@ -67,7 +67,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Create common directories (can be mounted from host in docker-compose)
-RUN mkdir -p /var/lib/libvirt/images/base /var/lib/libvirt/images/jobs /var/lib/virsh-sandbox
+RUN mkdir -p /var/lib/libvirt/images/base /var/lib/libvirt/images/jobs /var/lib/virsh-sandbox /root/.ssh
+
+# Copy SSH config for connecting to Lima VM via libvirt
+COPY ssh_config /root/.ssh/config
+RUN chmod 600 /root/.ssh/config
 
 # Copy compiled binary
 COPY --from=builder /out/api /usr/local/bin/api

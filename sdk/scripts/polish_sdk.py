@@ -2,9 +2,26 @@
 """Post-process generated SDK for better quality and add unified client with flattened parameters."""
 
 import re
+import yaml
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional
+
+
+def load_config() -> dict:
+    """Load the OpenAPI generator config to check for async setting."""
+    config_path = Path(".openapi-generator/config.yaml")
+    if config_path.exists():
+        with open(config_path) as f:
+            return yaml.safe_load(f)
+    return {}
+
+
+def is_async_enabled() -> bool:
+    """Check if async mode is enabled in the config."""
+    config = load_config()
+    additional = config.get("additionalProperties", {})
+    return additional.get("asyncio", False)
 
 
 @dataclass
@@ -154,10 +171,11 @@ def parse_api_methods(api_path: Path) -> list[MethodInfo]:
     content = api_path.read_text()
     methods = []
 
-    # Find all async def method signatures
-    # Pattern: async def method_name(self, params...) -> ReturnType:
+    # Find all method signatures (both async and sync)
+    # Pattern: [async] def method_name(self, params...) -> ReturnType:
+    # Updated to handle multiline docstrings with :param style
     pattern = re.compile(
-        r'async def (\w+)\(\s*self,([^)]*)\)\s*->\s*([^:]+):.*?"""(.+?)"""',
+        r'(?:async\s+)?def (\w+)\(\s*self,([^)]*)\)\s*->\s*([^:]+):\s*"""(.*?)"""',
         re.DOTALL
     )
 
@@ -172,7 +190,10 @@ def parse_api_methods(api_path: Path) -> list[MethodInfo]:
 
         params_str = match.group(2)
         return_type = match.group(3).strip()
-        docstring = match.group(4).strip().split('\n')[0]  # First line only
+        # Extract first meaningful line from docstring (skip empty lines)
+        docstring_raw = match.group(4).strip()
+        docstring_lines = [line.strip() for line in docstring_raw.split('\n') if line.strip()]
+        docstring = docstring_lines[0] if docstring_lines else method_name
 
         # Parse parameters
         path_params = []
@@ -313,7 +334,7 @@ def discover_models(sdk_dir: Path) -> dict[str, dict]:
     return models
 
 
-def generate_wrapper_method(method: MethodInfo, models: dict) -> str:
+def generate_wrapper_method(method: MethodInfo, models: dict, use_async: bool = True) -> str:
     """Generate a wrapper method with flattened parameters."""
     lines = []
 
@@ -338,14 +359,15 @@ def generate_wrapper_method(method: MethodInfo, models: dict) -> str:
         all_params.append(f"{field.name}: Optional[{field_type}] = None")
 
     # Method signature
+    def_keyword = "async def" if use_async else "def"
     if all_params:
         params_str = ",\n        ".join(all_params)
-        lines.append(f"    async def {method.name}(")
+        lines.append(f"    {def_keyword} {method.name}(")
         lines.append(f"        self,")
         lines.append(f"        {params_str},")
         lines.append(f"    ) -> {method.return_type}:")
     else:
-        lines.append(f"    async def {method.name}(self) -> {method.return_type}:")
+        lines.append(f"    {def_keyword} {method.name}(self) -> {method.return_type}:")
 
     # Docstring
     lines.append(f'        """{method.docstring}')
@@ -361,6 +383,7 @@ def generate_wrapper_method(method: MethodInfo, models: dict) -> str:
 
     # Method body - determine if we need to pass a request object
     call_args = [f"{p[0]}={p[0]}" for p in method.path_params]
+    await_keyword = "await " if use_async else ""
 
     if method.request_type:
         # We have a request type - need to build and pass it
@@ -380,13 +403,13 @@ def generate_wrapper_method(method: MethodInfo, models: dict) -> str:
             lines.append(f"        request = {method.request_type}()")
             call_args.append("request=request")
 
-        lines.append(f"        return await self._api.{method.name}({', '.join(call_args)})")
+        lines.append(f"        return {await_keyword}self._api.{method.name}({', '.join(call_args)})")
     else:
         # No request object needed
         if call_args:
-            lines.append(f"        return await self._api.{method.name}({', '.join(call_args)})")
+            lines.append(f"        return {await_keyword}self._api.{method.name}({', '.join(call_args)})")
         else:
-            lines.append(f"        return await self._api.{method.name}()")
+            lines.append(f"        return {await_keyword}self._api.{method.name}()")
 
     lines.append("")
     return "\n".join(lines)
@@ -394,6 +417,9 @@ def generate_wrapper_method(method: MethodInfo, models: dict) -> str:
 
 def generate_unified_client(sdk_dir: Path, package_name: str = "virsh_sandbox"):
     """Generate the unified VirshSandbox client wrapper with flattened parameters."""
+
+    use_async = is_async_enabled()
+    print(f"Generating {'async' if use_async else 'sync'} client...")
 
     apis = discover_apis(sdk_dir)
     models = discover_models(sdk_dir)
@@ -463,7 +489,7 @@ def generate_unified_client(sdk_dir: Path, package_name: str = "virsh_sandbox"):
         lines.append("")
 
         for method in api['methods']:
-            method_code = generate_wrapper_method(method, models)
+            method_code = generate_wrapper_method(method, models, use_async=use_async)
             lines.append(method_code)
 
         wrapper_classes.append("\n".join(lines))
@@ -482,11 +508,18 @@ def generate_unified_client(sdk_dir: Path, package_name: str = "virsh_sandbox"):
     output_lines.append('Example:')
     output_lines.append(f'    from {package_name} import VirshSandbox')
     output_lines.append('')
-    output_lines.append('    async with VirshSandbox(host="http://localhost:8080") as client:')
-    output_lines.append('        # Create a sandbox with simple parameters')
-    output_lines.append('        await client.sandbox.create_sandbox(source_vm_name="ubuntu-base")')
-    output_lines.append('        # Run a command')
-    output_lines.append('        await client.command.run_command(command="ls", args=["-la"])')
+    if use_async:
+        output_lines.append('    async with VirshSandbox(host="http://localhost:8080") as client:')
+        output_lines.append('        # Create a sandbox with simple parameters')
+        output_lines.append('        await client.sandbox.create_sandbox(source_vm_name="ubuntu-base")')
+        output_lines.append('        # Run a command')
+        output_lines.append('        await client.command.run_command(command="ls", args=["-la"])')
+    else:
+        output_lines.append('    client = VirshSandbox(host="http://localhost:8080")')
+        output_lines.append('    # Create a sandbox with simple parameters')
+        output_lines.append('    client.sandbox.create_sandbox(source_vm_name="ubuntu-base")')
+        output_lines.append('    # Run a command')
+        output_lines.append('    client.command.run_command(command="ls", args=["-la"])')
     output_lines.append('"""')
     output_lines.append('')
     output_lines.append('from typing import Any, Dict, List, Optional, Tuple, Union')
@@ -525,8 +558,12 @@ def generate_unified_client(sdk_dir: Path, package_name: str = "virsh_sandbox"):
     output_lines.append('')
     output_lines.append('    Example:')
     output_lines.append(f'        >>> from {package_name} import VirshSandbox')
-    output_lines.append('        >>> async with VirshSandbox() as client:')
-    output_lines.append('        ...     await client.sandbox.create_sandbox(source_vm_name="base-vm")')
+    if use_async:
+        output_lines.append('        >>> async with VirshSandbox() as client:')
+        output_lines.append('        ...     await client.sandbox.create_sandbox(source_vm_name="base-vm")')
+    else:
+        output_lines.append('        >>> client = VirshSandbox()')
+        output_lines.append('        >>> client.sandbox.create_sandbox(source_vm_name="base-vm")')
     output_lines.append('    """')
     output_lines.append('')
     output_lines.append('    def __init__(')
@@ -611,21 +648,39 @@ def generate_unified_client(sdk_dir: Path, package_name: str = "virsh_sandbox"):
     output_lines.append('        if self._tmux_config is not self._main_config:')
     output_lines.append('            self._tmux_config.debug = debug')
     output_lines.append('')
-    output_lines.append('    async def close(self) -> None:')
-    output_lines.append('        """Close the API client connections."""')
-    output_lines.append("        if hasattr(self._main_api_client.rest_client, 'close'):")
-    output_lines.append('            await self._main_api_client.rest_client.close()')
-    output_lines.append('        if self._tmux_api_client is not self._main_api_client:')
-    output_lines.append("            if hasattr(self._tmux_api_client.rest_client, 'close'):")
-    output_lines.append('                await self._tmux_api_client.rest_client.close()')
-    output_lines.append('')
-    output_lines.append('    async def __aenter__(self) -> "VirshSandbox":')
-    output_lines.append('        """Async context manager entry."""')
-    output_lines.append('        return self')
-    output_lines.append('')
-    output_lines.append('    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:')
-    output_lines.append('        """Async context manager exit."""')
-    output_lines.append('        await self.close()')
+
+    if use_async:
+        output_lines.append('    async def close(self) -> None:')
+        output_lines.append('        """Close the API client connections."""')
+        output_lines.append("        if hasattr(self._main_api_client.rest_client, 'close'):")
+        output_lines.append('            await self._main_api_client.rest_client.close()')
+        output_lines.append('        if self._tmux_api_client is not self._main_api_client:')
+        output_lines.append("            if hasattr(self._tmux_api_client.rest_client, 'close'):")
+        output_lines.append('                await self._tmux_api_client.rest_client.close()')
+        output_lines.append('')
+        output_lines.append('    async def __aenter__(self) -> "VirshSandbox":')
+        output_lines.append('        """Async context manager entry."""')
+        output_lines.append('        return self')
+        output_lines.append('')
+        output_lines.append('    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:')
+        output_lines.append('        """Async context manager exit."""')
+        output_lines.append('        await self.close()')
+    else:
+        output_lines.append('    def close(self) -> None:')
+        output_lines.append('        """Close the API client connections."""')
+        output_lines.append("        if hasattr(self._main_api_client.rest_client, 'close'):")
+        output_lines.append('            self._main_api_client.rest_client.close()')
+        output_lines.append('        if self._tmux_api_client is not self._main_api_client:')
+        output_lines.append("            if hasattr(self._tmux_api_client.rest_client, 'close'):")
+        output_lines.append('                self._tmux_api_client.rest_client.close()')
+        output_lines.append('')
+        output_lines.append('    def __enter__(self) -> "VirshSandbox":')
+        output_lines.append('        """Context manager entry."""')
+        output_lines.append('        return self')
+        output_lines.append('')
+        output_lines.append('    def __exit__(self, exc_type, exc_val, exc_tb) -> None:')
+        output_lines.append('        """Context manager exit."""')
+        output_lines.append('        self.close()')
 
     # Write the file
     client_path = sdk_dir / "client.py"

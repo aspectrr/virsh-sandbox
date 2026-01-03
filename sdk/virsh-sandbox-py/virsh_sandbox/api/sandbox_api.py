@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictStr
@@ -56,7 +55,7 @@ class SandboxApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def create_sandbox(
+    def create_sandbox(
         self,
         request: InternalRestCreateSandboxRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -100,16 +99,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def create_sandbox_with_http_info(
+    def create_sandbox_with_http_info(
         self,
         request: InternalRestCreateSandboxRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -153,16 +152,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def create_sandbox_without_preload_content(
+    def create_sandbox_without_preload_content(
         self,
         request: InternalRestCreateSandboxRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -206,7 +205,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -274,7 +273,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def create_sandbox_session(
+    def create_sandbox_session(
         self,
         request: InternalApiCreateSandboxSessionRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -318,16 +317,16 @@ class SandboxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def create_sandbox_session_with_http_info(
+    def create_sandbox_session_with_http_info(
         self,
         request: InternalApiCreateSandboxSessionRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -371,16 +370,16 @@ class SandboxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def create_sandbox_session_without_preload_content(
+    def create_sandbox_session_without_preload_content(
         self,
         request: InternalApiCreateSandboxSessionRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -424,7 +423,7 @@ class SandboxApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -492,7 +491,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def create_snapshot(
+    def create_snapshot(
         self,
         id: str,
         request: InternalRestSnapshotRequest,
@@ -540,16 +539,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def create_snapshot_with_http_info(
+    def create_snapshot_with_http_info(
         self,
         id: str,
         request: InternalRestSnapshotRequest,
@@ -597,16 +596,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def create_snapshot_without_preload_content(
+    def create_snapshot_without_preload_content(
         self,
         id: str,
         request: InternalRestSnapshotRequest,
@@ -654,7 +653,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -725,7 +724,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def destroy_sandbox(
+    def destroy_sandbox(
         self,
         id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -769,16 +768,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def destroy_sandbox_with_http_info(
+    def destroy_sandbox_with_http_info(
         self,
         id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -822,16 +821,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def destroy_sandbox_without_preload_content(
+    def destroy_sandbox_without_preload_content(
         self,
         id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -875,7 +874,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -935,7 +934,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def diff_snapshots(
+    def diff_snapshots(
         self,
         id: str,
         request: InternalRestDiffRequest,
@@ -983,16 +982,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def diff_snapshots_with_http_info(
+    def diff_snapshots_with_http_info(
         self,
         id: str,
         request: InternalRestDiffRequest,
@@ -1040,16 +1039,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def diff_snapshots_without_preload_content(
+    def diff_snapshots_without_preload_content(
         self,
         id: str,
         request: InternalRestDiffRequest,
@@ -1097,7 +1096,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1168,7 +1167,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def generate_configuration(
+    def generate_configuration(
         self,
         id: str,
         tool: str,
@@ -1215,16 +1214,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "501": "InternalRestGenerateResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def generate_configuration_with_http_info(
+    def generate_configuration_with_http_info(
         self,
         id: str,
         tool: str,
@@ -1271,16 +1270,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "501": "InternalRestGenerateResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def generate_configuration_without_preload_content(
+    def generate_configuration_without_preload_content(
         self,
         id: str,
         tool: str,
@@ -1327,7 +1326,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "501": "InternalRestGenerateResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1390,7 +1389,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def get_sandbox_session(
+    def get_sandbox_session(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1433,16 +1432,16 @@ class SandboxApi:
             "200": "InternalApiSandboxSessionInfo",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def get_sandbox_session_with_http_info(
+    def get_sandbox_session_with_http_info(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1485,16 +1484,16 @@ class SandboxApi:
             "200": "InternalApiSandboxSessionInfo",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def get_sandbox_session_without_preload_content(
+    def get_sandbox_session_without_preload_content(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1537,7 +1536,7 @@ class SandboxApi:
             "200": "InternalApiSandboxSessionInfo",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1597,7 +1596,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def inject_ssh_key(
+    def inject_ssh_key(
         self,
         id: str,
         request: InternalRestInjectSSHKeyRequest,
@@ -1645,16 +1644,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def inject_ssh_key_with_http_info(
+    def inject_ssh_key_with_http_info(
         self,
         id: str,
         request: InternalRestInjectSSHKeyRequest,
@@ -1702,16 +1701,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def inject_ssh_key_without_preload_content(
+    def inject_ssh_key_without_preload_content(
         self,
         id: str,
         request: InternalRestInjectSSHKeyRequest,
@@ -1759,7 +1758,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1830,7 +1829,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def kill_sandbox_session(
+    def kill_sandbox_session(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1875,16 +1874,16 @@ class SandboxApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def kill_sandbox_session_with_http_info(
+    def kill_sandbox_session_with_http_info(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1929,16 +1928,16 @@ class SandboxApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def kill_sandbox_session_without_preload_content(
+    def kill_sandbox_session_without_preload_content(
         self,
         session_name: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1983,7 +1982,7 @@ class SandboxApi:
             "404": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -2043,7 +2042,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def list_sandbox_sessions(
+    def list_sandbox_sessions(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -2082,16 +2081,16 @@ class SandboxApi:
             "200": "InternalApiListSandboxSessionsResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def list_sandbox_sessions_with_http_info(
+    def list_sandbox_sessions_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -2130,16 +2129,16 @@ class SandboxApi:
             "200": "InternalApiListSandboxSessionsResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def list_sandbox_sessions_without_preload_content(
+    def list_sandbox_sessions_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -2178,7 +2177,7 @@ class SandboxApi:
             "200": "InternalApiListSandboxSessionsResponse",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -2235,7 +2234,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def publish_changes(
+    def publish_changes(
         self,
         id: str,
         request: InternalRestPublishRequest,
@@ -2282,16 +2281,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "501": "InternalRestPublishResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def publish_changes_with_http_info(
+    def publish_changes_with_http_info(
         self,
         id: str,
         request: InternalRestPublishRequest,
@@ -2338,16 +2337,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "501": "InternalRestPublishResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def publish_changes_without_preload_content(
+    def publish_changes_without_preload_content(
         self,
         id: str,
         request: InternalRestPublishRequest,
@@ -2394,7 +2393,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "501": "InternalRestPublishResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -2465,7 +2464,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def run_sandbox_command(
+    def run_sandbox_command(
         self,
         id: str,
         request: InternalRestRunCommandRequest,
@@ -2513,16 +2512,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def run_sandbox_command_with_http_info(
+    def run_sandbox_command_with_http_info(
         self,
         id: str,
         request: InternalRestRunCommandRequest,
@@ -2570,16 +2569,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def run_sandbox_command_without_preload_content(
+    def run_sandbox_command_without_preload_content(
         self,
         id: str,
         request: InternalRestRunCommandRequest,
@@ -2627,7 +2626,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -2698,7 +2697,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def sandbox_api_health(
+    def sandbox_api_health(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -2737,16 +2736,16 @@ class SandboxApi:
             "200": "Dict[str, object]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def sandbox_api_health_with_http_info(
+    def sandbox_api_health_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -2785,16 +2784,16 @@ class SandboxApi:
             "200": "Dict[str, object]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def sandbox_api_health_without_preload_content(
+    def sandbox_api_health_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -2833,7 +2832,7 @@ class SandboxApi:
             "200": "Dict[str, object]",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -2890,7 +2889,7 @@ class SandboxApi:
             _request_auth=_request_auth,
         )
 
-    async def start_sandbox(
+    def start_sandbox(
         self,
         id: str,
         request: Optional[InternalRestStartSandboxRequest] = None,
@@ -2938,16 +2937,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def start_sandbox_with_http_info(
+    def start_sandbox_with_http_info(
         self,
         id: str,
         request: Optional[InternalRestStartSandboxRequest] = None,
@@ -2995,16 +2994,16 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def start_sandbox_without_preload_content(
+    def start_sandbox_without_preload_content(
         self,
         id: str,
         request: Optional[InternalRestStartSandboxRequest] = None,
@@ -3052,7 +3051,7 @@ class SandboxApi:
             "400": "InternalRestErrorResponse",
             "500": "InternalRestErrorResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

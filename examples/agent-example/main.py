@@ -13,10 +13,13 @@ from uuid import uuid4
 from typing import Any
 from virsh_sandbox import VirshSandbox, ApiException
 from openai import OpenAI
+from dotenv import load_dotenv
 from pprint import pprint
 import configuration
+from uuid import uuid4
 from tools import TOOLS
 
+load_dotenv()
 
 # ---------------------------
 # Configuration
@@ -205,32 +208,35 @@ def run_agent(user_goal: str) -> None:
 
         time.sleep(0.2)
 
-
-# ---------------------------
-# Entry point
-# ---------------------------
-
-if __name__ == "__main__":
+def main():
     print("Starting virsh-sandbox agent...")
     print("=" * 50)
 
     sandbox = None
     session = None
-
+    agent_id = str(uuid4())
     try:
 
-        sandbox = client.sandbox.create_sandbox(source_vm_name="test-vm")
+        sandbox = client.sandbox.create_sandbox(source_vm_name="test-vm", agent_id=agent_id)
         pprint(sandbox)
 
-        session = client.tmux.create_tmux_session(sandbox_id=sandbox.id)
+        # session = client.sandbox.create_sandbox_session(sandbox_id=sandbox.id)
 
-        run_agent(
-            "Install an httpd server, create a basic html page and configure it to serve the page."
-            "Start with a plan, update the plan as you go. Ask the human for help."
-        )
+        # run_agent(
+        #     "Install an httpd server, create a basic html page and configure it to serve the page."
+        #     "Start with a plan, update the plan as you go. Ask the human for help."
+        # )
     except Exception as e:
         print(f"Error: {e}")
     finally:
         if(sandbox):
             print("Cleaning up sandbox...")
             # client.sandbox.destroy_sandbox(id=sandbox.id)
+
+
+# ---------------------------
+# Entry point
+# ---------------------------
+
+if __name__ == "__main__":
+   main()

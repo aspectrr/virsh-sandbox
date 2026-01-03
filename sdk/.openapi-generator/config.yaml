@@ -1,7 +1,7 @@
 # config.yaml
 packageName: virsh_sandbox
 projectName: Virsh Sandbox
-packageVersion: 0.0.6-beta
+packageVersion: 0.0.9-beta
 packageUrl: https://github.com/aspectrr/virsh-sandbox
 
 # Better naming
@@ -29,7 +29,7 @@ additionalProperties:
   legacyDiscriminatorBehavior: false
 
   # Async support (optional)
-  asyncio: true
+  asyncio: false
 
   # Environment variable prefix
   envPrefix: VIRSH_SANDBOX

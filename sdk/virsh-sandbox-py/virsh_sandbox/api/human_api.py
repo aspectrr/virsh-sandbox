@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictStr
@@ -34,7 +33,7 @@ class HumanApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def ask_human(
+    def ask_human(
         self,
         request: TmuxClientInternalTypesAskHumanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -78,16 +77,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def ask_human_with_http_info(
+    def ask_human_with_http_info(
         self,
         request: TmuxClientInternalTypesAskHumanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -131,16 +130,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def ask_human_without_preload_content(
+    def ask_human_without_preload_content(
         self,
         request: TmuxClientInternalTypesAskHumanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -184,7 +183,7 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -252,7 +251,7 @@ class HumanApi:
             _request_auth=_request_auth,
         )
 
-    async def ask_human_async(
+    def ask_human_async(
         self,
         request: TmuxClientInternalTypesAskHumanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -296,16 +295,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def ask_human_async_with_http_info(
+    def ask_human_async_with_http_info(
         self,
         request: TmuxClientInternalTypesAskHumanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -349,16 +348,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def ask_human_async_without_preload_content(
+    def ask_human_async_without_preload_content(
         self,
         request: TmuxClientInternalTypesAskHumanRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -402,7 +401,7 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -470,7 +469,7 @@ class HumanApi:
             _request_auth=_request_auth,
         )
 
-    async def cancel_approval(
+    def cancel_approval(
         self,
         request_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -514,16 +513,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def cancel_approval_with_http_info(
+    def cancel_approval_with_http_info(
         self,
         request_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -567,16 +566,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def cancel_approval_without_preload_content(
+    def cancel_approval_without_preload_content(
         self,
         request_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -620,7 +619,7 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -680,7 +679,7 @@ class HumanApi:
             _request_auth=_request_auth,
         )
 
-    async def get_pending_approval(
+    def get_pending_approval(
         self,
         request_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -724,16 +723,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def get_pending_approval_with_http_info(
+    def get_pending_approval_with_http_info(
         self,
         request_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -777,16 +776,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def get_pending_approval_without_preload_content(
+    def get_pending_approval_without_preload_content(
         self,
         request_id: str,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -830,7 +829,7 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -890,7 +889,7 @@ class HumanApi:
             _request_auth=_request_auth,
         )
 
-    async def list_pending_approvals(
+    def list_pending_approvals(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -928,16 +927,16 @@ class HumanApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "TmuxClientInternalTypesListApprovalsResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def list_pending_approvals_with_http_info(
+    def list_pending_approvals_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -975,16 +974,16 @@ class HumanApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "TmuxClientInternalTypesListApprovalsResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def list_pending_approvals_without_preload_content(
+    def list_pending_approvals_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -1022,7 +1021,7 @@ class HumanApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "TmuxClientInternalTypesListApprovalsResponse",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -1079,7 +1078,7 @@ class HumanApi:
             _request_auth=_request_auth,
         )
 
-    async def respond_to_approval(
+    def respond_to_approval(
         self,
         request: TmuxClientInternalTypesApproveRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1123,16 +1122,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def respond_to_approval_with_http_info(
+    def respond_to_approval_with_http_info(
         self,
         request: TmuxClientInternalTypesApproveRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1176,16 +1175,16 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def respond_to_approval_without_preload_content(
+    def respond_to_approval_without_preload_content(
         self,
         request: TmuxClientInternalTypesApproveRequest,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -1229,7 +1228,7 @@ class HumanApi:
             "400": "TmuxClientInternalTypesAPIError",
             "404": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response

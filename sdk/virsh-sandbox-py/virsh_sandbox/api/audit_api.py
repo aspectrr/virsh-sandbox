@@ -5,7 +5,6 @@
     API for managing virtual machine sandboxes using libvirt
 """
 
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field
@@ -28,7 +27,7 @@ class AuditApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    async def get_audit_stats(
+    def get_audit_stats(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -66,16 +65,16 @@ class AuditApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "Dict[str, object]",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def get_audit_stats_with_http_info(
+    def get_audit_stats_with_http_info(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -113,16 +112,16 @@ class AuditApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "Dict[str, object]",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def get_audit_stats_without_preload_content(
+    def get_audit_stats_without_preload_content(
         self,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
         _request_auth: Optional[Dict[str, Any]] = None,
@@ -160,7 +159,7 @@ class AuditApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "Dict[str, object]",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
@@ -217,7 +216,7 @@ class AuditApi:
             _request_auth=_request_auth,
         )
 
-    async def query_audit_log(
+    def query_audit_log(
         self,
         request: Optional[TmuxClientInternalTypesAuditQuery] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -261,16 +260,16 @@ class AuditApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
 
-    async def query_audit_log_with_http_info(
+    def query_audit_log_with_http_info(
         self,
         request: Optional[TmuxClientInternalTypesAuditQuery] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -314,16 +313,16 @@ class AuditApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
-        await response_data.read()
+        response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         )
 
-    async def query_audit_log_without_preload_content(
+    def query_audit_log_without_preload_content(
         self,
         request: Optional[TmuxClientInternalTypesAuditQuery] = None,
         _request_timeout: Union[None, float, Tuple[float, float]] = None,
@@ -367,7 +366,7 @@ class AuditApi:
             "400": "TmuxClientInternalTypesAPIError",
             "500": "TmuxClientInternalTypesAPIError",
         }
-        response_data = await self.api_client.call_api(
+        response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
